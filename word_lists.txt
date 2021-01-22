@@ -1,0 +1,7 @@
+entertainment_headline; Everyone is talking about last night's episode of [fiction_show]! The twist about [character]'s true identity was one that we here at the All-Seeing Eye didn't see coming. What did you think, dear audience?
+
+fiction_show;  Spacewolves
+
+character; Irena
+character; Dogtopus
+character; Spaceman Spartacus
