@@ -2,9 +2,11 @@ import random
 import re
 import datetime
 keywords = {}
+special_headlines = {}
 
 def initialize():
   load_keywords("keywords_entertainment.txt")
+  load_special_headlines("special_headlines.txt")
 
 def load_keywords(filename):
   with open(filename,'r') as f:
@@ -20,6 +22,20 @@ def load_keywords(filename):
         keywords[key].append(value)
       else:
         keywords[key] = [value]
+
+def load_special_headlines(filename):
+  with open(filename, 'r') as f:
+    lines = f.readlines()
+    for line in lines:
+      data = line.split(";")
+      if len(data) != 3:
+        continue
+      date_str, category, headline = data
+      
+      category = category.strip()
+      headline = headline.strip()
+
+      special_headlines[(date_str, category)] = headline
 
 def validate():
 
@@ -52,7 +68,14 @@ def grammar_generate_recursive(str):
   else:
     return str
 
-def get_daily_headline():
+def get_daily_entertainment_headline():
+  date_str = datetime.datetime.today().strftime("%Y-%m-%d")
+
+  headline_profile = (date_str, "entertainment")
+
+  if headline_profile in special_headlines:
+    return special_headlines[headline_profile]
+
   weekday = datetime.date.today().weekday()
   if weekday == 0:
     return "Past TV Event"
