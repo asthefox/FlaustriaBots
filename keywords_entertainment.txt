@@ -1,16 +1,49 @@
+# Entertainment Headlines
+
+#### ---- TOP LEVEL ---- ####
+recent_tv_headline; Recent TV Headline!
+music_news; Music News!
+gossip; Celebrity Gossip!
+movie_news; Movie News!
+upcoming_tv_headline; Upcoming TV Event!
+sports_news; Sports!
+
+#### ---- GENERAL ---- ####
 
 
 
 
+#### ---- TV ---- ####
 
-
-
+recent_tv_headline; [recent_big_episode]
+  Fiction:
+    Exciting twist
+    What did you think of the [big_episode_type]?
+    Celebrity cameo
+    Was it a ripoff?
+    Award-worthiness of performance
+    Rumor that an actor might join or leave a show
+  Nonfiction:
+    News show - a judge, celebrity, or group of people discussed a recent headline
+    A celebrity or group of people appeared on a game show or news show.
+    A celebrity or group of people won big (or lost) on a game show.
 
 
 entertainment_headline; Everyone is talking about last night's episode of [fiction_show]! The twist about [character]'s true identity was one that we here at the All-Seeing Eye didn't see coming. What did you think, [ase_audience]?
+
+big_episode_type; season finale
+big_episode_type; season premiere
+big_episode_type; very special episode
+big_episode_type; holiday episode
+big_episode_type; midseason finale
 
 fiction_show;  Spacewolves
 
 character; Irena
 character; Dogtopus
 character; Spaceman Spartacus
+
+#### ---- SPORTS ---- ####
+
+
+
