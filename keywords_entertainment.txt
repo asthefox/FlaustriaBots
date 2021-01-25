@@ -121,5 +121,47 @@ drama_role; murderer
 
 #### ---- SPORTS ---- ####
 
+sports_headline;  [sports_score] [player_performance]
+sports_headline;  [sports_score] [season_update]
+sports_headline;  [sports_score] [unusual_occurence]
+sports_headline;  [trade_rumor]
+sports_headline;  [injury]
 
+sports_score;  [team] [defeated] [team], [score_phrase].
+
+score_word; by a score of [scoreline]
+score_word; [scoreline]
+score_word; with a [scoreline] tally
+score_word; the final score being [scoreline]
+
+scoreline;  1-0
+scoreline;  2-0
+scoreline;  2-1
+scoreline;  3-0
+scoreline;  3-1
+scoreline;  3-2
+scoreline;  4-0
+scoreline;  4-1
+scoreline;  4-2
+scoreline;  4-3
+scoreline;  8-0
+
+defeated; were victorious over
+defeated; defeated
+defeated; triumphed over
+defeated; took down
+defeated; conquered
+
+athlete;  Ronald Neumann
+
+season_update; It was a crushing defeat for the latter, who saw their playoff odds reduced by 0.9%.
+season_update; The much-needed victory pulled them from the dreaded relegation zone to the antechamber of mild shame.
+season_update; The much-needed victory moved them from lower-mid-table to middle-mid-table.
+season_update; [streak]
+streak; The defeat snapped a [several] game win streak.
+streak; The victory snapped a [several] game loss streak.
+streak; The defeat extended a [several] game loss streak.
+streak; The victory extended a [several] game win streak.
+
+unusual_occurence;  During the match, observers noted no fewer than four birds.
 
