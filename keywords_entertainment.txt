@@ -10,8 +10,38 @@ sports_news; Sports!
 
 #### ---- GENERAL ---- ####
 
+# Relationships
+relation_family_m; son
+relation_family_m; father
+relation_family_m; brother
+relation_family_m; twin brother
+relation_family_m; uncle
+relation_family_f; daughter
+relation_family_f; mother
+relation_family_f; sister
+relation_family_f; twin sister
+relation_romantic_f; wife
+relation_romantic_f; girlfriend
+relation_romantic_f; lover
+relation_romantic_f; mistress
+relation_romantic_f; fiancee
+relation_romantic_m; husband
+relation_romantic_m; boyfriend
+relation_romantic_m; lover
+relation_romantic_m; second man
+relation_romantic_m; fiance
+romantic_thing; marriage
+romantic_thing; long-term relationship
+romantic_thing; tryst
+romantic_thing; one-night stand
+romantic_thing; first date
 
-
+# Places and things
+mundane_place;  office
+mundane_place;  kitchen
+mundane_place;  town hall
+mundane_place;  pub
+mundane_place;  parlor room
 
 #### ---- TV ---- ####
 
@@ -31,17 +61,63 @@ recent_tv_headline; [recent_big_episode]
 
 entertainment_headline; Everyone is talking about last night's episode of [fiction_show]! The twist about [character]'s true identity was one that we here at the All-Seeing Eye didn't see coming. What did you think, [ase_audience]?
 
+channel;  FBC
+channel;  FBC
+channel;  FBC
+channel;  FBC
+channel;  FBC2
+channel;  FBC2
+channel;  FBC3
+channel;  FBC4
+channel;  FBC5
+
 big_episode_type; season finale
 big_episode_type; season premiere
 big_episode_type; very special episode
 big_episode_type; holiday episode
 big_episode_type; midseason finale
 
-fiction_show;  Spacewolves
+news_show;  The All-Seeing Eye
+game_show;  Sir Lizardbane's Children's Hour
+game_show;  Dance! Dance! Smogcastle!
+game_show;  How Much For That Teacup?
+game_show;  The All-Seeing Eye
+comedy_show; Wiffle Waffle
+comedy_show;  Delegation Street
+drama_show; Spacewolves
+drama_show; Penumbra
 
-character; Irena
-character; Dogtopus
-character; Spaceman Spartacus
+comedy_character_f; Applebee Pinappleope
+comedy_character_f; Pansy Dustcakes
+comedy_character_f; Penny Muffinbucks
+comedy_character_f; Sherbet House
+comedy_character_f; Pistachio Rose
+comedy_character_m; Ralph Sandwich
+comedy_character_m; Ellis Spondermule
+comedy_character_m; Sweet Crow
+comedy_character_m; Melvin Martin
+comedy_character_m; Baron Hotcakes
+drama_character_m;  Leander Flange
+drama_character_m;  Don Otter
+drama_character_m;  Nicholas Saint
+drama_character_m;  Doctor Javier
+drama_character_m;  Clark Shirt
+drama_character_f;  Genevieve Prince
+drama_character_f;  Nightengale Robbins
+drama_character_f;  Summer Killigan
+drama_character_f;  January Nightwave
+drama_character_f;  Irena Wildregard
+
+drama_role; prophecied one
+drama_role; mastermind
+drama_role; traitor
+drama_role; double agent
+drama_role; spy
+drama_role; secret lover
+drama_role; murderer
+
+
+
 
 #### ---- SPORTS ---- ####
 
