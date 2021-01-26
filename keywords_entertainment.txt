@@ -33,8 +33,8 @@ relation_romantic_m; fiance
 romantic_thing; marriage
 romantic_thing; long-term relationship
 romantic_thing; tryst
-romantic_thing; one-night stand
 romantic_thing; first date
+romantic_thing; special friendship
 
 # Places and things
 mundane_place;  office
@@ -87,26 +87,40 @@ comedy_show;  Delegation Street
 drama_show; Spacewolves
 drama_show; Penumbra
 
-comedy_character_f; Applebee Pinappleope
-comedy_character_f; Pansy Dustcakes
-comedy_character_f; Penny Muffinbucks
-comedy_character_f; Sherbet House
-comedy_character_f; Pistachio Rose
-comedy_character_m; Ralph Sandwich
-comedy_character_m; Ellis Spondermule
-comedy_character_m; Sweet Crow
-comedy_character_m; Melvin Martin
-comedy_character_m; Baron Hotcakes
-drama_character_m;  Leander Flange
-drama_character_m;  Don Otter
-drama_character_m;  Nicholas Saint
-drama_character_m;  Doctor Javier
-drama_character_m;  Clark Shirt
-drama_character_f;  Genevieve Prince
-drama_character_f;  Nightengale Robbins
-drama_character_f;  Summer Killigan
-drama_character_f;  January Nightwave
-drama_character_f;  Irena Wildregard
+comedy_character; [comedy_character_f]
+comedy_character; [comedy_character_m]
+comedy_character_f; [named_comedy_character_f]
+comedy_character_m; [named_comedy_character_m]
+comedy_character_f; {name_f}
+comedy_character_m; {name_m}
+
+drama_character; [drama_character_f]
+drama_character; [drama_character_m]
+drama_character_f; [named_drama_character_f]
+drama_character_m; [named_drama_character_m]
+drama_character_f; {name_f}
+drama_character_m; {name_m}
+
+named_comedy_character_f; Applebee Pinappleope
+named_comedy_character_f; Pansy Dustcakes
+named_comedy_character_f; Penny Muffinbucks
+named_comedy_character_f; Sherbet House
+named_comedy_character_f; Pistachio Rose
+named_comedy_character_m; Ralph Sandwich
+named_comedy_character_m; Ellis Spondermule
+named_comedy_character_m; Cyclops Bear
+named_comedy_character_m; Fighty Flighterman
+named_comedy_character_m; Baron Hotcakes
+named_drama_character_m;  William
+named_drama_character_m;  Adelbert
+named_drama_character_m;  Wild Timothy
+named_drama_character_m;  Doctor Javier
+named_drama_character_m;  Arcstrong
+named_drama_character_f;  Mira
+named_drama_character_f;  Madam Dorothy
+named_drama_character_f;  Emerald
+named_drama_character_f;  Agatha X
+named_drama_character_f;  Prime Ministress
 
 drama_role; prophecied one
 drama_role; mastermind
@@ -116,7 +130,44 @@ drama_role; spy
 drama_role; secret lover
 drama_role; murderer
 
+actor;  {name_m}
+actor;  [named_actor]
+named_actor;  Stanislav Fever
+named_actor;  Norris Hopper
+named_actor;  Maddox Clipper
+named_actor;  Ford Runic
+named_actor;  Clark Shirt
+named_actor;  Ramses Sinclair
+named_actor;  Don QuiFresh
+named_actor;  Leander Flange
+named_actor;  Don Otter
 
+
+actress;  {name_f}
+actress;  [named_actress]
+named_actress;  January Nightwave
+named_actress;  Irena Wildregard
+named_actress;  Genevieve Prince
+named_actress;  Nightengale Robbins
+named_actress;  Antiope Mooncalf
+named_actress;  Melody Armament
+named_actress;  Jennifer Evenmore
+named_actress;  Tamsin Birthdog
+named_actress;  Astrid Sinhammer
+
+politician; Melvin Martin
+politician; Clark Shirt
+politician; Decided Be
+politician; Morris Weatherlion
+politician; Persephone Scapegrace
+politician; Lisa Pegasus
+politician; Rufus St. Puzzle
+politician; Kenneth Neverbed
+politician; Cyril Clearbear
+politician; Lydia Imptrotter
+politician; Appolonius Vorp
+politician; Weber Earbarrier
+politician;  Kelly Vulcanspur
 
 
 #### ---- SPORTS ---- ####
@@ -152,7 +203,21 @@ defeated; triumphed over
 defeated; took down
 defeated; conquered
 
-athlete;  Ronald Neumann
+athlete;  {name}
+athlete;  [star_athlete]
+star_athlete;  Rocky Grimalkin
+star_athlete;  Buckler Blue
+star_athlete;  Pugnacio "Pug" Escalade
+star_athlete;  "Sweet" Crow
+star_athlete;  Rebel Sandwich
+star_athlete;  Prince-King Ames
+star_athlete;  Nicholas Saint
+star_athlete;  Summer Killigan
+star_athlete;  Russell "Quirkules" Quirk
+star_athlete;  Briony Fiendhurst
+star_athlete;  Copper Glance
+star_athlete;  Nameless Joe
+star_athlete; Girl Garfield Mephistofarm
 
 season_update; It was a crushing defeat for the latter, who saw their playoff odds reduced by 0.9%.
 season_update; The much-needed victory pulled them from the dreaded relegation zone to the antechamber of mild shame.
@@ -165,3 +230,22 @@ streak; The victory extended a [several] game win streak.
 
 unusual_occurence;  During the match, observers noted no fewer than four birds.
 
+### THE SPORTS LEAGUE HAS TWELVE TEAMS. THIS IS CANON. /0==  =o###
+
+# Smogcastle
+team; Scrapheaven Hollows
+team; Rustbellows Cur Brigade
+team; West Smog Bludgeoners
+team; Dancing Angels
+# Mountful Peak
+team; Sporting Telecabine
+# Goat's Larder (and small towns)
+team; Goat's Larder Goats
+team; Deceptive Hill Mice
+team; Ramptown Bad Math
+team; Mountebanks of Farmpton
+# Porpoise Bay
+team; Porpoise Bay Goats
+# Sanctimonia
+team; Sanctimonia Godheads
+team; Forgiveness Tigers

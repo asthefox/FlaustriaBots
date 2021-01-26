@@ -16,7 +16,7 @@ def get_full_name_specific(isFemale, isVladagar, isForeign):
     #of_place
     lambda first, last: (first, random.choice(["O\'", "Mc", "von ", "of ", "de ", "Mac", "de la ", "l\'", "ter", "St. "]) + last),
     #generational
-    lambda first, last: (first, last + "Jr." if random.random() < 0.6 else ("III" if random.random() < 0.6 else random.choice(["IV", "V", "VI", "VII", "VIII", "IX", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX"]))),
+    lambda first, last: (first, last + " " + ("Jr." if random.random() < 0.6 else ("III" if random.random() < 0.6 else random.choice(["IV", "V", "VI", "VII", "VIII", "IX", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX"])))),
     #first_as_last
     lambda first, last: (first, get_first_name(isFemale, isVladagar, isForeign)),
     #last_as_first
