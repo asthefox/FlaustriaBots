@@ -6,11 +6,13 @@ music_news; Music News!
 gossip; Celebrity Gossip!
 movie_news; Movie News!
 upcoming_tv_headline; Upcoming TV Event!
-sports_news; Sports!
+sports_news; [sports_headline]
 
 #### ---- GENERAL ---- ####
 
 # Relationships
+relation_family;  [relation_family_f]
+relation_family;  [relation_family_m]
 relation_family_m; son
 relation_family_m; father
 relation_family_m; brother
@@ -42,6 +44,34 @@ mundane_place;  kitchen
 mundane_place;  town hall
 mundane_place;  pub
 mundane_place;  parlor room
+
+# Counting
+several;  two
+several;  three
+several;  four
+several;  five
+several;  six
+several;  seven
+several;  eight
+several;  nine
+
+# People multiplexers
+celebrity; actor [actor]
+celebrity; actress [actress]
+celebrity; politician [politician]
+celebrity; athlete [athlete]
+
+famous; superstar
+famous; famous
+famous; notable
+famous; beloved
+famous; popular
+
+god;  Book
+god;  Moon
+god;  Sun
+god;  Mongoose
+god;  Market
 
 #### ---- TV ---- ####
 
@@ -77,6 +107,10 @@ big_episode_type; very special episode
 big_episode_type; holiday episode
 big_episode_type; midseason finale
 
+tv_show;  [news_show]
+game_show;  [news_show]
+comedy_show;  [news_show]
+drama_show;  [news_show]
 news_show;  The All-Seeing Eye
 game_show;  Sir Lizardbane's Children's Hour
 game_show;  Dance! Dance! Smogcastle!
@@ -130,6 +164,7 @@ drama_role; spy
 drama_role; secret lover
 drama_role; murderer
 
+
 actor;  {name_m}
 actor;  [named_actor]
 named_actor;  Stanislav Fever
@@ -175,15 +210,14 @@ politician;  Kelly Vulcanspur
 sports_headline;  [sports_score] [player_performance]
 sports_headline;  [sports_score] [season_update]
 sports_headline;  [sports_score] [unusual_occurence]
-sports_headline;  [trade_rumor]
-sports_headline;  [injury]
+sports_headline;  [sports_score] [game_injury]
 
 sports_score;  [team] [defeated] [team], [score_phrase].
 
-score_word; by a score of [scoreline]
-score_word; [scoreline]
-score_word; with a [scoreline] tally
-score_word; the final score being [scoreline]
+score_phrase; by a score of [scoreline]
+score_phrase; [scoreline]
+score_phrase; with a [scoreline] tally
+score_phrase; the final score being [scoreline]
 
 scoreline;  1-0
 scoreline;  2-0
@@ -203,6 +237,33 @@ defeated; triumphed over
 defeated; took down
 defeated; conquered
 
+player_performance; They were led by [athlete], who [sports_game_feat].
+player_performance; [athlete] [sports_game_feat] in a valiant losing effort.
+player_performance; Despite the loss, [athlete] [sports_game_feat].
+player_performance; Player of the Match was no doubt [athlete], who [sports_game_feat].
+player_performance; [athlete] [sports_game_feat] in the victory.
+player_performance; [athlete] [sports_game_feat], which proved to be the difference in the match.
+player_performance; [athlete] and [athlete] each [sports_game_feat].
+player_performance; A player from each team, [athlete] and [athlete], both [sports_game_feat].
+player_performance; [athlete] and [athlete] led the way. Combined, they [sports_game_feat].
+
+sports_game_feat; passed the ball [several] times
+sports_game_feat; dribbled to and fro
+sports_game_feat; performed [several] evasive manoeuvres
+sports_game_feat; scored an absolute [vague_sports_word] from the line
+sports_game_feat; made a [vague_sports_word] of a save
+sports_game_feat; recorded [several] justified fouls
+sports_game_feat; stymied [several] attempts
+sports_game_feat; put on a spectacular display of optimism
+sports_game_feat; resisted [several] violences
+sports_game_feat; executed [several] clinics
+
+vague_sports_word;  banger
+vague_sports_word;  scorcher
+vague_sports_word;  blaster
+vague_sports_word;  corker
+vague_sports_word;  swooper
+
 athlete;  {name}
 athlete;  [star_athlete]
 star_athlete;  Rocky Grimalkin
@@ -219,16 +280,77 @@ star_athlete;  Copper Glance
 star_athlete;  Nameless Joe
 star_athlete; Girl Garfield Mephistofarm
 
-season_update; It was a crushing defeat for the latter, who saw their playoff odds reduced by 0.9%.
-season_update; The much-needed victory pulled them from the dreaded relegation zone to the antechamber of mild shame.
-season_update; The much-needed victory moved them from lower-mid-table to middle-mid-table.
+game_injury;  However, the victory was pyrrhic, as [athlete] had to leave the game with [injury].
+game_injury;  Worse than the defeat, [athlete] was waylaid with [injury].
+game_injury;  [athlete] left the game with [injury], but seemed to recover by press time.
+game_injury;  [athlete] suffered [injury] during the match, and is expected to miss up to [several] weeks.
+game_injury;  [athlete] suffered [injury] during the match, and may not be able to return for their critical upcoming match against [team].
+game_injury;  Most critically, [athlete] suffered [injury] during the match, and may not return this season.
+
+injury; a [hurt] [body_part]
+injury; [ailment]
+
+hurt; rotating
+hurt; sprained
+hurt; mislocated
+hurt; rebellious
+hurt; misaligned
+
+body_part; hand
+body_part; ankle
+body_part; eye
+body_part; noggin
+body_part; kneecap
+body_part; groin
+body_part; kidney
+
+ailment;  ill airs
+ailment;  the vapors
+ailment;  humoural imbalance
+ailment;  chagrin
+ailment;  witchcraft
+ailment;  partial possession
+ailment;  several maladies
+ailment;  a curse from The [god]
+
+season_update; It was a [defeat_adj] defeat for the latter, who saw their midtable odds reduced by 0.{number_1_99}%.
+season_update;  The [defeat_adj] defeat put their designs on the Flaustrian Cup in jeopardy.
+season_update; The [victory_adj] victory pulled them from the dreaded relegation zone to the antechamber of mild shame.
+season_update; The [victory_adj] victory moved them from lower-midtable to middle-midtable.
 season_update; [streak]
+season_update;  The [victory_adj] victory put them once again within sight of the Flaustrian Cup.
+season_update;  They are now {number_1_20}-{number_1_20} since the return of [athlete] from [injury].
+
+victory_adj; much-needed
+victory_adj; hard-fought
+victory_adj; glorious
+victory_adj; impressive
+victory_adj; crucial
+victory_adj; surprising
+
+defeat_adj; crushing
+defeat_adj; heartbreaking
+defeat_adj; hard-fought
+defeat_adj; disappointing
+defeat_adj; shocking
+
+
 streak; The defeat snapped a [several] game win streak.
 streak; The victory snapped a [several] game loss streak.
 streak; The defeat extended a [several] game loss streak.
 streak; The victory extended a [several] game win streak.
 
-unusual_occurence;  During the match, observers noted no fewer than four birds.
+unusual_occurence;  During the match, observers noted no fewer than [several] birds.
+unusual_occurence;  Due to hazardous rains, the match was held at a local [mundane_place].
+unusual_occurence;  As the original match was a tie, local clocks were set back several hours so that the tie never happened.
+unusual_occurence;  The match was interrupted by a third team, who shall not be dignified by naming them, but who [sports_game_feat].
+unusual_occurence;  Spotted in attendance was the [famous] [celebrity], always a supporter of the home team.
+unusual_occurence;  The match was only decided in the final moments when [athlete] was revealed to be [drama_role].
+unusual_occurence;  [unusual_occurence_family]
+unusual_occurence_family; The match was special for [athlete] of the victors, whose [relation_family_f] {name_f_first} was playing on the opposing team.
+unusual_occurence_family; The match was special for [athlete] of the victors, whose [relation_family_m] {name_m_first} was playing on the opposing team.
+unusual_occurence;  To the supporters' chagrin, the final moments of the drag-out match were interrupted by a broadcast of [tv_show], both on television and in person.
+
 
 ### THE SPORTS LEAGUE HAS TWELVE TEAMS. THIS IS CANON. /0==  =o###
 

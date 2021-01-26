@@ -4,6 +4,9 @@ import datetime
 keywords = {}
 special_headlines = {}
 
+# TODO: {number_min_max (positional)}
+# TODO: {name_(f|m|first|last) (keyword)}
+
 def initialize():
   load_keywords("keywords_entertainment.txt")
   load_special_headlines("special_headlines.txt")
@@ -42,10 +45,10 @@ def validate():
   # Keyword requirements
   sentences = sum(keywords.values(), [])
   for sentence in sentences:
-    print("Looking at sentence: " + sentence)
+    #print("Looking at sentence: " + sentence)
     key_reqs = re.findall("\[\w*\]", sentence)
     for key_req in key_reqs:
-      print("    looking at key req: " + key_req)
+      #print("    looking at key req: " + key_req)
       if key_req not in keywords:
         print("Headline Validation Error: Keyword " + key_req + " needed.")
 
@@ -59,8 +62,8 @@ def validate():
 def grammar_generate_recursive(str):
   recur = False
   for key in keywords:
-    if key in str:
-      str = str.replace(key, random.choice(keywords[key]))
+    while key in str:
+      str = str.replace(key, random.choice(keywords[key]), 1)
       recur = True
 
   if recur:
@@ -93,9 +96,8 @@ def get_daily_entertainment_headline():
 
 
 def test():
-  initialize()
   validate()
-  #print(mad_lib_recursive("[entertainment_headline]"))
+  print(grammar_generate_recursive("[sports_headline]"))
 
-#test()
 initialize()
+test()
