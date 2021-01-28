@@ -56,3 +56,6 @@ def print_guild_members(guild):
 
 keep_alive()
 bot.run(TOKEN)
+
+#this is something David is adding to test version control
+print("david is testing version control")
