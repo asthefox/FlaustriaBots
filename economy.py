@@ -5,21 +5,6 @@ import discord
 from discord.ext import commands
 import token_loader
 
-project_id = "fir-test-for-atb-default-rtdb"
-config = {
-  "apiKey": token_loader.FIREBASE,
-  "authDomain": f"{project_id}.firebaseapp.com",
-  "databaseURL": f"https://{project_id}.firebaseio.com",
-  "storageBucket": f"pro{project_id}jectId.appspot.com"
-}
-
-
-# data to save
-test_balance_updates = {
-    "Tranandez": "5000",
-    "Wongowitz" : "2500"
-}
-
 
 class Economy(commands.Cog):
   def __init__(self, bot):
@@ -30,9 +15,17 @@ class Economy(commands.Cog):
       print('Economy Cog Ready!')
       print('Logged in as ---->', self.bot.user)
       print('ID:', self.bot.user.id)
-      await self._init_database()
+      self._init_database()
 
   def _init_database(self):
+    project_id = "fir-test-for-atb-default-rtdb"
+    config = {
+      "apiKey": token_loader.FIREBASE,
+      "authDomain": f"{project_id}.firebaseapp.com",
+      "databaseURL": f"https://{project_id}.firebaseio.com",
+      "storageBucket": f"pro{project_id}jectId.appspot.com"
+    }
+
     firebase = Firebase(config)
 
     # Get a reference to the auth service
@@ -46,42 +39,60 @@ class Economy(commands.Cog):
 
     # Get a reference to the database service
     self.db = firebase.database()
-    self.balances = db.child("discord").child("bank_accounts")
+    self.balances = self.db.child("discord").child("bank_accounts")
 
-    @commands.command(name="atm")
-    async def check_balance(self, ctx):
-        bal = await _balance(ctx.author)
-        ctx.send("Your balance is: " + str(bal) + "k")
-        
-
+  @commands.command(name="atm")
+  async def check_balance(self, ctx):
+      await ctx.send("You have money!")
+      bal = await self._balance(ctx)
+      await ctx.send("Your balance is: " + str(bal) + "k")
 
   @commands.Cog.listener()
   async def on_message(self, message):
       print(message)
 
+  async def _balance(self, ctx):
+    member = ctx.author.id
+    guild = ctx.guild.id
+
+    # Check if guild exists in database
+    guild_query = self.balances.order_by_child("guild_id").equal_to(guild).get().val()
+
+    if len(guild_query) == 0:
+      # Guild not found, make a new one
+      print("Debug: Creating new guild entry " + str(guild))
+      my_guild = {"guild_id": guild, "balances": []}
+      #self.balances.set(my_guild)
+      self.balances.child(guild)
 
 
-  async def _balance(self, member):
-    guild = guild.id
-    guild_balances = self.balances.get_child(guild.id)
-    my_balance = guild_balances.order_by_child("id").equal_to(member.id).get().val()
 
-    if len(my_balance) == 0:
-      my_balance = {"id": member.id, "balance": 100}
-      guild_balances.push(new_entry)
+    guild_balances = self.balances.child(guild)
+    my_balance_query = guild_balances.order_by_child("id").equal_to(member).get().val()
+
+    print(*my_balance_query)
+
+    if len(my_balance_query) == 0:
       # Balance not found, make a new one
+      await ctx.send("Debug: Creating balance entry for user " + str(member) + " in guild " + str(guild))
+      my_balance = {"id": member, "balance": 100}
+      guild_balances.push(my_balance)
+
     else:
       my_balance = my_balance[0]
 
     return my_balance["balance"]
 
 
-  async def withdraw_money(self, member, money):
-    
-      # Pass the user's idToken to the push method
-      results = self.db.child("discord").child("bank_accounts").set(test_balance_updates, user['idToken'])
+  async def withdraw_money(self, guild_id, member_id, money):
+    pass
+    # Pass the user's idToken to the push method
+    # results = self.db.child("discord").child("bank_accounts").set$(test_balance_updates, user['idToken'])
 
 
-  async def deposit_money(self, member, money):
-      # implementation here
-      ...
+  async def deposit_money(self, guild_id, member_id, money):
+    # implementation here
+    pass
+
+def setup(bot):
+    bot.add_cog(Economy(bot))
