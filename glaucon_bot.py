@@ -19,9 +19,11 @@ class GlauconCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self,message):
-        if message.author == self.bot.user:
-            return
+        glaucon_command = '!glaucon' in message.content.lower()
 
+        if message.author == self.bot.user or not glaucon_command: 
+            return
+        
         examined = 'philosophy' in message.content.lower()
         response = 'The unexamined life is not worth living.' if examined else self.get_random_response(message.author)
         await message.channel.send(response)
