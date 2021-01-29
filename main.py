@@ -7,7 +7,8 @@ import token_loader
 
 bot = commands.Bot(command_prefix='!')
 
-#keep_alive()
+#start the flask server and bots
+keep_alive()
 bot.load_extension("glaucon_bot")
 bot.run(token_loader.TOKEN)
 
