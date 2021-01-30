@@ -9,6 +9,7 @@ from threading import Thread
 inside_track_bot = commands.Bot(command_prefix='!')
 inside_track_bot.load_extension("inside_track_bot")
 inside_track_bot.load_extension("economy")
+inside_track_bot.load_extension("cowyboys")
 
 glaucon_bot = commands.Bot(command_prefix='!')
 glaucon_bot.load_extension("glaucon_bot")

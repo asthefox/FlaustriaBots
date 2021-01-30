@@ -12,6 +12,8 @@ python-dotenv = "^0.15.0"
 firebase = "^3.0.1"
 sseclient = "^0.0.27"
 pycrypto = "^2.6.1"
+python_jwt = "^3.3.0"
+gcloud = "^0.18.3"
 
 [tool.poetry.dev-dependencies]
 
