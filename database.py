@@ -7,21 +7,16 @@ def get(path):
   if db == None:
     print("Firebase Wrapper Error: The Firebase has not been initialized.")
   return db.child(path).get(user['idToken']).val()
-  # Continue migrating 
 
 def set(path, value):
   if db == None:
     print("Firebase Wrapper Error: The Firebase has not been initialized.")
   db.child(path).set(value, user['idToken'])
 
-
 def update(path, value):
   if db == None:
     print("Firebase Wrapper Error: The Firebase has not been initialized.")
   db.child(path).update(value, user['idToken'])
-
-
-
 
 
 def _init_database():

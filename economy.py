@@ -1,9 +1,5 @@
-#from firebase import Firebase
-#import os
-#from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-#import token_loader
 import database
 
 class Economy(commands.Cog):
@@ -15,43 +11,17 @@ class Economy(commands.Cog):
       print('Economy Cog Ready!')
       print('Logged in as ---->', self.bot.user)
       print('ID:', self.bot.user.id)
-      #self._init_database()
 
-
-  """
-  def _init_database(self):
-    project_id = "fir-test-for-atb-default-rtdb"
-    config = {
-      "apiKey": token_loader.FIREBASE,
-      "authDomain": f"{project_id}.firebaseapp.com",
-      "databaseURL": f"https://{project_id}.firebaseio.com",
-      "storageBucket": f"pro{project_id}jectId.appspot.com"
-    }
-
-    firebase = Firebase(config)
-
-    # Get a reference to the auth service
-    auth = firebase.auth()
-
-    # Log the user in
-    load_dotenv()
-    username = os.getenv('FIREBASE_USERNAME')
-    password = os.getenv('FIREBASE_PASSWORD')
-    self.user = auth.sign_in_with_email_and_password(username, password)
-
-    # Get a reference to the database service
-    self.db = firebase.database()
-  """
 
   @commands.command(name="atm")
   async def check_balance(self, ctx):
-      await ctx.send("You have money!")
+      #await ctx.send("You have money!")
       bal = self._balance(ctx.guild, ctx.author)
       await ctx.send("Your balance is: " + str(bal) + "k")
 
-  @commands.Cog.listener()
-  async def on_message(self, message):
-      print(message)
+  #@commands.Cog.listener()
+  #async def on_message(self, message):
+  #    print(message)
 
   def _get_balance_path(self, guild_id, member_id):
     return "discord/bank_accounts/" + str(guild_id) + "/" + str(member_id)

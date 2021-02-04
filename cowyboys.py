@@ -8,6 +8,8 @@ import token_loader
 DUEL_CHANNEL_NAME = "test_duels"
 BET_CHANNEL_NAME = "test_bets"
 
+#TODO: Replace guild.default_role with the Flaustrian Citizen role
+
 class Cowyboys(commands.Cog):
   def __init__(self, bot):
       self.bot = bot
@@ -35,8 +37,8 @@ class Cowyboys(commands.Cog):
   @commands.command(name="open_bets")
   async def open_bets(self, ctx):
 
-      self._reset_odds()
-      self._clear_bets()
+      #self._reset_odds()
+      #self._clear_bets()
 
       bet_channel = await self._find_channel(BET_CHANNEL_NAME, ctx)
       if bet_channel == None:
