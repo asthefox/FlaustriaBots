@@ -93,4 +93,4 @@ def _test():
     print(get_full_name_specific(random.random() < 0.5, False, True))
 
 _initialize()
-_test()
+#_test()
