@@ -149,7 +149,7 @@ def get_daily_entertainment_headline():
 
 def test():
   validate()
-  print(grammar_generate_recursive("[sports_headline]"))
+  print(grammar_generate_recursive("[business_headline]"))
 
 initialize()
 test()

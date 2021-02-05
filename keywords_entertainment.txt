@@ -60,6 +60,7 @@ celebrity; actor [actor]
 celebrity; actress [actress]
 celebrity; politician [politician]
 celebrity; athlete [athlete]
+celebrity; cowyboy {cowyboy}
 
 famous; superstar
 famous; famous
@@ -202,7 +203,112 @@ politician; Cyril Clearbear
 politician; Lydia Imptrotter
 politician; Appolonius Vorp
 politician; Weber Earbarrier
-politician;  Kelly Vulcanspur
+politician; Kelly Vulcanspur
+
+#### ---- BUSINESS ---- ####
+
+business_headline; [stocks_up] [market_up]
+business_headline; [stocks_down] [market_up]
+business_headline; [endorsement]
+market_up; Overall, the Market is Up, as it is eternally.
+stocks_up; [market_willed] [company] rise by {number_1_9}.{number_10_99} points. [shareholders_happy]
+stocks_down; [market_willed] [company] fall by {number_1_9}.{number_10_99} points. [shareholders_sad]
+
+shareholders_happy; Shareholders beam with ecstasy.
+shareholders_happy; Shareholders are bathed in holy light.
+shareholders_happy; Shareholders abound with the riches of man and nature.
+shareholders_happy; Shareholders pat each other on the back relentlessly.
+shareholders_happy; Shareholders ascend to a superior state.
+shareholders_happy; Shareholders float inches above the ground, emotionally.
+shareholders_happy; Shareholders radiate. They are radiant.
+shareholders_happy; Shareholders praise The Market and all The Five.
+shareholders_happy; Shareholders are seized with paroxysms of joy.
+shareholders_happy; Shareholders have become more valuable people.
+
+shareholders_sad; Shareholders rend their garments.
+shareholders_sad; Shareholders avert their eyes from other humans.
+shareholders_sad; Shareholders ululate in lamentation.
+shareholders_sad; Shareholders pray forgiveness, fruitlessly.
+shareholders_sad; Shareholders gape walleyed at the ruin their hubris has wrought.
+shareholders_sad; Shareholders yawp senselessly for succor.
+shareholders_sad; Shareholders upend chairs and stomp about.
+shareholders_sad; Shareholders salt the earth with their tears.
+shareholders_sad; Shareholders mutter in a pathetic cacophony.
+shareholders_sad; Shareholders fail to comfort one another, without exception.
+
+market_willed; The Market has willed that
+market_willed; The Market decreed that
+market_willed; In accordance with the will of The Market, 
+market_willed; The holiest whims of The Market bade
+
+endorsement; [company] announced that they have signed an endorsement with [celebrity]. [hope_for_market_blessing]
+endorsement; [company] announced a new television ad campaign starring [celebrity]. [hope_for_market_blessing]
+endorsement; [company] revealed that their newest spokesperson is none other than [celebrity]. [hope_for_market_blessing]
+hope_for_market_blessing; Both parties hope this [awesome] [union_word] will please the Market. 
+hope_for_market_blessing; Today they offered the traditional prayer that The Market might bless theis [awesome] [union_word].
+hope_for_market_blessing; To ensure its success, the company sacrificed over {number_1_50},000k to The Market.
+
+awesome; exceptional
+awesome; earth-shattering
+awesome; long-awaited
+awesome; wondrous
+awesome; savvy
+
+union_word; union
+union_word; pairing
+union_word; convergence
+union_word; melding
+union_word; cross-pollination
+
+company; [company_prefix] [company_product] Inc.
+company; [company_prefix] [company_product] Company
+company; The [company_prefix] [company_product] Corporation
+company; [company_prefix] [company_product] Corp.
+
+company_prefix; [company_prefix_family]
+company_prefix; [company_prefix_patriotic]
+;;;company_prefix; {cap_compliment_noun}
+company_prefix; [company_prefix_name]
+
+company_prefix_name; {name_first}
+company_prefix_name; {name_last}
+company_prefix_name; {name}
+
+company_prefix_family; Auntie's
+company_prefix_family; Uncle's
+company_prefix_family; Cousin's
+company_prefix_family; Mother's
+company_prefix_family; Father's
+company_prefix_family; Grandmother's
+company_prefix_family; Grandfather's
+
+company_prefix_patriotic; Flaustrian
+company_prefix_patriotic; Flaustria's Own
+company_prefix_patriotic; Harmonica
+company_prefix_patriotic; Five-Pointed
+company_prefix_patriotic; Five-Blessed
+
+company_product; [product_type]
+company_product; [product_adjective] [product_type]
+
+product_type; Solvents
+product_type; Products
+product_type; Paper Boxes
+product_type; Canned Goods
+product_type; Elder Care
+product_type; Accountancy
+product_type; Insurance
+product_type; Homegoods
+product_type; Cab
+product_type; Appliance
+
+product_adjective; Wholesome
+product_adjective; Proper
+product_adjective; Stout
+product_adjective; Little
+product_adjective; Lavender
+product_adjective; Helpful
+product_adjective; Golden
 
 
 #### ---- SPORTS ---- ####
