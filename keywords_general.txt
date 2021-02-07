@@ -1,0 +1,343 @@
+#### ---- GENERAL ---- ####
+
+# The Five
+god;  Book
+god;  Moon
+god;  Sun
+god;  Mongoose
+god;  Market
+
+# Relationships
+relation_family;  [relation_family_f]
+relation_family;  [relation_family_m]
+relation_family_m; son
+relation_family_m; father
+relation_family_m; brother
+relation_family_m; twin brother
+relation_family_m; uncle
+relation_family_f; daughter
+relation_family_f; mother
+relation_family_f; sister
+relation_family_f; twin sister
+relation_romantic_f; wife
+relation_romantic_f; girlfriend
+relation_romantic_f; lover
+relation_romantic_f; mistress
+relation_romantic_f; fiancee
+relation_romantic_m; husband
+relation_romantic_m; boyfriend
+relation_romantic_m; lover
+relation_romantic_m; second man
+relation_romantic_m; fiance
+romantic_thing; marriage
+romantic_thing; long-term relationship
+romantic_thing; tryst
+romantic_thing; first date
+romantic_thing; special friendship
+
+# Places
+mundane_place;  office
+mundane_place;  kitchen
+mundane_place;  town hall
+mundane_place;  pub
+mundane_place;  parlor room
+mundane_place;  parking lot
+
+location; [city]
+location; [town]
+location; [park]
+city; Porpoise Bay
+city; Smogcastle
+city; Sanctimonia
+town; Scruffy Hill
+town; Deceptive Hill
+town; Ramptown
+town; Farmpton
+town; Scrapheaven
+town; Rustbellows
+town; Thistle-Whistle
+town; Switchwicket
+park; Mountful Peak
+park; Goat's Larder
+park; Wonderful Ocean
+
+pub; Cantina de {name_last}
+pub; [pub_adjective] {name_first_m} Pub
+pub; [pub_adjective] {name_first_m} 's Saloon
+pub; [pub_adjective] {name_last} Pub
+pub; The {name_first} Club
+
+pub_adjective; Old
+pub_adjective; Trusty
+pub_adjective; Slippery
+pub_adjective; Uncle
+pub_adjective; Grandpa
+pub_adjective; King
+pub_adjective; Whiskey
+
+# Counting
+several;  two
+several;  three
+several;  four
+several;  five
+several;  six
+several;  seven
+several;  eight
+several;  nine
+
+# Synonyms
+famous; superstar
+famous; famous
+famous; notable
+famous; beloved
+famous; popular
+
+
+#### ---- EVENTS ---- ####
+
+event_word;  [other_event]
+event_word;  [negative_event]
+
+other_event;   conference
+other_event;   revolution
+other_event;   fad
+other_event;   situation
+other_event;   festival
+other_event;   phenomenon
+other_event;   discovery
+other_event;   renaissance
+other_event;   movement
+other_event;   concorde
+other_event;   party
+other_event;   reformation
+other_event;   cult
+other_event;   agreement
+other_event;   bacchanalia
+other_event;   carnival
+other_event;   detente
+other_event;   agreement
+
+negative_event;   crisis
+negative_event;   deadlock
+negative_event;   disaster
+negative_event;   whispering campaign
+negative_event;   scare
+negative_event;   scandal
+negative_event;   kerfuffle
+negative_event;   panic
+negative_event;   scism
+negative_event;   betrayal
+negative_event;   murders
+negative_event;   blocade
+negative_event;   protest
+negative_event;   debacle
+negative_event;   affair
+
+
+#### ---- RANDOM NOUNS ---- ####
+
+noun; [compliment_noun]
+noun; [insult_noun]
+noun; [misc_noun]
+noun; [misc_noun]
+noun; [misc_noun]
+
+compliment_noun;  virtuoso
+compliment_noun;  old hand
+compliment_noun;  shining example
+compliment_noun;  role model
+compliment_noun;  hero
+compliment_noun;  champion
+compliment_noun;  legend
+compliment_noun;  class act
+compliment_noun;  master
+compliment_noun;  tour de force
+compliment_noun;  stallion
+compliment_noun;  eagle
+compliment_noun;  thought leader
+
+insult_noun;  joker
+insult_noun;  dunce
+insult_noun;  ponce
+insult_noun;  moron
+insult_noun;  idiot
+insult_noun;  tugboat
+insult_noun;  reptile
+insult_noun;  reptile lover
+insult_noun;  fop
+insult_noun;  porcupine
+insult_noun;  deadbeat
+insult_noun;  flake
+insult_noun;  coward
+insult_noun;  jerk
+insult_noun;  fool
+insult_noun;  rhomboid mass
+insult_noun;  mug
+insult_noun;  tosser
+insult_noun;  pillock
+insult_noun;  knob
+insult_noun;  bollocks
+insult_noun;  wanker
+insult_noun;  pants
+
+misc_noun;  scorpion
+misc_noun;  horse
+misc_noun;  automobile
+misc_noun;  ice cream truck
+misc_noun;  museum
+misc_noun;  dog
+misc_noun;  business
+misc_noun;  pleasure
+misc_noun;  family
+misc_noun;  friendship
+misc_noun;  fortress
+misc_noun;  music
+misc_noun;  statue
+misc_noun;  book
+misc_noun;  housewares
+misc_noun;  tea
+misc_noun;  sports
+misc_noun;  comedy
+misc_noun;  roller skating
+misc_noun;  painting
+misc_noun;  taxidermy
+misc_noun;  lettuce
+misc_noun;  hamburger
+misc_noun;  scone
+misc_noun;	bridge
+misc_noun;  card playing
+misc_noun;  table
+misc_noun;  lunchbox
+misc_noun;  factory
+misc_noun;  farm
+misc_noun;  subway
+misc_noun;  cat
+misc_noun;  badger
+misc_noun;  chair
+misc_noun;  carpet
+misc_noun;  shoe
+misc_noun;  telephone
+misc_noun;  prison
+misc_noun;  architect
+misc_noun;  association football
+misc_noun;  Pommermanian-rules football
+misc_noun;  shower
+misc_noun;  cricket
+misc_noun;  library
+misc_noun;  soap
+misc_noun;  shampoo
+misc_noun;  spy
+misc_noun;  escalator
+misc_noun;  mailbox
+misc_noun;  crumpet
+misc_noun;  cupcake
+misc_noun;  trumpet
+misc_noun;  marmite
+misc_noun;  bangers and mash
+misc_noun;  billy club
+misc_noun;  livery
+misc_noun;  granny flat
+
+
+#### ---- RANDOM ADJECTIVES ---- ####
+
+adjective; [compliment_adjective]
+adjective; [insult_adjective]
+adjective; [misc_adjective]
+
+compliment_adjective;  masterful
+compliment_adjective;  smooth
+compliment_adjective;  delicate
+compliment_adjective;  subtle
+compliment_adjective;  clever
+compliment_adjective;  sharp
+compliment_adjective;  lean
+compliment_adjective;  striking
+compliment_adjective;  peerless
+compliment_adjective;  gorgeous
+compliment_adjective;  beautiful
+compliment_adjective;  brilliant
+compliment_adjective;  strong
+compliment_adjective;  daunting
+compliment_adjective;  substantial
+compliment_adjective;  first rate
+compliment_adjective;  gorgeous
+compliment_adjective;  world class
+compliment_adjective;  swooping
+compliment_adjective;  classic
+compliment_adjective;  delightful
+compliment_adjective;  lovely
+			
+insult_adjective;  namby pamby
+insult_adjective;  cold blooded
+insult_adjective;  heinous
+insult_adjective;  dog-like
+insult_adjective;  stupid
+insult_adjective;  boorish
+insult_adjective;  yucky
+insult_adjective;  smelly
+insult_adjective;  cultureless
+insult_adjective;  plodding
+insult_adjective;  flabby
+insult_adjective;  thick-headed
+insult_adjective;  reptile-loving
+insult_adjective;  backwoods-mannered
+insult_adjective;  sloppy
+insult_adjective;  subpar
+insult_adjective;  disappointing
+insult_adjective;  second rate
+insult_adjective;  mouth-breathing
+insult_adjective;  lopsided
+insult_adjective;  cantankerous
+insult_adjective;  conceited
+insult_adjective;  gutless
+insult_adjective;  vile
+insult_adjective;  crude
+insult_adjective;  lazy
+insult_adjective;  clumsy
+insult_adjective;  scrawny
+insult_adjective;  grumpy
+insult_adjective;  foul-smelling
+insult_adjective;  hare-brained
+insult_adjective;  half-witted
+insult_adjective;  creepy
+insult_adjective;  brainless
+insult_adjective;  dense
+insult_adjective;  simpleminded
+insult_adjective;  moronic
+insult_adjective;  blinkered
+insult_adjective;  shambolic
+insult_adjective;  disreputable
+insult_adjective;  unclean
+insult_adjective;  dreadful
+
+misc_adjective;  growing
+misc_adjective;  pulsing
+misc_adjective;  ugly
+misc_adjective;  sexy
+misc_adjective;  smelly
+misc_adjective;  unsightly
+misc_adjective;  rural
+misc_adjective;  suburban
+misc_adjective;  organic
+misc_adjective;  public
+misc_adjective;  artisanal
+misc_adjective;  Pommermanian
+misc_adjective;  Vladagar
+misc_adjective;  Zanzerlander
+misc_adjective;  Spumonian
+misc_adjective;  maritime
+misc_adjective;  subversive
+misc_adjective;  religious
+misc_adjective;	 stoic
+misc_adjective;  unfriendly
+misc_adjective;  weekly
+misc_adjective;  muffled
+misc_adjective;  nefarious
+misc_adjective;  mysterious
+misc_adjective;  illegal
+misc_adjective;  controversial
+misc_adjective;  wooden
+misc_adjective;  flimsy
+misc_adjective;  bloody
+

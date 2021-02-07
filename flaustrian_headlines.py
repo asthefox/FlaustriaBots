@@ -9,7 +9,9 @@ special_headlines = {}
 # TODO: {name_(f|m|first|last) (keyword)}
 
 def initialize():
+  load_keywords("keywords_general.txt")
   load_keywords("keywords_entertainment.txt")
+  load_keywords("keywords_events.txt")
   load_special_headlines("special_headlines.txt")
 
 def load_keywords(filename):
@@ -88,6 +90,31 @@ def grammar_generate_recursive(str):
 
 def _special_keyword(key_string):
   parts = key_string[1:-1].lower().strip().split("_")
+
+  if parts[0] == "cap":
+    key = key_string[5:-1]
+    if key in keywords:
+      chosen_word = random.choice(keywords[key])
+      return chosen_word.capwords()
+
+  if parts[0] == "plural":
+    key = key_string[8:-1]
+    if key in keywords:
+      chosen_word = random.choice(keywords[key])
+      if chosen_word.endswith("s"):
+        return chosen_word
+      return chosen_word + "s"
+
+  if parts[0] == "capplural":
+    key = key_string[11:-1]
+    if key in keywords:
+      chosen_word = random.choice(keywords[key])
+      chosen_word = chosen_word.capwords()
+      if chosen_word.endswith("s"):
+        return chosen_word
+      return chosen_word + "s"
+
+
   if parts[0] == "cowyboy":
     return "Horse Legs Wongowitz"
   if parts[0] == "name":
@@ -149,7 +176,9 @@ def get_daily_entertainment_headline():
 
 def test():
   validate()
-  print(grammar_generate_recursive("[business_headline]"))
+  for i in range(10):
+    print(str(i) + ".\t" + grammar_generate_recursive("[song_line]"))
+  #print(grammar_generate_recursive("[business_headline]"))
 
 initialize()
 test()

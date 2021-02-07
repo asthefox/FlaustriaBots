@@ -7,72 +7,58 @@ gossip; Celebrity Gossip!
 movie_news; Movie News!
 upcoming_tv_headline; Upcoming TV Event!
 sports_news; [sports_headline]
+business_news; [business_headline]
 
-#### ---- GENERAL ---- ####
 
-# Relationships
-relation_family;  [relation_family_f]
-relation_family;  [relation_family_m]
-relation_family_m; son
-relation_family_m; father
-relation_family_m; brother
-relation_family_m; twin brother
-relation_family_m; uncle
-relation_family_f; daughter
-relation_family_f; mother
-relation_family_f; sister
-relation_family_f; twin sister
-relation_romantic_f; wife
-relation_romantic_f; girlfriend
-relation_romantic_f; lover
-relation_romantic_f; mistress
-relation_romantic_f; fiancee
-relation_romantic_m; husband
-relation_romantic_m; boyfriend
-relation_romantic_m; lover
-relation_romantic_m; second man
-relation_romantic_m; fiance
-romantic_thing; marriage
-romantic_thing; long-term relationship
-romantic_thing; tryst
-romantic_thing; first date
-romantic_thing; special friendship
+#### ---- CELEBRITIES ---- ####
 
-# Places and things
-mundane_place;  office
-mundane_place;  kitchen
-mundane_place;  town hall
-mundane_place;  pub
-mundane_place;  parlor room
-
-# Counting
-several;  two
-several;  three
-several;  four
-several;  five
-several;  six
-several;  seven
-several;  eight
-several;  nine
-
-# People multiplexers
 celebrity; actor [actor]
 celebrity; actress [actress]
 celebrity; politician [politician]
 celebrity; athlete [athlete]
 celebrity; cowyboy {cowyboy}
 
-famous; superstar
-famous; famous
-famous; notable
-famous; beloved
-famous; popular
+actor;  {name_m}
+actor;  [named_actor]
+named_actor;  Stanislav Fever
+named_actor;  Norris Hopper
+named_actor;  Maddox Clipper
+named_actor;  Ford Runic
+named_actor;  Clark Shirt
+named_actor;  Ramses Sinclair
+named_actor;  Don QuiFresh
+named_actor;  Leander Flange
+named_actor;  Don Otter
 
-god;  Book
-god;  Moon
-god;  Sun
-god;  Mongoose
-god;  Market
+
+actress;  {name_f}
+actress;  [named_actress]
+named_actress;  January Nightwave
+named_actress;  Irena Wildregard
+named_actress;  Genevieve Prince
+named_actress;  Nightengale Robbins
+named_actress;  Antiope Mooncalf
+named_actress;  Melody Armament
+named_actress;  Jennifer Evenmore
+named_actress;  Tamsin Birthdog
+named_actress;  Astrid Sinhammer
+
+politician; Melvin Martin
+politician; Clark Shirt
+politician; Decided Be
+politician; Morris Weatherlion
+politician; Persephone Scapegrace
+politician; Lisa Pegasus
+politician; Rufus St. Puzzle
+politician; Kenneth Neverbed
+politician; Cyril Clearbear
+politician; Lydia Imptrotter
+politician; Appolonius Vorp
+politician; Weber Earbarrier
+politician; Kelly Vulcanspur
+
+
+
 
 #### ---- TV ---- ####
 
@@ -166,149 +152,188 @@ drama_role; secret lover
 drama_role; murderer
 
 
-actor;  {name_m}
-actor;  [named_actor]
-named_actor;  Stanislav Fever
-named_actor;  Norris Hopper
-named_actor;  Maddox Clipper
-named_actor;  Ford Runic
-named_actor;  Clark Shirt
-named_actor;  Ramses Sinclair
-named_actor;  Don QuiFresh
-named_actor;  Leander Flange
-named_actor;  Don Otter
 
 
-actress;  {name_f}
-actress;  [named_actress]
-named_actress;  January Nightwave
-named_actress;  Irena Wildregard
-named_actress;  Genevieve Prince
-named_actress;  Nightengale Robbins
-named_actress;  Antiope Mooncalf
-named_actress;  Melody Armament
-named_actress;  Jennifer Evenmore
-named_actress;  Tamsin Birthdog
-named_actress;  Astrid Sinhammer
 
-politician; Melvin Martin
-politician; Clark Shirt
-politician; Decided Be
-politician; Morris Weatherlion
-politician; Persephone Scapegrace
-politician; Lisa Pegasus
-politician; Rufus St. Puzzle
-politician; Kenneth Neverbed
-politician; Cyril Clearbear
-politician; Lydia Imptrotter
-politician; Appolonius Vorp
-politician; Weber Earbarrier
-politician; Kelly Vulcanspur
+#### ---- MUSICAL ACTS ---- ####
 
-#### ---- BUSINESS ---- ####
+song_line;  [devotional_artist] - [devotional_song]
+song_line;  [folk_artist] - [folk_song]
+song_line;  [soulish_artist] - [soulish_song]
+song_line;  [pop_artist] - [pop_song]
+song_line;  [pop_artist] - [pop_song]
 
-business_headline; [stocks_up] [market_up]
-business_headline; [stocks_down] [market_up]
-business_headline; [endorsement]
-market_up; Overall, the Market is Up, as it is eternally.
-stocks_up; [market_willed] [company] rise by {number_1_9}.{number_10_99} points. [shareholders_happy]
-stocks_down; [market_willed] [company] fall by {number_1_9}.{number_10_99} points. [shareholders_sad]
+music_genre;  devotional
+music_genre;  pop
+music_genre;  pop
+music_genre;  folk
+music_genre;  soulish
 
-shareholders_happy; Shareholders beam with ecstasy.
-shareholders_happy; Shareholders are bathed in holy light.
-shareholders_happy; Shareholders abound with the riches of man and nature.
-shareholders_happy; Shareholders pat each other on the back relentlessly.
-shareholders_happy; Shareholders ascend to a superior state.
-shareholders_happy; Shareholders float inches above the ground, emotionally.
-shareholders_happy; Shareholders radiate. They are radiant.
-shareholders_happy; Shareholders praise The Market and all The Five.
-shareholders_happy; Shareholders are seized with paroxysms of joy.
-shareholders_happy; Shareholders have become more valuable people.
+devotional_artist;  [religion_guy] {name}
+devotional_artist; The [location] [choir]
+devotional_artist;  {name}
+devotional_artist;  [religion_guy] {name_first} and The [location] Choir
 
-shareholders_sad; Shareholders rend their garments.
-shareholders_sad; Shareholders avert their eyes from other humans.
-shareholders_sad; Shareholders ululate in lamentation.
-shareholders_sad; Shareholders pray forgiveness, fruitlessly.
-shareholders_sad; Shareholders gape walleyed at the ruin their hubris has wrought.
-shareholders_sad; Shareholders yawp senselessly for succor.
-shareholders_sad; Shareholders upend chairs and stomp about.
-shareholders_sad; Shareholders salt the earth with their tears.
-shareholders_sad; Shareholders mutter in a pathetic cacophony.
-shareholders_sad; Shareholders fail to comfort one another, without exception.
+choir;  Choir
+choir;  Children's Choir
+choir;  Castrato Choir
+choir;  Urchin's Choir
+choir;  Pentagonal Choir
 
-market_willed; The Market has willed that
-market_willed; The Market decreed that
-market_willed; In accordance with the will of The Market, 
-market_willed; The holiest whims of The Market bade
+religion_guy; Pastor
+religion_guy; Prelate
+religion_guy; Curate
+religion_guy; Vicar
+religion_guy; Rector
 
-endorsement; [company] announced that they have signed an endorsement with [celebrity]. [hope_for_market_blessing]
-endorsement; [company] announced a new television ad campaign starring [celebrity]. [hope_for_market_blessing]
-endorsement; [company] revealed that their newest spokesperson is none other than [celebrity]. [hope_for_market_blessing]
-hope_for_market_blessing; Both parties hope this [awesome] [union_word] will please the Market. 
-hope_for_market_blessing; Today they offered the traditional prayer that The Market might bless theis [awesome] [union_word].
-hope_for_market_blessing; To ensure its success, the company sacrificed over {number_1_50},000k to The Market.
+devotional_song;  [praise_prefix] The [god]
+devotional_song;  [praise_prefix] The [god]
+devotional_song;  [praise_prefix] The Five
+devotional_song;  [god] [praise_suffix]
+devotional_song;  [god] [praise_suffix]
+devotional_song;  The Five [praise_suffix]
+devotional_song;  [pop_song]
 
-awesome; exceptional
-awesome; earth-shattering
-awesome; long-awaited
-awesome; wondrous
-awesome; savvy
+praise_prefix;  Praise
+praise_prefix;  Glory to
+praise_prefix;  Hymn to
+praise_prefix;  Holy
+praise_prefix;  We Sing Of
+praise_prefix;  We Love
 
-union_word; union
-union_word; pairing
-union_word; convergence
-union_word; melding
-union_word; cross-pollination
+praise_suffix;  in the Highest
+praise_suffix;  Eternal
+praise_suffix;  Our Deity
+praise_suffix;  of The Five
+praise_suffix;  in Our Hearts
 
-company; [company_prefix] [company_product] Inc.
-company; [company_prefix] [company_product] Company
-company; The [company_prefix] [company_product] Corporation
-company; [company_prefix] [company_product] Corp.
+pop_artist;  {name}
+pop_artist;  {name_first} and the {capplural_noun}
+pop_artist; [positive_adjective] {name}
+pop_artist;  The [adjective] {capplural_misc_noun}
+pop_artist; [number_band]
+pop_artist; [celebrity]
 
-company_prefix; [company_prefix_family]
-company_prefix; [company_prefix_patriotic]
-;;;company_prefix; {cap_compliment_noun}
-company_prefix; [company_prefix_name]
+number_band; The [location] {cap_several}
+number_band; The {cap_adjective} {cap_several}
+number_band; The {cap_several} {capplural_noun}
 
-company_prefix_name; {name_first}
-company_prefix_name; {name_last}
-company_prefix_name; {name}
+soulish_artist;  The {cap_dance_adjective} {cap_other_event}
+soulish_artist;  {name} and the {cap_other_event}
+soulish_artist;  {cap_dance_adjective} {cap_noun}
+soulish_artist;  [pop_artist]
+soulish_artist;  [pop_artist]
 
-company_prefix_family; Auntie's
-company_prefix_family; Uncle's
-company_prefix_family; Cousin's
-company_prefix_family; Mother's
-company_prefix_family; Father's
-company_prefix_family; Grandmother's
-company_prefix_family; Grandfather's
+soulish_song;  [location] [song_thing]
+soulish_song;  [watching] {cap_pastoral_noun}
+soulish_song;  {cap_positive_adjective} {name_first}
+soulish_song;  [join_the] {cap_other_event}
+soulish_song; [dance_adjective] [dance_adjective]
 
-company_prefix_patriotic; Flaustrian
-company_prefix_patriotic; Flaustria's Own
-company_prefix_patriotic; Harmonica
-company_prefix_patriotic; Five-Pointed
-company_prefix_patriotic; Five-Blessed
+join_the; Join the
+join_the; Get With the
+join_the; Dig That
+join_the; {cap_dance_adjective}
 
-company_product; [product_type]
-company_product; [product_adjective] [product_type]
+dance_adjective;  dance
+dance_adjective;  funky
+dance_adjective;  groovy
+dance_adjective;  groove
+dance_adjective;  shakin'
+dance_adjective;  dance
+dance_adjective;  sunshine
+dance_adjective;  music
+dance_adjective;  love
 
-product_type; Solvents
-product_type; Products
-product_type; Paper Boxes
-product_type; Canned Goods
-product_type; Elder Care
-product_type; Accountancy
-product_type; Insurance
-product_type; Homegoods
-product_type; Cab
-product_type; Appliance
+song_thing;  Jazz
+song_thing;  Rag
+song_thing;  Style
+song_thing;  Lady
+song_thing;  Man
+song_thing;  {cap_several}
 
-product_adjective; Wholesome
-product_adjective; Proper
-product_adjective; Stout
-product_adjective; Little
-product_adjective; Lavender
-product_adjective; Helpful
-product_adjective; Golden
+watching; Watchin' The
+watching; Thinkin' Bout
+watching; Lookin' At
+watching; Here With the
+watching; Hangin' Round
+
+folk_artist;  {name}
+folk_artist;  {cap_adjective} {name_first}
+folk_artist;  {name_first} "{cap_noun}" {name_last}"
+folk_artist;  [pop_artist]
+folk_artist;  {cowyboy}
+
+folk_song;  [song_about_someone] {name}
+folk_song;  [song_about_someone] {cap_adjective} {name_first}
+folk_song;  [song_about_someone] [location]
+folk_song;  The {cap_pastoral_noun} of [location]
+folk_song;  The {cap_pastoral_noun} and The {cap_pastoral_noun}
+folk_song;  [pop_song]
+
+song_about_someone; Ballad of
+song_about_someone; Legend of
+song_about_someone; Me and
+song_about_someone; Old
+song_about_someone; Song of
+song_about_someone; Remember
+
+pastoral_noun;  rains
+pastoral_noun;  cliffs
+pastoral_noun;  meadows
+pastoral_noun;  goats
+pastoral_noun;  bears
+pastoral_noun;  winds
+pastoral_noun;  hills
+pastoral_noun;  daisies
+pastoral_noun;  poppies
+pastoral_noun;  daffodils
+pastoral_noun;  dandelions
+pastoral_noun;  dogs
+pastoral_noun;  clouds
+pastoral_noun;  stars
+pastoral_noun;  roads
+pastoral_noun;  dust
+
+pop_song; [word_at_someone] [name_or_term]
+pop_song; [song_about_name]
+pop_song; {dance_adjective} {cap_noun}
+pop_song; [song_about_noun] {cap_noun}
+
+song_about_name;  {name}
+song_about_name;  {cap_positive_adjective} {name_first}
+song_about_name;  {cap_adjective} {name_first}
+
+song_about_noun;  She's A
+song_about_noun;  He's A
+song_about_noun;  [music_term_for_person] and The
+song_about_noun;  Ain't No
+song_about_noun;  Just A
+song_about_noun;  Little
+song_about_noun;  Love Is A
+song_about_noun;  [name_first] The
+
+name_or_term; {name_first}
+name_or_term; [music_term_for_person]
+
+music_term_for_person;  Baby
+music_term_for_person;  Girl
+music_term_for_person;  Honey
+music_term_for_person;  Man
+music_term_for_person;  Baby
+music_term_for_person;  Darling
+
+word_at_someone;  hey
+word_at_someone;  come on
+word_at_someone;  oh
+word_at_someone;  my
+word_at_someone;  little
+word_at_someone;  keep on
+word_at_someone;  only
+word_at_someone;  come back
+word_at_someone;  help me
+word_at_someone;  return of the
+
 
 
 #### ---- SPORTS ---- ####
@@ -440,7 +465,6 @@ defeat_adj; hard-fought
 defeat_adj; disappointing
 defeat_adj; shocking
 
-
 streak; The defeat snapped a [several] game win streak.
 streak; The victory snapped a [several] game loss streak.
 streak; The defeat extended a [several] game loss streak.
@@ -456,7 +480,6 @@ unusual_occurence;  [unusual_occurence_family]
 unusual_occurence_family; The match was special for [athlete] of the victors, whose [relation_family_f] {name_f_first} was playing on the opposing team.
 unusual_occurence_family; The match was special for [athlete] of the victors, whose [relation_family_m] {name_m_first} was playing on the opposing team.
 unusual_occurence;  To the supporters' chagrin, the final moments of the drag-out match were interrupted by a broadcast of [tv_show], both on television and in person.
-
 
 ### THE SPORTS LEAGUE HAS TWELVE TEAMS. THIS IS CANON. /0==  =o###
 
@@ -477,3 +500,7 @@ team; Porpoise Bay Goats
 # Sanctimonia
 team; Sanctimonia Godheads
 team; Forgiveness Tigers
+
+
+
+
