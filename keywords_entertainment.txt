@@ -18,6 +18,12 @@ celebrity; politician [politician]
 celebrity; athlete [athlete]
 celebrity; cowyboy {cowyboy}
 
+celebrity_name; [actor]
+celebrity_name; [actress]
+celebrity_name; [politician]
+celebrity_name; [athlete]
+celebrity_name; {cowyboy}
+
 actor;  {name_m}
 actor;  [named_actor]
 named_actor;  Stanislav Fever
@@ -186,20 +192,20 @@ religion_guy; Curate
 religion_guy; Vicar
 religion_guy; Rector
 
-devotional_song;  [praise_prefix] The [god]
-devotional_song;  [praise_prefix] The [god]
-devotional_song;  [praise_prefix] The Five
+devotional_song;  [praise_prefix] [god]
+devotional_song;  [praise_prefix] [god]
+devotional_song;  [praise_prefix] Five
 devotional_song;  [god] [praise_suffix]
 devotional_song;  [god] [praise_suffix]
 devotional_song;  The Five [praise_suffix]
 devotional_song;  [pop_song]
 
-praise_prefix;  Praise
-praise_prefix;  Glory to
-praise_prefix;  Hymn to
+praise_prefix;  Praise The
+praise_prefix;  Glory to The
+praise_prefix;  Hymn to The
 praise_prefix;  Holy
-praise_prefix;  We Sing Of
-praise_prefix;  We Love
+praise_prefix;  Oh
+praise_prefix;  We Love The
 
 praise_suffix;  in the Highest
 praise_suffix;  Eternal
@@ -209,10 +215,10 @@ praise_suffix;  in Our Hearts
 
 pop_artist;  {name}
 pop_artist;  {name_first} and the {capplural_noun}
-pop_artist; [positive_adjective] {name}
-pop_artist;  The [adjective] {capplural_misc_noun}
+pop_artist; {cap_compliment_adjective} {name}
+pop_artist;  The {cap_adjective} {capplural_misc_noun}
 pop_artist; [number_band]
-pop_artist; [celebrity]
+pop_artist; [celebrity_name]
 
 number_band; The [location] {cap_several}
 number_band; The {cap_adjective} {cap_several}
@@ -226,9 +232,9 @@ soulish_artist;  [pop_artist]
 
 soulish_song;  [location] [song_thing]
 soulish_song;  [watching] {cap_pastoral_noun}
-soulish_song;  {cap_positive_adjective} {name_first}
+soulish_song;  {cap_compliment_adjective} {name_first}
 soulish_song;  [join_the] {cap_other_event}
-soulish_song; [dance_adjective] [dance_adjective]
+soulish_song; {cap_dance_adjective} {cap_dance_adjective}
 
 join_the; Join the
 join_the; Get With the
@@ -260,7 +266,7 @@ watching; Hangin' Round
 
 folk_artist;  {name}
 folk_artist;  {cap_adjective} {name_first}
-folk_artist;  {name_first} "{cap_noun}" {name_last}"
+folk_artist;  {name_first} "{cap_noun}" {name_last}
 folk_artist;  [pop_artist]
 folk_artist;  {cowyboy}
 
@@ -295,13 +301,13 @@ pastoral_noun;  stars
 pastoral_noun;  roads
 pastoral_noun;  dust
 
-pop_song; [word_at_someone] [name_or_term]
+pop_song; {cap_word_at_someone} [name_or_term]
 pop_song; [song_about_name]
-pop_song; {dance_adjective} {cap_noun}
+pop_song; {cap_dance_adjective} {cap_noun}
 pop_song; [song_about_noun] {cap_noun}
 
 song_about_name;  {name}
-song_about_name;  {cap_positive_adjective} {name_first}
+song_about_name;  {cap_compliment_adjective} {name_first}
 song_about_name;  {cap_adjective} {name_first}
 
 song_about_noun;  She's A
@@ -311,7 +317,7 @@ song_about_noun;  Ain't No
 song_about_noun;  Just A
 song_about_noun;  Little
 song_about_noun;  Love Is A
-song_about_noun;  [name_first] The
+song_about_noun;  {name_first} the
 
 name_or_term; {name_first}
 name_or_term; [music_term_for_person]

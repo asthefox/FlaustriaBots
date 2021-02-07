@@ -2,6 +2,8 @@ import random
 import re
 import datetime
 import flaustrian_names
+import string
+
 keywords = {}
 special_headlines = {}
 
@@ -58,15 +60,26 @@ def validate():
     special_reqs = re.findall("\{\w*\}", sentence)
     for special_req in special_reqs:
       valid = False
-      for prefix in ["name", "number", "cowyboy"]:
+      for prefix in ["name", "number", "cowyboy", "cap", "plural"]:
         if special_req[1:].startswith(prefix): 
           valid = True
       if not valid:
         print("Headline Validation Error: Special command " + special_req + " not found.")
 
+      if special_req[1:].startswith("capplural"):
+        key = "[" + special_req[11:-1] + "]"
+        if key not in keywords:
+          print("Headline Validation Error: Capitalized Plural Keyword " + key + " needed.")
+      elif special_req[1:].startswith("cap"):
+        key = "[" + special_req[5:-1] + "]"
+        if key not in keywords:
+          print("Headline Validation Error: Capitalized Keyword " + key + " needed.")
+
   for key in keywords:
+    cap_form = "{cap_" + key[1:-1] + "}"
+    capplural_form = "{capplural_" + key[1:-1] + "}"
     for sentence in sentences:
-      if key in sentence:
+      if key in sentence or cap_form in sentence or capplural_form in sentence:
         break
     else:
       print("Headline Validation Warning: Keyword " + key + " not used.")
@@ -86,34 +99,62 @@ def grammar_generate_recursive(str):
   if recur:
     return grammar_generate_recursive(str)
   else:
-    return str
+    return _cleanup(str)
+
+def _cleanup(str):
+  
+  # Replace "a vowelword" with "an vowelword"
+  bad_as = re.findall(" [aA] [aeiouAEIOU]", str)
+  for bad_a in bad_as:
+    good_a = bad_a[:2] + "n" + bad_a[2:]
+    str = str.replace(bad_a, good_a)
+
+  # Replace "Person'S with "Person's" (artifact of .title())
+  str = str.replace("'S", "'s")
+
+  return str
+
+def _safe_capitalize(str):
+  #words = re.split(' |-', str)
+  #print("Capitalizing phrase: " + str)
+  #for word in words:
+  #  print("    Capitalizing word: " + word)
+  #  if word[:1].isalpha():
+  #    word = word[:1].upper() + word[1:]
+  #return " ".join(words).strip()
+  return str.title()
 
 def _special_keyword(key_string):
   parts = key_string[1:-1].lower().strip().split("_")
 
   if parts[0] == "cap":
-    key = key_string[5:-1]
-    if key in keywords:
-      chosen_word = random.choice(keywords[key])
-      return chosen_word.capwords()
+    str = "[" + key_string[5:-1] + "]"
+    for key in keywords:
+      while key in str:
+        str = str.replace(key, random.choice(keywords[key]), 1)
+
+    return _safe_capitalize(str)
 
   if parts[0] == "plural":
-    key = key_string[8:-1]
-    if key in keywords:
-      chosen_word = random.choice(keywords[key])
-      if chosen_word.endswith("s"):
-        return chosen_word
-      return chosen_word + "s"
+    str = key_string[8:-1]
+    for key in keywords:
+      while key in str:
+        str = str.replace(key, random.choice(keywords[key]), 1)
+
+    if str.endswith("s"):
+      return str
+    return str + "s"
 
   if parts[0] == "capplural":
-    key = key_string[11:-1]
-    if key in keywords:
-      chosen_word = random.choice(keywords[key])
-      chosen_word = chosen_word.capwords()
-      if chosen_word.endswith("s"):
-        return chosen_word
-      return chosen_word + "s"
+    str = "[" + key_string[11:-1] + "]"
+    for key in keywords:
+      while key in str:
+        str = str.replace(key, random.choice(keywords[key]), 1)
 
+    str = _safe_capitalize(str)
+    if str.endswith("s"):
+      return str
+    return str + "s"
 
   if parts[0] == "cowyboy":
     return "Horse Legs Wongowitz"
@@ -175,8 +216,9 @@ def get_daily_entertainment_headline():
 
 
 def test():
-  validate()
-  for i in range(10):
+  #validate()
+  print("FLAUSTRIAN POP CHARTS, FEBRUARY 2 1965:\n")
+  for i in range(1, 11):
     print(str(i) + ".\t" + grammar_generate_recursive("[song_line]"))
   #print(grammar_generate_recursive("[business_headline]"))
 
