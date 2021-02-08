@@ -161,6 +161,154 @@ drama_role; murderer
 
 
 
+
+#### ---- FILM ---- ####
+
+film_line;  [film_title] (starring [actor_or_actress] and [actor_or_actress])
+
+film_title; [filmic_title]
+film_title; [scifi_title]
+film_title; [romance_title]
+film_title; [thriller_title]
+film_title; [name_movie_title]
+film_title; [misc_movie_title]
+
+misc_movie_title; {capplural_film_noun}
+misc_movie_title; {name_first}
+misc_movie_title; [pop_song]
+misc_movie_title; {cap_film_adjective}
+misc_movie_title; {cap_film_noun}?
+
+name_movie_title; {name_first}
+name_movie_title; [folk_song]
+
+film_noun;  [scifi_noun]
+film_noun;  [filmic_noun]
+film_noun;  [romance_noun]
+film_noun;  [thriller_noun]
+film_noun;  [noun]
+film_noun;  [noun]
+
+film_adjective;  [scifi_adjective]
+film_adjective;  [filmic_adjective]
+film_adjective;  [romance_adjective]
+film_adjective;  [thriller_adjective]
+film_adjective;  [adjective]
+film_adjective;  [adjective]
+
+scifi_title;  {cap_scifi_noun} of the {capplural_noun}
+scifi_title; The {cap_scifi_adjective} {cap_scifi_noun}
+scifi_title; {cap_scifi_adjective} {capplural_noun}
+scifi_title; {cap_scifi_adjective} {capplural_film_noun}
+
+scifi_noun; planet
+scifi_noun; land
+scifi_noun; terror
+scifi_noun; power
+scifi_noun; journey
+scifi_noun; angel
+scifi_noun; monster
+scifi_noun; terror
+scifi_noun; curse
+scifi_noun; star
+
+scifi_adjective;  lost
+scifi_adjective;  hidden
+scifi_adjective;  space
+scifi_adjective;  dark
+scifi_adjective;  devil
+scifi_adjective;  strange
+scifi_adjective;  curious
+scifi_adjective;  forever
+scifi_adjective;  dead
+scifi_adjective;  secret
+scifi_adjective;  vampire
+scifi_adjective;  ghost
+
+romance_title; {cap_romance_adjective} {cap_romance_noun}
+romance_title; {cap_film_adjective} {capplural_romance_noun}
+romance_title; The {capplural_romance_noun}
+
+romance_noun; heart
+romance_noun; love
+romance_noun; song
+romance_noun; girl
+romance_noun; guy
+romance_noun; hello
+romance_noun; lover
+romance_noun; holiday
+romance_noun; feeling
+romance_noun; wedding
+romance_noun; bride
+romance_noun; husband
+
+romance_adjective;  marriage
+romance_adjective;  young
+romance_adjective;  lovely
+romance_adjective;  summer
+romance_adjective;  little
+romance_adjective;  dream
+
+thriller_title; {cap_thriller_adjective} {cap_thriller_noun}
+thriller_title; {cap_thriller_adjective} {capplural_thriller_noun}
+thriller_title; {cap_film_adjective} {cap_thriller_noun}
+thriller_title; {cap_thriller_adjective} {cap_film_noun}
+
+thriller_adjective; hot
+thriller_adjective; dead
+thriller_adjective; paper
+thriller_adjective; glass
+thriller_adjective; motorcycle
+thriller_adjective;  submarine
+thriller_adjective;  silent
+thriller_adjective; eagle-type
+thriller_adjective; twisted
+
+thriller_noun;  target
+thriller_noun;  stranger
+thriller_noun;  killer
+thriller_noun;  face
+thriller_noun;  devil
+thriller_noun;  moon
+thriller_noun;  hunter
+thriller_noun;  bandit
+thriller_noun;  countdown
+thriller_noun;  wolf
+thriller_noun;  money
+thriller_noun;  contract
+
+filmic_title; {cap_filmic_adjective} {cap_filmic_noun}
+filmic_title; The {cap_filmic_adjective} {cap_filmic_noun}
+filmic_title; {cap_film_adjective} {cap_filmic_noun}
+filmic_title; The {cap_filmic_adjective} {capplural_film_noun}
+
+filmic_noun;  life
+filmic_noun;  war
+filmic_noun;  day
+filmic_noun;  night
+filmic_noun;  winter
+filmic_noun; cowyboy
+filmic_noun; house
+filmic_noun; valley
+filmic_noun; moon
+filmic_noun; goodbye
+filmic_noun; promise
+filmic_noun; time
+filmic_noun; one
+
+filmic_adjective; thousand
+filmic_adjective; hundred
+filmic_adjective; mad
+filmic_adjective; cold
+filmic_adjective; last
+filmic_adjective; final
+filmic_adjective; great
+filmic_adjective; sun
+filmic_adjective; forbidden
+
+actor_or_actress; [actor]
+actor_or_actress; [actress]
+
 #### ---- MUSICAL ACTS ---- ####
 
 song_line;  [devotional_artist] - [devotional_song]

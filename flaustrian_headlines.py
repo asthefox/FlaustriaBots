@@ -128,33 +128,33 @@ def _special_keyword(key_string):
   parts = key_string[1:-1].lower().strip().split("_")
 
   if parts[0] == "cap":
-    str = "[" + key_string[5:-1] + "]"
+    key_str = "[" + key_string[5:-1] + "]"
     for key in keywords:
-      while key in str:
-        str = str.replace(key, random.choice(keywords[key]), 1)
+      while key in key_str:
+        key_str = key_str.replace(key, random.choice(keywords[key]), 1)
 
-    return _safe_capitalize(str)
+    return _safe_capitalize(key_str)
 
   if parts[0] == "plural":
-    str = key_string[8:-1]
+    key_str = key_string[8:-1]
     for key in keywords:
-      while key in str:
-        str = str.replace(key, random.choice(keywords[key]), 1)
+      while key in key_str:
+        key_str = key_str.replace(key, random.choice(keywords[key]), 1)
 
-    if str.endswith("s"):
-      return str
-    return str + "s"
+    if key_str.endswith("s"):
+      return key_str
+    return key_str + "s"
 
   if parts[0] == "capplural":
-    str = "[" + key_string[11:-1] + "]"
+    key_str = "[" + key_string[11:-1] + "]"
     for key in keywords:
-      while key in str:
-        str = str.replace(key, random.choice(keywords[key]), 1)
+      while key in key_str:
+        key_str = key_str.replace(key, random.choice(keywords[key]), 1)
 
-    str = _safe_capitalize(str)
-    if str.endswith("s"):
-      return str
-    return str + "s"
+    key_str = _safe_capitalize(key_str)
+    if key_str.endswith("s"):
+      return key_str
+    return key_str + "s"
 
   if parts[0] == "cowyboy":
     return "Horse Legs Wongowitz"
@@ -216,11 +216,13 @@ def get_daily_entertainment_headline():
 
 
 def test():
-  #validate()
-  print("FLAUSTRIAN POP CHARTS, FEBRUARY 2 1965:\n")
+  validate()
+  #print("FLAUSTRIAN POP CHARTS, FEBRUARY 2 1965:\n")
   for i in range(1, 11):
-    print(str(i) + ".\t" + grammar_generate_recursive("[song_line]"))
+    print(str(i) + ".\t" + grammar_generate_recursive("[film_line]"))
+  #  print(str(i) + ".\t" + #grammar_generate_recursive("[song_line]"))
   #print(grammar_generate_recursive("[business_headline]"))
+  #print(grammar_generate_recursive("[sports_headline]"))
 
 initialize()
 test()
