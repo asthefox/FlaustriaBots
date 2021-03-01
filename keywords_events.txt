@@ -8,6 +8,54 @@ upcoming_tv_headline; Upcoming TV Event!
 sports_news; [sports_headline]
 business_news; [business_headline]
 
+#### ---- CELEBRITY GOSSIP -- ####
+
+gossip; [celebrity] and [celebrity] were spotted [together_thing] [spotting_preposition].
+
+spotting_preposition; [public_event]
+spotting_preposition; at a [secluded] [location] [celebrity_house]
+spotting_preposition; at a [secluded] [location] [celebrity_house]
+spotting_preposition; in a local [mundane_place]
+spotting_preposition; at [pub]
+
+past_time_frame; yesterday
+past_time_frame; last night
+past_time_frame; yesterday evening
+past_time_frame; today
+past_time_frame; last week
+public_event; at [past_time_frame]'s Porpoise Bay cowyboy duel
+public_event; at [past_time_frame]'s [team] match
+public_event; at [past_time_frame]'s [pop_artist] concert
+public_event; at [past_time_frame]'s taping of [tv_show]
+public_event; on the set of the upcoming film [film_title]
+
+secluded; secluded
+secluded; remote
+secluded; posh
+secluded; ritzy
+secluded; private
+secluded; luxe
+secluded; luxorious
+secluded; fancy-dancy
+
+celebrity_house; cabana
+celebrity_house; bungalow
+celebrity_house; getaway
+celebrity_house; hotel
+celebrity_house; resort
+celebrity_house; lovenest
+celebrity_house; penthouse
+celebrity_house; casino
+
+together_thing; canoodling
+together_thing; commingling
+together_thing; sipping the same milkshake
+together_thing; preparing to snog
+together_thing; pressing their faces together
+together_thing; exchanging meaningless glances
+together_thing; discussing theology
+together_thing; having a time together
+
 
 
 #### ---- BUSINESS ---- ####

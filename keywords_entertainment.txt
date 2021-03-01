@@ -101,9 +101,9 @@ big_episode_type; holiday episode
 big_episode_type; midseason finale
 
 tv_show;  [news_show]
-game_show;  [news_show]
-comedy_show;  [news_show]
-drama_show;  [news_show]
+tv_show;  [game_show]
+tv_show;  [comedy_show]
+tv_show;  [drama_show]
 news_show;  The All-Seeing Eye
 game_show;  Sir Lizardbane's Children's Hour
 game_show;  Dance! Dance! Smogcastle!
