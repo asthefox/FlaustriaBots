@@ -2,7 +2,6 @@
 
 recent_tv_headline; Recent TV Headline!
 music_news; Music News!
-gossip; Celebrity Gossip!
 movie_news; Movie News!
 upcoming_tv_headline; Upcoming TV Event!
 sports_news; [sports_headline]
@@ -10,7 +9,106 @@ business_news; [business_headline]
 
 #### ---- CELEBRITY GOSSIP -- ####
 
-gossip; [celebrity] and [celebrity] were spotted [together_thing] [spotting_preposition].
+gossip; [spotted_together]
+gossip; [vice_gossip]
+
+vice_gossip; [trashy_newsflash] {cap_celebrity} was [spotted] [doing_a_vice] [spotting_preposition]. [finger_wagging]
+
+vice_gossip; [trashy_newsflash] {cap_celebrity} has been known to indulge in [doing_a_vice]. [finger_wagging]
+
+rumor_has_it; Rumor has it
+rumor_has_it; Talk of the town is that
+rumor_has_it; According to sources,
+rumor_has_it; Those in the know insist
+rumor_has_it; Despite attempts to cover it up,
+rumor_has_it; Flaustria is abuzz with rumors that
+
+doing_a_vice; [doing_a_drug] [drug]
+doing_a_vice; [minor_vice]
+doing_a_vice; [major_sin]
+
+minor_vice; reclining louchely
+minor_vice; sitting with elbows on the table
+minor_vice; slouching with doglike posture
+minor_vice; thinking wishfully
+minor_vice; exhibiting left-handedness
+minor_vice; acting with inappropriate joviality
+minor_vice; acting sanctimoniously
+
+major_sin; murdering a vagrant
+major_sin; taking the name of [god] in vain
+major_sin; praising the Sixth One
+major_sin; plotting a coup
+major_sin; selling intelligence to the Vladagari
+major_sin; accosting a gendarme
+major_sin; practicing bartitsu with intent to maim
+
+drug; peppers
+drug; a hit of spot
+drug; ragers
+drug; fashionable drugs
+drug; [adjective] {name_first_f}s
+drug; the [noun] juice
+
+doing_a_drug; taking
+doing_a_drug; popping
+doing_a_drug; consuming
+doing_a_drug; purchasing
+doing_a_drug; crushing
+doing_a_drug; snorfing
+doing_a_drug; scarfing
+
+finger_wagging; Are all [public_figures] without shame?
+finger_wagging; We can only speculate what the world is coming to.
+finger_wagging; Speculation abounds about the limits of this [depravity].
+finger_wagging; There is no word as to whether The Sun was petitioned for forgiveness.
+finger_wagging; We will not speculate that this is true. However, we will assume it is.
+finger_wagging; Authorities will not speculate that this is true. However, they will act as if it were.
+finger_wagging; What's next? {cap_doing_a_vice}?
+finger_wagging; Will this finally be the end for this controversial figure?
+finger_wagging; If true, it is expected that The Sun will immolate this sinner.
+
+
+spotted_together; [trashy_newsflash] {cap_celebrity} and [celebrity] were [spotted] [together_thing] [spotting_preposition]. [romance_speculation]
+
+
+trashy_newsflash; Newsflash!
+trashy_newsflash; Hot item!
+trashy_newsflash; Rumor time!
+trashy_newsflash; Have you heard?
+trashy_newsflash; Did you know? Did you know? Have you heard the news?
+trashy_newsflash; Unbelievable!
+trashy_newsflash; Remarkable!
+trashy_newsflash; Consequential!
+trashy_newsflash; Scandalous!
+trashy_newsflash; A scandal arises!
+trashy_newsflash; Talk of the town!
+trashy_newsflash; Sordid times!
+
+speculation_open; Could [it_this] be
+speculation_open; Is [it_this]
+speculation_open; Surely [it_this] must be
+speculation_open; Do you hear
+
+romance_speculation; [speculation_open] the start of a [romantic_thing]?
+romance_speculation; [speculation_open] evidence of their long-rumored [romantic_thing]?
+romance_speculation; [speculation_open] [romantic_thing] bells ringing?
+romance_speculation; What must longtime [celeb_relation] think?
+romance_speculation; [speculation_open] a [romantic_thing].. or a [romantic_thing]?
+romance_speculation; Has this [relation_general] become something.. closer?
+romance_speculation; Have they been hiding a secret [romantic_thing]?
+romance_speculation; Can you imagine what they do in private?
+romance_speculation; Have they prayed to The Moon to bless their romance?
+romance_speculation; Will society overlook this impropriety?
+romance_speculation; Is there any possible innocent explanation?
+
+celeb_relation; [relation_romantic_m] [celebrity_name_m]
+celeb_relation; [relation_romantic_f] [celebrity_name_f] 
+
+spotted; spotted
+spotted; seen
+spotted; photographed
+spotted; witnessed
 
 spotting_preposition; [public_event]
 spotting_preposition; at a [secluded] [location] [celebrity_house]

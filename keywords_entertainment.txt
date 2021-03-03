@@ -3,7 +3,6 @@
 #### ---- TOP LEVEL ---- ####
 recent_tv_headline; Recent TV Headline!
 music_news; Music News!
-gossip; Celebrity Gossip!
 movie_news; Movie News!
 upcoming_tv_headline; Upcoming TV Event!
 sports_news; [sports_headline]
@@ -23,6 +22,12 @@ celebrity_name; [actress]
 celebrity_name; [politician]
 celebrity_name; [athlete]
 celebrity_name; {cowyboy}
+
+celebrity_name_m; actor
+celebrity_name_m; {name_m}
+celebrity_name_f; actress
+celebrity_name_f; {name_f}
+
 
 actor;  {name_m}
 actor;  [named_actor]
@@ -53,14 +58,14 @@ politician; Melvin Martin
 politician; Clark Shirt
 politician; Decided Be
 politician; Morris Weatherlion
-politician; Persephone Scapegrace
-politician; Lisa Pegasus
 politician; Rufus St. Puzzle
 politician; Kenneth Neverbed
 politician; Cyril Clearbear
-politician; Lydia Imptrotter
 politician; Appolonius Vorp
 politician; Weber Earbarrier
+politician; Persephone Scapegrace
+politician; Lisa Pegasus
+politician; Lydia Imptrotter
 politician; Kelly Vulcanspur
 
 

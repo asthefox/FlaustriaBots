@@ -8,6 +8,15 @@ god;  Mongoose
 god;  Market
 
 # Relationships
+relation_general; colleague
+relation_general; rival
+relation_general; former friend
+relation_general; best friend
+relation_general; bosom buddy
+relation_general; confidant
+relation_general; acquaintance
+relation_general; nemesis
+relation_general; adversary
 relation_family;  [relation_family_f]
 relation_family;  [relation_family_m]
 relation_family_m; son
@@ -25,6 +34,7 @@ relation_romantic_f; lover
 relation_romantic_f; mistress
 relation_romantic_f; fiancee
 relation_romantic_m; husband
+relation_romantic_m; beau
 relation_romantic_m; boyfriend
 relation_romantic_m; lover
 relation_romantic_m; second man
@@ -32,6 +42,8 @@ relation_romantic_m; fiance
 romantic_thing; marriage
 romantic_thing; long-term relationship
 romantic_thing; tryst
+romantic_thing; fling
+romantic_thing; romance
 romantic_thing; first date
 romantic_thing; special friendship
 
@@ -92,6 +104,29 @@ famous; notable
 famous; beloved
 famous; popular
 
+public_figures; celebrities
+public_figures; public figures
+public_figures; stars
+public_figures; superstars
+public_figures; luminaries
+public_figures; famous ones
+
+
+
+depravity; vice
+depravity; depravity
+depravity; degeneracy
+depravity; debauchery
+depravity; sinfulness
+depravity; decadence
+depravity; venality
+depravity; filth
+depravity; prurience
+
+
+it_this; this
+it_this; it
+it_this; that
 
 #### ---- EVENTS ---- ####
 
