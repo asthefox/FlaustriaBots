@@ -23,9 +23,9 @@ celebrity_name; [politician]
 celebrity_name; [athlete]
 celebrity_name; {cowyboy}
 
-celebrity_name_m; actor
+celebrity_name_m; [actor]
 celebrity_name_m; {name_m}
-celebrity_name_f; actress
+celebrity_name_f; [actress]
 celebrity_name_f; {name_f}
 
 

@@ -11,10 +11,39 @@ business_news; [business_headline]
 
 gossip; [spotted_together]
 gossip; [vice_gossip]
+gossip; [celeb_breakup]
+
+celeb_breakup; [trashy_newsflash] The [compliment_adjective] [romantic_thing] between [celebrity] and [celebrity] could be [on_the_rocks] [breakup_reason] 
+
+celeb_breakup; [trashy_newsflash] Everyone's favorite celebrity couple, [celebrity] and [celebrity], could find their [romantic_thing] [on_the_rocks] [breakup_reason]
+
+celeb_breakup; [trashy_newsflash] Rumors have flown about a [romantic_thing] between [celebrity] and [celebrity], but it could all be [on_the_rocks] [breakup_reason]  
+
+breakup_reason; after the latter was [spotted] [doing_a_vice] [spotting_preposition].
+breakup_reason; - [rumor_has_it] [celebrity] is the [floozy] behind the strife.
+breakup_reason; - could the latter's habit of [doing_a_vice] be the cause?
+breakup_reason; - could the notorious [floozy], [celebrity], be involved?
+breakup_reason; - [rumor_has_it] they had a disagreement over a [noun].
+
+on_the_rocks; on the rocks
+on_the_rocks; headed for splitsville
+on_the_rocks; in peril
+on_the_rocks; doomed
+on_the_rocks; called off
+on_the_rocks; nearing its end
+on_the_rocks; on the breakup bus
+
+floozy; interloper
+floozy; floozy
+floozy; homewrecker
+floozy; forbidden lover
+floozy; triangle point
+floozy; paramour
+floozy; lothario
 
 vice_gossip; [trashy_newsflash] {cap_celebrity} was [spotted] [doing_a_vice] [spotting_preposition]. [finger_wagging]
 
-vice_gossip; [trashy_newsflash] {cap_celebrity} has been known to indulge in [doing_a_vice]. [finger_wagging]
+vice_gossip; [trashy_newsflash] [rumor_has_it] {cap_celebrity} has been known to indulge in [doing_a_vice]. [finger_wagging]
 
 rumor_has_it; Rumor has it
 rumor_has_it; Talk of the town is that
@@ -84,6 +113,7 @@ trashy_newsflash; Scandalous!
 trashy_newsflash; A scandal arises!
 trashy_newsflash; Talk of the town!
 trashy_newsflash; Sordid times!
+trashy_newsflash; {cap_compliment_adjective} or [insult_adjective]?
 
 speculation_open; Could [it_this] be
 speculation_open; Is [it_this]

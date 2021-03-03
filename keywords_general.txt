@@ -17,6 +17,8 @@ relation_general; confidant
 relation_general; acquaintance
 relation_general; nemesis
 relation_general; adversary
+relation_general; frenemy
+
 relation_family;  [relation_family_f]
 relation_family;  [relation_family_m]
 relation_family_m; son

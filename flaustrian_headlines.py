@@ -216,10 +216,13 @@ def get_daily_entertainment_headline():
 
 
 def test():
-  validate()
+  #validate()
   #print("FLAUSTRIAN POP CHARTS, FEBRUARY 2 1965:\n")
-  for i in range(1, 5):
-    print(str(i) + ".\t" + grammar_generate_recursive("[gossip]"))
+  print()
+  print(grammar_generate_recursive("[gossip]"))  
+  print()
+  #for i in range(1, 5):
+    #  print(str(i) + ".\t" + grammar_generate_recursive("[gossip]"))
   #  print(str(i) + ".\t" + #grammar_generate_recursive("[song_line]"))
   #print(grammar_generate_recursive("[business_headline]"))
   #print(grammar_generate_recursive("[sports_headline]"))
