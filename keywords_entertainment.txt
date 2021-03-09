@@ -94,21 +94,23 @@ entertainment_headline; [past_episode_buzz] [drama_show]![drama_performance_buzz
 drama_performance_buzz; [actress] gave a [compliment_adjective] performance in the role of [drama_character_f].
 drama_performance_buzz; [actor] gave a [compliment_adjective] performance in the role of [drama_character_m].
 drama_performance_buzz; [actress] stole the show with a  [compliment_adjective] performance as [drama_character_f].
-drama_performance_buzz; [actress] was the clear standout in the role of [drama_character_f].
 drama_performance_buzz; [actor] stole the show with a  [compliment_adjective] performance as [drama_character_m].
-drama_performance_buzz; [actor] was the clear standout in the role of [drama_character_m].
-drama_performance_buzz; [actress] really sold [drama_character_f]'s conflict as the [drama_role].
-drama_performance_buzz; [actor] stole the show with a  [compliment_adjective] performance as [drama_character_m].
+drama_performance_buzz; [actress] really [acted_well] [drama_character_f]'s [drama_thing] as the [drama_role].
+drama_performance_buzz; [actor] really [acted_well] [drama_character_m]'s [drama_thing] as the [drama_role].
 
-sold
-gave life to
-gave depth to
-gave nuance to
-breathed life into 
 
-conflict
-emotions
+acted_well; sold
+acted_well; gave life to
+acted_well; gave depth to
+acted_well; gave nuance to
+acted_well; breathed life into 
 
+drama_thing; conflict
+drama_thing; emotions
+drama_thing; journey
+drama_thing; physicality
+drama_thing; charisma
+drama_thing; struggle
 
 what_did_you_think; What did you think, [ase_audience]?
 what_did_you_think; How would you judge it, [ase_audience]?
