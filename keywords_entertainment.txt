@@ -87,7 +87,42 @@ recent_tv_headline; [recent_big_episode]
     A celebrity or group of people won big (or lost) on a game show.
 
 
-entertainment_headline; Everyone is talking about last night's episode of [fiction_show]! The twist about [character]'s true identity was one that we here at the All-Seeing Eye didn't see coming. What did you think, [ase_audience]?
+entertainment_headline; [past_episode_buzz] [drama_show]! [past_drama_twist] [what_did_you_think]
+
+entertainment_headline; [past_episode_buzz] [drama_show]![drama_performance_buzz] [award_buzz]
+
+drama_performance_buzz; [actress] gave a [compliment_adjective] performance in the role of [drama_character_f].
+drama_performance_buzz; [actor] gave a [compliment_adjective] performance in the role of [drama_character_m].
+drama_performance_buzz; [actress] stole the show with a  [compliment_adjective] performance as [drama_character_f].
+drama_performance_buzz; [actress] was the clear standout in the role of [drama_character_f].
+drama_performance_buzz; [actor] stole the show with a  [compliment_adjective] performance as [drama_character_m].
+drama_performance_buzz; [actor] was the clear standout in the role of [drama_character_m].
+drama_performance_buzz; [actress] really sold [drama_character_f]'s conflict as the [drama_role].
+drama_performance_buzz; [actor] stole the show with a  [compliment_adjective] performance as [drama_character_m].
+
+sold
+gave life to
+gave depth to
+gave nuance to
+breathed life into 
+
+conflict
+emotions
+
+
+what_did_you_think; What did you think, [ase_audience]?
+what_did_you_think; How would you judge it, [ase_audience]?
+what_did_you_think; What say you, [ase_audience]?
+what_did_you_think; Our judges will discuss on tonight's episode of The All-Seeing Eye.
+what_did_you_think; On tonight's episode of The All-Seeing Eye, we will solicit the reaction of a man on the street.
+what_did_you_think; Do you agree with our judges, who called it "[compliment_adjective]"?
+what_did_you_think; Do you agree with our judges, who called it "[insult_adjective]"?
+
+past_episode_buzz; Everyone is talking about last night's episode of 
+past_episode_buzz; Flaustria is abuzz about last night's episode of 
+past_episode_buzz; The biggest event on the airwaves yesterday was a [compliment_adjective] episode of
+past_episode_buzz; {cap_compliment_adjective}! That's what our judges are calling last night's episode of
+past_episode_buzz; {cap_compliment_adjective} or [insult_adjective]? That's the question about yesterday's episode of [fiction_show]
 
 channel;  FBC
 channel;  FBC
@@ -154,6 +189,36 @@ named_drama_character_f;  Emerald
 named_drama_character_f;  Agatha X
 named_drama_character_f;  Prime Ministress
 
+past_drama_twist; Can you believe that [drama_twist_phrase] all along?
+past_drama_twist; As many fans suspected, [drama_twist_phrase].
+past_drama_twist; No one could have guessed that [drama_twist_phrase]!
+past_drama_twist; The clues added up to one surprising conclusion: [drama_twist_phrase] all along.
+past_drama_twist; In a last second twist, it was revealed that  [drama_twist_phrase].
+past_drama_twist; The climactic conclusion revealed that truly [drama_twist_phrase]!
+
+drama_twist_phrase; [drama_character] was the [drama_role]
+drama_twist_phrase; [drama_character] was not the [drama_role]
+drama_twist_phrase; [drama_character] [drama_role_relation] the [drama_role]
+drama_twist_phrase; [drama_character] [drama_role_relation] [drama_character]
+drama_twist_phrase; [drama_twist_relationship]
+drama_twist_phrase; [drama_twist_relationship]
+drama_twist_relationship; [drama_character_f] was [drama_character]'s [relation_family_f]
+drama_twist_relationship; [drama_character_m] was [drama_character]'s [relation_family_m]
+drama_twist_relationship; [drama_character] was [drama_character]'s [relation_general]
+drama_twist_relationship; there was a [romantic_thing] between [drama_character] and [drama_character]
+
+drama_role_relation; is in league with
+drama_role_relation; is working for
+drama_role_relation; is working against
+drama_role_relation; is the same person as
+drama_role_relation; is in communication with
+drama_role_relation; knows the true identity of
+drama_role_relation; was just pretending to be
+drama_role_relation; is in love with
+drama_role_relation; was once in love with
+
+
+
 drama_role; prophecied one
 drama_role; mastermind
 drama_role; traitor
@@ -161,9 +226,9 @@ drama_role; double agent
 drama_role; spy
 drama_role; secret lover
 drama_role; murderer
-
-
-
+drama_role; lost aristocrat
+drama_role; monster
+drama_role; narrator
 
 
 
