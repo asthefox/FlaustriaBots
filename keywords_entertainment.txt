@@ -73,7 +73,7 @@ politician; Kelly Vulcanspur
 
 #### ---- TV ---- ####
 
-recent_tv_headline; [recent_big_episode]
+recent_tv_headline [recent_big_episode]
   Fiction:
     Exciting twist
     What did you think of the [big_episode_type]?
@@ -82,22 +82,52 @@ recent_tv_headline; [recent_big_episode]
     Award-worthiness of performance
     Rumor that an actor might join or leave a show
   Nonfiction:
-    News show - a judge, celebrity, or group of people discussed a recent headline
+
     A celebrity or group of people appeared on a game show or news show.
-    A celebrity or group of people won big (or lost) on a game show.
+    
 
 
-entertainment_headline; [past_episode_buzz] [drama_show]! [past_drama_twist] [what_did_you_think]
+recent_tv_headline; [past_episode_buzz] [drama_show]! [past_drama_twist] [what_did_you_think]
+recent_tv_headline; [past_episode_buzz] [drama_show]! [drama_performance_buzz] [award_buzz]
+recent_tv_headline; A celebrity or group of people won big (or lost) on a game show.
 
-entertainment_headline; [past_episode_buzz] [drama_show]![drama_performance_buzz] [award_buzz]
+upcoming_tv_headline; [future_episode_buzz] [fiction_show]! [cameo_announcement]
+upcoming_tv_headline; [future_episode_buzz] [drama_show]! [twist_speculation]
+upcoming_tv_headline; News show - a judge, celebrity, or group of people discussed a recent headline
 
-drama_performance_buzz; [actress] gave a [compliment_adjective] performance in the role of [drama_character_f].
+cameo_announcement; Rumor has it that [celebrity] will make a special appearance!
+cameo_announcement; According to inside casting news, [celebrity] will make a special appearance.
+cameo_announcement; Could [celebrity], a known fan of the show, make an appearance?
+cameo_announcement; Advertisements promise a special appearance by [celebrity].
+cameo_announcement; {cap_celebrity} is rumored to appear. Could it be to promote their new song and/or dance?
+
+twist_speculation; Rumors have swirled [twist_speculation_phrase]. What do you think, [ase_audience]?
+twist_speculation; Many fans suspect that this episode will finally reveal [twist_speculation_phrase]. Could it be?
+twist_speculation; Our experts have speculated [twist_speculation_phrase]. What do you think, [ase_audience]?
+twist_speculation; Will it live up to the hype, or disappoint?
+twist_speculation; Do you think it can measure up to [tv_audience]'s expectations, [ase_audience]?
+
+twist_speculation_phrase; that [drama_character] is really the [drama_role]
+twist_speculation_phrase; about who could be the [drama_role]
+twist_speculation_phrase; about who [drama_role_relation] the [drama_role]
+twist_speculation_phrase; that [drama_character] [drama_role_relation] [drama_character]
+twist_speculation_phrase; that a [romantic_thing] could finally happen between [drama_character] and [drama_character]
+
+
+
+drama_performance_buzz; [actress] gave a [compliment_adjective] performance in the role of 
+[drama_character_f].
 drama_performance_buzz; [actor] gave a [compliment_adjective] performance in the role of [drama_character_m].
-drama_performance_buzz; [actress] stole the show with a  [compliment_adjective] performance as [drama_character_f].
-drama_performance_buzz; [actor] stole the show with a  [compliment_adjective] performance as [drama_character_m].
+drama_performance_buzz; [actress] stole the show with a [compliment_adjective] performance as [drama_character_f].
+drama_performance_buzz; [actor] stole the show with a [compliment_adjective] performance as [drama_character_m].
 drama_performance_buzz; [actress] really [acted_well] [drama_character_f]'s [drama_thing] as the [drama_role].
 drama_performance_buzz; [actor] really [acted_well] [drama_character_m]'s [drama_thing] as the [drama_role].
 
+award_buzz; Might the Five recognize this performance during Award Season?
+award_buzz; A strong performance to be sure, but is it predestined to receive an Award?
+award_buzz; When the stars align to form Award Season, perhaps this performance will be remembered.
+award_buzz; If the Five will it, could this performance be Worthy of an Award?
+award_buzz; Our Judges deem it to be exceptional, but they are of course not worthy to foretell who is predestined to be Worthy during Award Season.
 
 acted_well; sold
 acted_well; gave life to
@@ -120,11 +150,32 @@ what_did_you_think; On tonight's episode of The All-Seeing Eye, we will solicit 
 what_did_you_think; Do you agree with our judges, who called it "[compliment_adjective]"?
 what_did_you_think; Do you agree with our judges, who called it "[insult_adjective]"?
 
-past_episode_buzz; Everyone is talking about last night's episode of 
-past_episode_buzz; Flaustria is abuzz about last night's episode of 
-past_episode_buzz; The biggest event on the airwaves yesterday was a [compliment_adjective] episode of
-past_episode_buzz; {cap_compliment_adjective}! That's what our judges are calling last night's episode of
-past_episode_buzz; {cap_compliment_adjective} or [insult_adjective]? That's the question about yesterday's episode of [fiction_show]
+
+future_episode_buzz; {cap_tv_audience} is talking about [future_episode_time]'s [big_episode_type] of
+future_episode_buzz; The big event [future_episode_time]? Why, it's the long-awaited [big_episode_type] of
+future_episode_buzz; Finally, [future_episode_time] marks the long-awaited [big_episode_type] of 
+future_episode_buzz; {cap_tv_audience} has been abuzz for weeks, and finally [future_episode_time] they will get to see the [big_episode_type] of 
+
+
+future_episode_time; tonight
+future_episode_time; tomorrow
+future_episode_time; this weekend
+
+past_episode_buzz; {cap_tv_audience} is talking about [past_episode_time]'s episode of 
+past_episode_buzz; {cap_tv_audience} is abuzz about [past_episode_time]'s episode of 
+past_episode_buzz; The biggest event on the airwaves [past_episode_time] was a [compliment_adjective] episode of
+past_episode_buzz; {cap_compliment_adjective}! That's what our judges are calling [past_episode_time]'s episode of
+past_episode_buzz; {cap_compliment_adjective} or [insult_adjective]? That's the question about [past_episode_time]'s episode of [fiction_show]
+past_episode_buzz; Yesterday marked the long-awaited [big_episode_type] of
+
+past_episode_time; yesterday
+past_episode_time; last night
+
+tv_audience; Flaustria
+tv_audience; all Flaustria
+tv_audience; everyone
+tv_audience; the common man
+tv_audience; The All-Seeing Eye
 
 channel;  FBC
 channel;  FBC
@@ -142,10 +193,12 @@ big_episode_type; very special episode
 big_episode_type; holiday episode
 big_episode_type; midseason finale
 
-tv_show;  [news_show]
-tv_show;  [game_show]
-tv_show;  [comedy_show]
-tv_show;  [drama_show]
+tv_show;  [nonfiction_show]
+tv_show;  [fiction_show]
+nonfiction_show;  [news_show]
+nonfiction_show;  [game_show]
+fiction_show;  [drama_show]
+fiction_show; [comedy_show]
 news_show;  The All-Seeing Eye
 game_show;  Sir Lizardbane's Children's Hour
 game_show;  Dance! Dance! Smogcastle!
