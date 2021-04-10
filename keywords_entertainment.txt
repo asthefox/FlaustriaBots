@@ -1,10 +1,10 @@
 # Entertainment Headlines
 
 #### ---- TOP LEVEL ---- ####
-recent_tv_headline; Recent TV Headline!
+tv_news; [recent_tv_headline]
+tv_news; [upcoming_tv_headline]
 music_news; Music News!
 movie_news; Movie News!
-upcoming_tv_headline; Upcoming TV Event!
 sports_news; [sports_headline]
 business_news; [business_headline]
 
@@ -68,32 +68,81 @@ politician; Lisa Pegasus
 politician; Lydia Imptrotter
 politician; Kelly Vulcanspur
 
+notable_group;  [team]
+notable_group;  The Smogcastle Urchin's Choir
+notable_group;  Priests of The [god]
+notable_group;  The [location] {cap_noun} {cap_group_purpose} {cap_group_type}
+notable_group;  The {cap_noun} {cap_group_purpose} {cap_group_type}
 
+group_purpose; enthusiast
+group_purpose; crafter
+group_purpose; discussion
+group_purpose; investigation
+group_purpose; censorship
 
+group_type; club
+group_type; society
+group_type; league
+group_type; association
+group_type; lodge
 
 #### ---- TV ---- ####
 
-recent_tv_headline [recent_big_episode]
-  Fiction:
-    Exciting twist
-    What did you think of the [big_episode_type]?
-    Celebrity cameo
-    Was it a ripoff?
-    Award-worthiness of performance
-    Rumor that an actor might join or leave a show
-  Nonfiction:
-
-    A celebrity or group of people appeared on a game show or news show.
-    
-
-
 recent_tv_headline; [past_episode_buzz] [drama_show]! [past_drama_twist] [what_did_you_think]
 recent_tv_headline; [past_episode_buzz] [drama_show]! [drama_performance_buzz] [award_buzz]
-recent_tv_headline; A celebrity or group of people won big (or lost) on a game show.
+recent_tv_headline; [past_episode_buzz] [game_show]! [game_show_outcome]
 
 upcoming_tv_headline; [future_episode_buzz] [fiction_show]! [cameo_announcement]
 upcoming_tv_headline; [future_episode_buzz] [drama_show]! [twist_speculation]
-upcoming_tv_headline; News show - a judge, celebrity, or group of people discussed a recent headline
+upcoming_tv_headline; [news_show_preview] [news_hype]
+
+news_show_preview;  On [future_episode_time]'s episode of [news_show], [game_show_contestant] will [discuss] [news_trend].
+
+discuss; discuss
+discuss; debate
+discuss; examine
+discuss; judge
+discuss; make light of
+
+news_trend; the recent [event_word] about a [adjective] [misc_noun]
+news_trend; the latest [misc_noun] [event_word] 
+news_trend; the [event_word] caused by [celebrity]
+
+news_hype; Tune in to find out what to think!
+news_hype; How it might affect Flaustria's [misc_noun] industry?
+news_hype; Will they find it [compliment_adjective] or [insult_adjective]?
+news_hype; How do you think they will rate it: [compliment_adjective] or [insult_adjective]?
+news_hype; Find out how these happenings might affect [tv_audience]!
+
+game_show_outcome;  [game_show_contestant] [game_show_outcome_good].
+game_show_outcome;  [game_show_contestant] [game_show_outcome_bad].
+game_show_outcome;  [game_show_contestant] [game_show_outcome_good]. [what_did_you_think]
+game_show_outcome;  [game_show_contestant] [game_show_outcome_bad]. [what_did_you_think]
+
+game_show_contestant; {cap_celebrity}
+game_show_contestant; [notable_group]
+
+game_show_outcome_good;  [game_show_outcome_good_1] [game_show_outcome_good_2]
+game_show_outcome_good_1;  won big 
+game_show_outcome_good_1;  triumphed
+game_show_outcome_good_1;  took home the big prize
+game_show_outcome_good_1;  advanced to the next round 
+game_show_outcome_good_1;  pleased The [god] 
+game_show_outcome_good_1;  became an audience favorite
+game_show_outcome_good_2;  with a [compliment_adjective] performance
+game_show_outcome_good_2;  in a [compliment_adjective] showing
+game_show_outcome_good_2;  and won the hearts of [tv_audience]
+game_show_outcome_good_2;  with record-setting marks
+
+game_show_outcome_bad;  [game_show_outcome_bad_1] [game_show_outcome_bad_2]
+game_show_outcome_bad_1;  came up short
+game_show_outcome_bad_1;  made a dog's breakfast
+game_show_outcome_bad_1;  lost big
+game_show_outcome_bad_1;  faced elimination
+game_show_outcome_bad_2;  with a [insult_adjective] performance
+game_show_outcome_bad_2;  in a [insult_adjective] showing
+game_show_outcome_bad_2;  but won the hearts of [tv_audience] nonetheless
+game_show_outcome_bad_2;  in an episode they'll hope [tv_audience] will soon forget
 
 cameo_announcement; Rumor has it that [celebrity] will make a special appearance!
 cameo_announcement; According to inside casting news, [celebrity] will make a special appearance.
@@ -113,10 +162,7 @@ twist_speculation_phrase; about who [drama_role_relation] the [drama_role]
 twist_speculation_phrase; that [drama_character] [drama_role_relation] [drama_character]
 twist_speculation_phrase; that a [romantic_thing] could finally happen between [drama_character] and [drama_character]
 
-
-
-drama_performance_buzz; [actress] gave a [compliment_adjective] performance in the role of 
-[drama_character_f].
+drama_performance_buzz; [actress] gave a [compliment_adjective] performance in the role of [drama_character_f].
 drama_performance_buzz; [actor] gave a [compliment_adjective] performance in the role of [drama_character_m].
 drama_performance_buzz; [actress] stole the show with a [compliment_adjective] performance as [drama_character_f].
 drama_performance_buzz; [actor] stole the show with a [compliment_adjective] performance as [drama_character_m].
@@ -150,6 +196,19 @@ what_did_you_think; On tonight's episode of The All-Seeing Eye, we will solicit 
 what_did_you_think; Do you agree with our judges, who called it "[compliment_adjective]"?
 what_did_you_think; Do you agree with our judges, who called it "[insult_adjective]"?
 
+ase_audience; dear audience
+ase_audience; dearest Flaustria
+
+ase_audience_endearment;  dearest
+ase_audience_endearment;  beloved
+ase_audience_endearment;  precious
+ase_audience_endearment;  vigilant
+ase_audience_endearment;  cherished
+ase_audience_noun; audience 
+ase_audience_noun; viewers
+ase_audience_noun; Flaustria
+ase_audience_noun; goldfish
+ase_audience_noun; newswatchers
 
 future_episode_buzz; {cap_tv_audience} is talking about [future_episode_time]'s [big_episode_type] of
 future_episode_buzz; The big event [future_episode_time]? Why, it's the long-awaited [big_episode_type] of
@@ -165,8 +224,9 @@ past_episode_buzz; {cap_tv_audience} is talking about [past_episode_time]'s epis
 past_episode_buzz; {cap_tv_audience} is abuzz about [past_episode_time]'s episode of 
 past_episode_buzz; The biggest event on the airwaves [past_episode_time] was a [compliment_adjective] episode of
 past_episode_buzz; {cap_compliment_adjective}! That's what our judges are calling [past_episode_time]'s episode of
-past_episode_buzz; {cap_compliment_adjective} or [insult_adjective]? That's the question about [past_episode_time]'s episode of [fiction_show]
+past_episode_buzz; {cap_compliment_adjective} or [insult_adjective]? That's the question about [past_episode_time]'s episode of
 past_episode_buzz; Yesterday marked the long-awaited [big_episode_type] of
+past_episode_buzz; What were you doing [past_episode_time]? The rest of Flaustria was watching the big episode of
 
 past_episode_time; yesterday
 past_episode_time; last night
@@ -212,6 +272,10 @@ drama_show; Penumbra
 comedy_character; [comedy_character_f]
 comedy_character; [comedy_character_m]
 comedy_character_f; [named_comedy_character_f]
+comedy_character_f; [named_comedy_character_f]
+comedy_character_f; [named_comedy_character_f]
+comedy_character_m; [named_comedy_character_m]
+comedy_character_m; [named_comedy_character_m]
 comedy_character_m; [named_comedy_character_m]
 comedy_character_f; {name_f}
 comedy_character_m; {name_m}
@@ -219,6 +283,10 @@ comedy_character_m; {name_m}
 drama_character; [drama_character_f]
 drama_character; [drama_character_m]
 drama_character_f; [named_drama_character_f]
+drama_character_f; [named_drama_character_f]
+drama_character_f; [named_drama_character_f]
+drama_character_m; [named_drama_character_m]
+drama_character_m; [named_drama_character_m]
 drama_character_m; [named_drama_character_m]
 drama_character_f; {name_f}
 drama_character_m; {name_m}

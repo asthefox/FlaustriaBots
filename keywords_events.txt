@@ -1,10 +1,6 @@
 #### ---- TOP LEVEL ---- ####
 
-recent_tv_headline; Recent TV Headline!
-music_news; Music News!
-movie_news; Movie News!
-upcoming_tv_headline; Upcoming TV Event!
-sports_news; [sports_headline]
+gossip_news; [gossip]
 business_news; [business_headline]
 
 #### ---- CELEBRITY GOSSIP -- ####
