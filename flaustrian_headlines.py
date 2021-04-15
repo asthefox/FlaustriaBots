@@ -112,6 +112,15 @@ def _cleanup(str):
   # Replace "Person'S with "Person's" (artifact of .title())
   str = str.replace("'S", "'s")
 
+  # Replace doubled punctuation
+  str = str.replace("  ", " ")
+  str = str.replace("!!", "!")
+  str = str.replace("!.", ".")
+  str = str.replace("!?", "?")
+  str = str.replace("?!", "?")
+  str = str.replace("?.", "?")
+  str = str.replace("??", "?")
+
   return str
 
 def _safe_capitalize(str):
@@ -219,10 +228,11 @@ def test():
   #validate()
   #print("FLAUSTRIAN POP CHARTS, FEBRUARY 2 1965:\n")
   print()
-  print(grammar_generate_recursive("[gossip]"))  
+  print(grammar_generate_recursive("[tv_news]"))  
   print()
   #for i in range(1, 5):
-    #  print(str(i) + ".\t" + grammar_generate_recursive("[gossip]"))
+  #  print(grammar_generate_recursive("[tv_news]\n"))
+  #  print(str(i) + ".\t" + grammar_generate_recursive("[recent_tv_headline]"))
   #  print(str(i) + ".\t" + #grammar_generate_recursive("[song_line]"))
   #print(grammar_generate_recursive("[business_headline]"))
   #print(grammar_generate_recursive("[sports_headline]"))

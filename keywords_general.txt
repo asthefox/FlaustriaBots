@@ -153,6 +153,9 @@ other_event;   bacchanalia
 other_event;   carnival
 other_event;   detente
 other_event;   agreement
+other_event;   craze
+other_event;   fashion
+other_event;   trend
 
 negative_event;   crisis
 negative_event;   deadlock
@@ -169,6 +172,9 @@ negative_event;   blocade
 negative_event;   protest
 negative_event;   debacle
 negative_event;   affair
+negative_event;   furor
+negative_event;   ado
+negative_event;   uproar
 
 
 #### ---- RANDOM NOUNS ---- ####
@@ -231,9 +237,9 @@ misc_noun;  fortress
 misc_noun;  music
 misc_noun;  statue
 misc_noun;  book
-misc_noun;  housewares
+misc_noun;  houseware
 misc_noun;  tea
-misc_noun;  sports
+misc_noun;  sport
 misc_noun;  comedy
 misc_noun;  roller skating
 misc_noun;  painting
@@ -256,8 +262,6 @@ misc_noun;  shoe
 misc_noun;  telephone
 misc_noun;  prison
 misc_noun;  architect
-misc_noun;  association football
-misc_noun;  Pommermanian-rules football
 misc_noun;  shower
 misc_noun;  cricket
 misc_noun;  library
