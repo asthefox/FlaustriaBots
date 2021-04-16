@@ -16,16 +16,10 @@ class PersonalityTestCog(commands.Cog):
         else:
             print(f"Can't connect to guild:{self.guild_token}")
 
-    @commands.Cog.listener()
-    async def on_message(self,message):
-      if message.author == self.bot.user: 
-            return
 
-      valid_command = '!personality' in message.content.lower()
-      
-      if valid_command:
-        response = 'T T T Testing personality test bot...'
-        await message.channel.send(response)
+    @commands.command(name="personality")
+    async def personality_test_message(self, ctx):
+      await ctx.send('Testing personality test bot...')
 
 
 def setup(bot):
