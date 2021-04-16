@@ -21,6 +21,12 @@ class PersonalityTestCog(commands.Cog):
     async def personality_test_message(self, ctx):
       await ctx.send('Testing personality test bot...')
 
+    @commands.command(name="react")
+    async def test_react(self, ctx):
+      await ctx.send("working")
+      reaction = "👍"
+      await ctx.message.add_reaction(emoji=reaction)
+
 
 def setup(bot):
     bot.add_cog(PersonalityTestCog(bot))

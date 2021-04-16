@@ -2,6 +2,7 @@ import discord
 from discord.ext import tasks, commands
 import asyncpg
 from datetime import datetime, time
+from importlib import reload  
 
 import token_loader
 import flaustrian_headlines
@@ -11,10 +12,10 @@ class DailyNewsCog(commands.Cog):
 
   #### ---- PSEUDOCONSTANTS ---- ####
 
-  refresh_time='0:00' #time is in 24hr format
-  news_post_time='10:00'
-  entertainment_post_time='13:30'
-  test_post_time = '15:05'
+  refresh_time='07:00' #time is in 24hr format
+  news_post_time='17:00'
+  entertainment_post_time='20:30'
+  test_post_time = '23:15'
 
   #### ---- HELP METHODS ---- ####
 
@@ -39,7 +40,7 @@ class DailyNewsCog(commands.Cog):
 
   def _isTimeFormat(self, input):
     try:
-        time.strptime(input, '%H:%M')
+        datetime.strptime(input, '%H:%M')
         return True
     except ValueError:
         return False
@@ -119,6 +120,12 @@ class DailyNewsCog(commands.Cog):
     database.refresh_token()
     await ctx.send("Database token refreshed.")
 
+  @commands.command(name="news_debug_reload_lib")
+  async def debug_reload_library(self, ctx):
+    global database
+    database = reload(database)
+    await ctx.send("Library reloaded")
+
   @commands.command(name="refresh_headlines")
   async def debug_refresh_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
@@ -136,6 +143,7 @@ class DailyNewsCog(commands.Cog):
     else:
       await ctx.send("Sorry, only admins can advance the news.")
 
+
   @commands.command(name="print_headlines")
   async def debug_print_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
@@ -145,6 +153,11 @@ class DailyNewsCog(commands.Cog):
       await ctx.send("ENTERTAINMENT: " + headline)
     else:
       await ctx.send("Sorry, only admins can foresee the news.")
+
+  @commands.command(name="news_current_time")
+  async def debug_print_time(self, ctx):
+    now=datetime.strftime(datetime.now(),'%H:%M')
+    await ctx.send("The time is: " + now)
 
   @commands.command(name="change_news_time")
   async def debug_change_news_time(self, ctx, event_arg, value_arg):
@@ -193,11 +206,11 @@ class DailyNewsCog(commands.Cog):
       channel = self.news_channel
     elif category == "entertainment":
       channel = self.entertainment_channel
-    await self.bot.send_message(channel, headline)
+    await channel.send(headline)
     
   async def test_post(self):
     message_channel=self.bot.get_channel(self.message_channel_id)
-    await self.bot.send_message(message_channel,"This is a test of the Flaustrian Broadcasting System.")
+    await message_channel.send("This is a test of the Flaustrian Broadcasting System.")
 
 
   #### ---- TAKEDOWN METHODS ---- ####
