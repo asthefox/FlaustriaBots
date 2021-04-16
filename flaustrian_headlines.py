@@ -11,6 +11,9 @@ special_headlines = {}
 # TODO: {name_(f|m|first|last) (keyword)}
 
 def initialize():
+  global keywords, special_headlines
+  keywords = {}
+  special_headlines = {}
   load_keywords("keywords_general.txt")
   load_keywords("keywords_entertainment.txt")
   load_keywords("keywords_events.txt")
@@ -222,6 +225,46 @@ def get_daily_entertainment_headline():
   if weekday == 5:
     return "Movie News"  
   return "Music Chart"
+
+def get_headline(category, headline_date):
+  
+  date_str = headline_date.strftime("%Y-%m-%d")
+  headline_profile = (date_str, category)
+  if headline_profile in special_headlines:
+    return special_headlines[headline_profile]
+
+  weekday = headline_date.weekday()
+
+  if category == "entertainment":
+    if weekday == 0:
+      return grammar_generate_recursive("[recent_tv_headline]")
+    if weekday == 1:
+      return "TODO: MOVIE CHARTS"
+    if weekday == 2:
+      return grammar_generate_recursive("[gossip]")
+    if weekday == 3:
+      return grammar_generate_recursive("[sports_headline]")
+    if weekday == 4:
+      return grammar_generate_recursive("[upcoming_tv_headline]")
+    if weekday == 5:
+      return grammar_generate_recursive("[gossip]")
+    return "TODO: MUSIC CHARTS"
+
+  if category == "news":
+    if weekday == 0:
+      return grammar_generate_recursive("[business_headline]")
+    if weekday == 1:
+      return grammar_generate_recursive("[business_headline]")
+    if weekday == 2:
+      return grammar_generate_recursive("[business_headline]")
+    if weekday == 3:
+      return grammar_generate_recursive("[business_headline]")
+    if weekday == 4:
+      return grammar_generate_recursive("[business_headline]")
+    if weekday == 5:
+      return grammar_generate_recursive("[business_headline]")
+    grammar_generate_recursive("[business_headline]")
+  return ""
 
 
 def test():

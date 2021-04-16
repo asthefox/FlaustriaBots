@@ -6,7 +6,6 @@ tv_news; [upcoming_tv_headline]
 music_news; Music News!
 movie_news; Movie News!
 sports_news; [sports_headline]
-business_news; [business_headline]
 
 
 #### ---- CELEBRITIES ---- ####
