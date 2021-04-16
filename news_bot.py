@@ -14,11 +14,11 @@ class DailyNewsCog(commands.Cog):
   refresh_time='0:00' #time is in 24hr format
   news_post_time='10:00'
   entertainment_post_time='13:30'
-
+  test_post_time = '15:05'
 
   #### ---- HELP METHODS ---- ####
 
-  async def _find_channel(self, name):
+  def _find_channel(self, name):
     channels = list(filter(lambda chan: name in chan.name.lower(), self.guild.channels))
 
     if len(channels) == 0:
@@ -44,6 +44,22 @@ class DailyNewsCog(commands.Cog):
     except ValueError:
         return False
 
+  def _connect_channels(self):
+    try:
+      if not self.guild: 
+        raise AttributeError
+    except AttributeError:
+      self.guild = discord.utils.find(lambda g: g.name == self.guild_token, self.bot.guilds)
+    try:
+      if not self.entertainment_channel: 
+        raise AttributeError
+    except AttributeError:
+      self.entertainment_channel = self._find_channel("flaustrian_entertainment")
+    try: 
+      if not self.news_channel:
+        raise AttributeError
+    except AttributeError:
+      self.news_channel = self._find_channel("flaustrian_news")
 
   #### ---- SETUP METHODS ---- ####
 
@@ -51,20 +67,18 @@ class DailyNewsCog(commands.Cog):
       self.bot = bot
       self.guild_token = token_loader.GUILD
       self.data = []
-      self.batch_update.add_exception_type(asyncpg.PostgresConnectionError)
-      self.batch_update.start()
-
+      self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
+      self.time_update.start()
+      self._connect_channels()
 
   @commands.Cog.listener()
   async def on_ready(self):
-      self.guild = discord.utils.find(lambda g: g.name == self.guild_token, self.bot.guilds)
+      self._connect_channels()
       if self.guild:
           print(f"{self.bot.user} is connected to the following guild:\n{self.guild.name} (id: {self.guild.id})")
-
-          self.entertainment_channel = await self._find_channel("flaustrian_entertainment")
-          self.news_channel = await self._find_channel("flaustrian_news")
       else:
           print(f"Can't connect to guild:{self.guild_token}")
+      
 
 
   #### ---- SETTING / GETTING HEADLINES FROM DATABASE ---- ####
@@ -87,17 +101,35 @@ class DailyNewsCog(commands.Cog):
 
   #### ---- DEBUG COMMANDS ---- ####
   
+  @commands.command(name="news_hi")
+  async def news_hi(self, ctx):
+    await ctx.send("hi from the news")
+
+  @commands.command(name="news_debug_connection")
+  async def debug_connection(self, ctx):
+    if self.guild:
+      await ctx.send("Guild: " + str(self.guild.id))
+      await ctx.send(self.news_channel)
+      await ctx.send(self.entertainment_channel)
+    else:
+      await ctx.send("No guild.")
+
+  @commands.command(name="news_debug_reauth")
+  async def debug_reauthenticate_db(self, ctx):
+    database.refresh_token()
+    await ctx.send("Database token refreshed.")
+
   @commands.command(name="refresh_headlines")
-  async def debug_refresh_headlines(self, ctx, *, member: discord.Member = None):
-    if member.guild_permissions.administrator:
-      self.refresh_headlines()
+  async def debug_refresh_headlines(self, ctx):
+    if ctx.author.guild_permissions.administrator:
+      await self.refresh_headlines()
       await ctx.send("Headlines refreshed.")
     else:
       await ctx.send("Sorry, only admins can change the news.")
 
   @commands.command(name="post_headlines")
-  async def debug_post_headlines(self, ctx, *, member: discord.Member = None):
-    if member.guild_permissions.administrator:
+  async def debug_post_headlines(self, ctx):
+    if ctx.author.guild_permissions.administrator:
       #headline = self._retrieve_daily_headline("news")
       await self.post_headline("news")
       await self.post_headline("entertainment")
@@ -105,8 +137,8 @@ class DailyNewsCog(commands.Cog):
       await ctx.send("Sorry, only admins can advance the news.")
 
   @commands.command(name="print_headlines")
-  async def debug_print_headlines(self, ctx, *, member: discord.Member = None):
-    if member.guild_permissions.administrator:
+  async def debug_print_headlines(self, ctx):
+    if ctx.author.guild_permissions.administrator:
       headline = self._retrieve_daily_headline("news")
       await ctx.send("NEWS: " + headline)
       headline = self._retrieve_daily_headline("entertainment")
@@ -115,8 +147,8 @@ class DailyNewsCog(commands.Cog):
       await ctx.send("Sorry, only admins can foresee the news.")
 
   @commands.command(name="change_news_time")
-  async def debug_change_news_time(self, ctx, event_arg, value_arg, *, member: discord.Member = None):
-    if member.guild_permissions.administrator:
+  async def debug_change_news_time(self, ctx, event_arg, value_arg):
+    if ctx.author.guild_permissions.administrator:
       if not self._isTimeFormat(value_arg):
         await ctx.send("Sorry, could not convert " + value_arg + " to a valid time.")
       elif event_arg == "refresh":
@@ -128,6 +160,9 @@ class DailyNewsCog(commands.Cog):
       elif event_arg == "entertainment":
         self.entertainment_post_time = value_arg
         await ctx.send("The entertainment headline will now post every day at " + value_arg + ".")
+      elif event_arg == "test":
+        self.test_post_time = value_arg
+        await ctx.send("The test will now post every day at " + value_arg + ".")
       else:
         await ctx.send("Sorry, could not recognize news event " + event_arg + ". Must be news, entertainment, or refresh.")
     else:
@@ -137,17 +172,16 @@ class DailyNewsCog(commands.Cog):
   #### ---- TIMED TASKS ---- ####
 
   @tasks.loop(minutes=1.0)
-  async def batch_update(self):
-      async with self.bot.pool.acquire() as con:
-        now=datetime.strftime(datetime.now(),'%H:%M')
-        if now == self.refresh_time:
-          self.refresh_headlines()
-        if now == self.news_post_time:
-          self.post_headline("news")
-        if now == self.entertainment_post_time:
-          self.post_headline("entertainment")
-        if now == '15:20':
-          self.test_post()
+  async def time_update(self):
+    now=datetime.strftime(datetime.now(),'%H:%M')
+    if now == self.refresh_time:
+      await self.refresh_headlines()
+    if now == self.news_post_time:
+      await self.post_headline("news")
+    if now == self.entertainment_post_time:
+      await self.post_headline("entertainment")
+    if now == self.test_post_time:
+      await self.test_post()
 
   async def refresh_headlines(self):
     self._generate_daily_headline("news")

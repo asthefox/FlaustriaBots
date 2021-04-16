@@ -18,11 +18,18 @@ def update(path, value):
     print("Firebase Wrapper Error: The Firebase has not been initialized.")
   db.child(path).update(value, user['idToken'])
 
+def refresh_token():
+  global user
+  auth = firebase.auth()
+  load_dotenv()
+  username = os.getenv('FIREBASE_USERNAME')
+  password = os.getenv('FIREBASE_PASSWORD')
+  user = auth.sign_in_with_email_and_password(username, password)
 
 def _init_database():
-
   global user
   global db
+  global firebase
 
   print("Initializing database...")
 
