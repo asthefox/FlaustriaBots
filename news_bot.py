@@ -70,7 +70,7 @@ class DailyNewsCog(commands.Cog):
   #### ---- SETTING / GETTING HEADLINES FROM DATABASE ---- ####
 
   def _retrieve_daily_headline(self, category):
-    headline_path = self._get_headline_path(self.guild.id, category)
+    headline_path = self._get_todays_headline_path(self.guild.id, category)
     headline_query = database.get(headline_path)
 
     if headline_query == None:
@@ -80,9 +80,10 @@ class DailyNewsCog(commands.Cog):
     return headline_query
 
   def _generate_daily_headline(self, category):
-    pass
-    # TODO: Implement adding new headline to Firebase
-
+    headline = flaustrian_headlines.get_headline(category, datetime.today())
+    headline_path = self._get_todays_headline_path(self.guild.id, category)
+    database.set(headline_path, headline)
+    
 
   #### ---- DEBUG COMMANDS ---- ####
   
