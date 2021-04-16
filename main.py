@@ -16,6 +16,7 @@ ase_bot.load_extension("news_bot")
 
 glaucon_bot = commands.Bot(command_prefix='!')
 glaucon_bot.load_extension("glaucon_bot")
+glaucon_bot.load_extension("personality_test_bot")
 
 #start the flask server
 keep_alive()
