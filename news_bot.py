@@ -1,6 +1,7 @@
 import discord
 from discord.ext import tasks, commands
-from datetime import datetime
+import asyncpg
+from datetime import datetime, time
 
 import token_loader
 import flaustrian_headlines
@@ -36,12 +37,23 @@ class DailyNewsCog(commands.Cog):
     todays_date = datetime.now().strftime("%Y/%m/%d")
     return self._get_headline_path(guild_id, category, todays_date)
 
+  def _isTimeFormat(self, input):
+    try:
+        time.strptime(input, '%H:%M')
+        return True
+    except ValueError:
+        return False
+
 
   #### ---- SETUP METHODS ---- ####
 
   def __init__(self, bot):
       self.bot = bot
       self.guild_token = token_loader.GUILD
+      self.data = []
+      self.batch_update.add_exception_type(asyncpg.PostgresConnectionError)
+      self.batch_update.start()
+
 
   @commands.Cog.listener()
   async def on_ready(self):
@@ -74,9 +86,51 @@ class DailyNewsCog(commands.Cog):
 
   #### ---- DEBUG COMMANDS ---- ####
   
-  # TODO: Refresh daily headlines
-  # TODO: Print daily headlines
-  # TODO: Change time for refresh/news/entertainment
+  @commands.command(name="refresh_headlines")
+  async def debug_refresh_headlines(self, ctx, *, member: discord.Member = None):
+    if member.guild_permissions.administrator:
+      self.refresh_headlines()
+      await ctx.send("Headlines refreshed.")
+    else:
+      await ctx.send("Sorry, only admins can change the news.")
+
+  @commands.command(name="post_headlines")
+  async def debug_post_headlines(self, ctx, *, member: discord.Member = None):
+    if member.guild_permissions.administrator:
+      #headline = self._retrieve_daily_headline("news")
+      await self.post_headline("news")
+      await self.post_headline("entertainment")
+    else:
+      await ctx.send("Sorry, only admins can advance the news.")
+
+  @commands.command(name="print_headlines")
+  async def debug_print_headlines(self, ctx, *, member: discord.Member = None):
+    if member.guild_permissions.administrator:
+      headline = self._retrieve_daily_headline("news")
+      await ctx.send("NEWS: " + headline)
+      headline = self._retrieve_daily_headline("entertainment")
+      await ctx.send("ENTERTAINMENT: " + headline)
+    else:
+      await ctx.send("Sorry, only admins can foresee the news.")
+
+  @commands.command(name="change_news_time")
+  async def debug_change_news_time(self, ctx, event_arg, value_arg, *, member: discord.Member = None):
+    if member.guild_permissions.administrator:
+      if not self._isTimeFormat(value_arg):
+        await ctx.send("Sorry, could not convert " + value_arg + " to a valid time.")
+      elif event_arg == "refresh":
+        self.refresh_time = value_arg
+        await ctx.send("The daily headlines will now refresh every day at " + value_arg + ".")
+      elif event_arg == "news":
+        self.news_post_time = value_arg
+        await ctx.send("The news headline will now post every day at " + value_arg + ".")
+      elif event_arg == "entertainment":
+        self.entertainment_post_time = value_arg
+        await ctx.send("The entertainment headline will now post every day at " + value_arg + ".")
+      else:
+        await ctx.send("Sorry, could not recognize news event " + event_arg + ". Must be news, entertainment, or refresh.")
+    else:
+      await ctx.send("Sorry, only admins can foresee the news.")
 
 
   #### ---- TIMED TASKS ---- ####
@@ -109,6 +163,7 @@ class DailyNewsCog(commands.Cog):
   async def test_post(self):
     message_channel=self.bot.get_channel(self.message_channel_id)
     await self.bot.send_message(message_channel,"This is a test of the Flaustrian Broadcasting System.")
+
 
   #### ---- TAKEDOWN METHODS ---- ####
 
