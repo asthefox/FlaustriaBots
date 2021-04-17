@@ -16,17 +16,23 @@ class PersonalityTestCog(commands.Cog):
         else:
             print(f"Can't connect to guild:{self.guild_token}")
 
-
-    @commands.command(name="personality")
-    async def personality(self, ctx):
-      await ctx.send('Testing personality test bot...')
-
     @commands.command(name="question")
     async def question(self, ctx):
-      msg = await ctx.send("test question")
-      reactions = ['♨', '🐡', '🐍', '🐔']
-      for reaction in reactions:
-        await msg.add_reaction(emoji=reaction)
+      await self.ask_question(ctx.channel)
+
+    @commands.Cog.listener()
+    async def on_reaction_add(self, reaction, user):
+      if reaction.count > 1:
+        response = f'answer: {reaction.emoji}'
+        await reaction.message.channel.send(response)
+        await self.ask_question(reaction.message.channel)
+
+    async def ask_question(self, channel):
+      question = "What's the answer to the question?\n🐔 - chickens\n🐍 - snakes"
+      answers = ['🐍', '🐔']
+      msg = await channel.send(question)
+      for answer in answers:
+        await msg.add_reaction(emoji=answer)
 
 
 def setup(bot):
