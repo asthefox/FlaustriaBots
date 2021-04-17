@@ -6,13 +6,13 @@ import token_loader
 import asyncio
 from threading import Thread
 
-inside_track_bot = commands.Bot(command_prefix='!')
-inside_track_bot.load_extension("inside_track_bot")
-inside_track_bot.load_extension("economy")
-inside_track_bot.load_extension("cowyboys")
+inside_track_bot = commands.Bot(command_prefix='IT!')
+#inside_track_bot.load_extension("inside_track_bot")
+#inside_track_bot.load_extension("economy")
+#inside_track_bot.load_extension("cowyboys")
 
-ase_bot = commands.Bot(command_prefix='!ase')
-ase_bot.load_extension("news_bot")
+ase_bot = commands.Bot(command_prefix='ASE!')
+#ase_bot.load_extension("news_bot")
 
 glaucon_bot = commands.Bot(command_prefix='!')
 glaucon_bot.load_extension("glaucon_bot")

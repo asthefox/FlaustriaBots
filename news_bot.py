@@ -12,7 +12,7 @@ class DailyNewsCog(commands.Cog):
 
   #### ---- PSEUDOCONSTANTS ---- ####
 
-  refresh_time='07:00' #time is in 24hr format
+  refresh_time='08:05' #time is in 24hr format
   news_post_time='17:00'
   entertainment_post_time='20:30'
   test_post_time = '23:15'
@@ -51,6 +51,8 @@ class DailyNewsCog(commands.Cog):
         raise AttributeError
     except AttributeError:
       self.guild = discord.utils.find(lambda g: g.name == self.guild_token, self.bot.guilds)
+      if not self.guild:
+        raise AttributeError
     try:
       if not self.entertainment_channel: 
         raise AttributeError
@@ -70,7 +72,11 @@ class DailyNewsCog(commands.Cog):
       self.data = []
       self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
       self.time_update.start()
-      self._connect_channels()
+      try:
+        self._connect_channels()
+        print("News bot loaded as extension and connected to guild.")
+      except AttributeError:
+        print("News bot waiting for setup to connect to guild.")
 
   @commands.Cog.listener()
   async def on_ready(self):
@@ -102,6 +108,7 @@ class DailyNewsCog(commands.Cog):
 
   #### ---- DEBUG COMMANDS ---- ####
   
+  """"
   @commands.command(name="news_hi")
   async def news_hi(self, ctx):
     await ctx.send("hi from the news")
@@ -120,13 +127,29 @@ class DailyNewsCog(commands.Cog):
     database.refresh_token()
     await ctx.send("Database token refreshed.")
 
-  @commands.command(name="news_debug_reload_lib")
-  async def debug_reload_library(self, ctx):
-    global database
-    database = reload(database)
-    await ctx.send("Library reloaded")
+  @commands.command(name="news_current_time")
+  async def debug_print_time(self, ctx):
+    now=datetime.strftime(datetime.now(),'%H:%M')
+    await ctx.send("The time is: " + now)
+"""
 
-  @commands.command(name="refresh_headlines")
+  @commands.command(name="news_debug_reload_libraries")
+  async def debug_reload_library(self, ctx):
+    if ctx.author.guild_permissions.administrator:
+      global database
+      global flaustrian_headlines
+      global token_loader
+
+      database = reload(database)
+      flaustrian_headlines = reload(flaustrian_headlines)
+      token_loader = reload(token_loader)
+      await ctx.send("Newsbot libraries reloaded: database, flaustrian_headlines, token_loader.")
+
+    else:
+      await ctx.send("Sorry, only admins can change the news.")
+
+
+  @commands.command(name="news_debug_refresh_headlines")
   async def debug_refresh_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
       await self.refresh_headlines()
@@ -134,7 +157,7 @@ class DailyNewsCog(commands.Cog):
     else:
       await ctx.send("Sorry, only admins can change the news.")
 
-  @commands.command(name="post_headlines")
+  @commands.command(name="news_debug_post_headlines")
   async def debug_post_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
       #headline = self._retrieve_daily_headline("news")
@@ -144,7 +167,7 @@ class DailyNewsCog(commands.Cog):
       await ctx.send("Sorry, only admins can advance the news.")
 
 
-  @commands.command(name="print_headlines")
+  @commands.command(name="news_debug_print_headlines")
   async def debug_print_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
       headline = self._retrieve_daily_headline("news")
@@ -154,12 +177,7 @@ class DailyNewsCog(commands.Cog):
     else:
       await ctx.send("Sorry, only admins can foresee the news.")
 
-  @commands.command(name="news_current_time")
-  async def debug_print_time(self, ctx):
-    now=datetime.strftime(datetime.now(),'%H:%M')
-    await ctx.send("The time is: " + now)
-
-  @commands.command(name="change_news_time")
+  @commands.command(name="news_debug_change_time")
   async def debug_change_news_time(self, ctx, event_arg, value_arg):
     if ctx.author.guild_permissions.administrator:
       if not self._isTimeFormat(value_arg):
@@ -197,6 +215,7 @@ class DailyNewsCog(commands.Cog):
       await self.test_post()
 
   async def refresh_headlines(self):
+    database.refresh_token()
     self._generate_daily_headline("news")
     self._generate_daily_headline("entertainment")    
 
@@ -209,7 +228,7 @@ class DailyNewsCog(commands.Cog):
     await channel.send(headline)
     
   async def test_post(self):
-    message_channel=self.bot.get_channel(self.message_channel_id)
+    message_channel=self.news_channel
     await message_channel.send("This is a test of the Flaustrian Broadcasting System.")
 
 
