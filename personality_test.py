@@ -34,6 +34,7 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.command(name="test")
     async def test(self, ctx):
+      self.question_index = 0
       await self.ask_question(ctx.channel)
 
     @commands.Cog.listener()
