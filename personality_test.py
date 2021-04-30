@@ -46,15 +46,19 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-      if reaction.count > 1:
-        response = f'answer: {reaction.emoji}'
-        await reaction.message.channel.send(response)
-
-        qi = self.get_question_index(user.id)
-        self.set_question_answer(user.id, qi, response)
+      database.refresh_token()
+      msg_split = reaction.message.content.split('.')
+      response_qi = int(msg_split[0]) - 1
+      qi = self.get_question_index(user.id)
+      
+      if reaction.count > 1 and response_qi == qi:
+        await reaction.message.channel.send(f'answer: {reaction.emoji}')
+        answer = reaction.emoji
+        self.set_question_answer(user.id, qi, answer)
         await self.ask_question_or_end_test(reaction.message.channel, user)
 
     async def ask_question_or_end_test(self, channel, user):
+      database.refresh_token()
       qi = self.get_question_index(user.id)
       if qi >= len(self.test.questions):
           await self.end_test(channel)
@@ -64,10 +68,12 @@ class PersonalityTestCog(commands.Cog):
     async def ask_question(self, channel, user):
       qi = self.get_question_index(user.id)
       question = self.test.questions[qi]
-      msg_text = question.text
+      msg_text = f"{question.id}. {question.text}"
       for answer in question.answers:
         msg_text += f"\n{answer.emoji} - {answer.text}"
+
       msg = await channel.send(msg_text)
+
       for answer in question.answers:
         await msg.add_reaction(emoji=answer.emoji)
     
