@@ -80,7 +80,7 @@ class PersonalityTestCog(commands.Cog):
       msg_split = message.content.split('.')
       response_qi = int(msg_split[0]) - 1
       qi = self.tr.get_question_index(payload.user_id)
-      if response_qi != qi:
+      if response_qi != qi or message.author.id != self.bot_id:
         return
       
       await channel.send(f'answer: {payload.emoji}')
