@@ -69,23 +69,8 @@ class PersonalityTestCog(commands.Cog):
     async def test(self, ctx):
       await self.ask_question_or_end_test(ctx.channel, ctx.author)
 
-    @commands.command(name="find_record")
-    async def find_record(self, ctx):
-      user_id = ctx.author.id
-      test_record = self.tr.get_test_record(user_id)
-      await ctx.send(f"found test_record: {test_record}")
-      qi = self.tr.get_question_index_from_test_record(test_record)
-      await ctx.send(f"current_index: {qi}")
-
-    @commands.command(name="get_qi")
-    async def get_qi(self, ctx):
-      user = ctx.author
-      qi = self.tr.get_question_index(user.id)
-      await ctx.send(f"qi: {qi}")
-
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-      
       if user.id == self.bot_id:
         return
 
@@ -101,7 +86,6 @@ class PersonalityTestCog(commands.Cog):
       await self.ask_question_or_end_test(reaction.message.channel, user)
 
     async def ask_question_or_end_test(self, channel, user):
-      #database.refresh_token()
       qi = self.tr.get_question_index(user.id)
       if qi >= len(self.test.questions):
           await self.end_test(channel)
