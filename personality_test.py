@@ -67,33 +67,36 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.command(name="test")
     async def test(self, ctx):
-      await self.ask_question_or_end_test(ctx.channel, ctx.author)
+      dm = await ctx.author.create_dm()
+      await self.ask_question_or_end_test(dm, ctx.author.id)
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
-      if user.id == self.bot_id:
+    async def on_raw_reaction_add(self, payload):
+      if payload.user_id == self.bot_id:
         return
 
-      msg_split = reaction.message.content.split('.')
+      channel = self.bot.get_channel(payload.channel_id)
+      message = await channel.fetch_message(payload.message_id)
+      msg_split = message.content.split('.')
       response_qi = int(msg_split[0]) - 1
-      qi = self.tr.get_question_index(user.id)
+      qi = self.tr.get_question_index(payload.user_id)
       if response_qi != qi:
         return
       
-      await reaction.message.channel.send(f'answer: {reaction.emoji}')
-      answer = reaction.emoji
-      self.tr.set_question_answer(user.id, qi, answer)
-      await self.ask_question_or_end_test(reaction.message.channel, user)
+      await channel.send(f'answer: {payload.emoji}')
+      answer = payload.emoji.name
+      self.tr.set_question_answer(payload.user_id, qi, answer)
+      await self.ask_question_or_end_test(message.channel, payload.user_id)
 
-    async def ask_question_or_end_test(self, channel, user):
-      qi = self.tr.get_question_index(user.id)
+    async def ask_question_or_end_test(self, channel, user_id):
+      qi = self.tr.get_question_index(user_id)
       if qi >= len(self.test.questions):
           await self.end_test(channel)
       else:
-        await self.ask_question(channel, user)
+        await self.ask_question(channel, user_id)
 
-    async def ask_question(self, channel, user):
-      qi = self.tr.get_question_index(user.id)
+    async def ask_question(self, channel, user_id):
+      qi = self.tr.get_question_index(user_id)
       question = self.test.questions[qi]
       msg_text = f"{question.id}. {question.text}"
       for answer in question.answers:
