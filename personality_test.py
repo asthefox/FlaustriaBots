@@ -4,6 +4,7 @@ from discord.ext import commands
 import token_loader
 from collections import namedtuple
 import database
+from discord.utils import get, find
 
 Question = namedtuple('Question', 'id text answers')
 
@@ -25,13 +26,20 @@ class TestRecord():
 
   def get_test_record(self, user_id):
     database.refresh_token()
-    record_path = f"discord/personality_tests/{user_id}"
+    record_path = f"discord/personality_tests/{user_id}/answers"
     result = database.get(record_path)
     if not result:  
       print(f"adding new test record for user_id: {user_id}")
       database.set(record_path, ["" for question in self.test.questions])
-
     return result if result else self.get_test_record(user_id)
+
+  def set_role_record(self, user_id, role):
+    database.refresh_token()
+    database.set(f"discord/personality_tests/{user_id}/role", role)
+
+  def get_role_record(self, user_id):
+    database.refresh_token()
+    return database.get(f"discord/personality_tests/{user_id}/role")
   
   def get_question_index_from_test_record(self, test_record):
     index = 0
@@ -43,7 +51,7 @@ class TestRecord():
 
   def set_question_answer(self, user_id, index, answer):
     database.refresh_token()
-    database.set(f"discord/personality_tests/{user_id}/{index}", answer)
+    database.set(f"discord/personality_tests/{user_id}/answers/{index}", answer)
 
 
 class PersonalityTestCog(commands.Cog):
@@ -57,10 +65,11 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        guild = discord.utils.find(lambda g: g.name == self.guild_token, self.bot.guilds)
+        guild = find(lambda g: g.name == self.guild_token, self.bot.guilds)
+
         if guild:
             print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
-            self.print_guild_members(guild)
+            print(f"self.guild.name: {self.guild.name}")
         else:
             print(f"Can't connect to guild:{self.guild_token}")
 
@@ -88,7 +97,7 @@ class PersonalityTestCog(commands.Cog):
     async def ask_question_or_end_test(self, channel, user_id):
       qi = self.tr.get_question_index(user_id)
       if qi >= len(self.test.questions):
-          await self.end_test(channel)
+          await self.end_test(channel, user_id)
       else:
         await self.ask_question(channel, user_id)
 
@@ -100,10 +109,41 @@ class PersonalityTestCog(commands.Cog):
       for answer in question.answers:
         await msg.add_reaction(emoji=answer)
     
-    async def end_test(self, channel):
-      msg = "Congratulations! You are now a Flaustrian citizen and can enjoy all Flaustria has to offer. Let me recommend some channels:\n -Discuss Flaustrian news and entertainment!\n -Better yourself morally by betting on daily Cowyboy duels!\n -Petition to join the exclusive alpha of Astronaut: The Best!"
+    async def end_test(self, channel, user_id):
+      test_record = self.tr.get_test_record(user_id)
+      last_answer = test_record[len(self.test.questions) - 1]
+      roles = { 
+        '🐍' : 'Mongoose', 
+        '💰' : 'Market',
+        '☀' : 'Sun',
+        '📕' : 'Book',
+        '☠' : 'Moon' 
+      }
+      role_name_short = roles[last_answer]
+      role_name = f"{role_name_short}Ministry"
+      self.tr.set_role_record(user_id, role_name)
+      await self.add_role_to_user(channel, user_id, role_name)
+      ministry_name = self.get_ministry(role_name_short)
+
+      msg = f"Congratulations! You are now a Flaustrian citizen and you can now enjoy all Flaustria has to offer. Let me recommend some channels:\n -Discuss Flaustrian news and entertainment!\n -Better yourself morally by betting on daily Cowyboy duels!\n -Petition to join the exclusive alpha of Astronaut: The Best!\n -Join your coworkers at the {ministry_name}"
       await channel.send(msg)
-    
+
+    def get_ministry(self, role_name_short):
+      ministries = { 
+        'Mongoose' : 'The Ministry of Defense Against Serpents', 
+        'Market' : 'The Ministry of Limited-Time Offers',
+        'Sun' : 'The Ministry of Righteous Shaming',
+        'Book' : 'The Ministry of Forbidden Knowledge',
+        'Moon' : 'The Ministry of Love and Death' 
+      }
+      return ministries[role_name_short]
+
+
+    async def add_role_to_user(self, channel, user_id, role_name):
+      guild = find(lambda g: g.name == self.guild_token, self.bot.guilds)
+      member = find(lambda m: m.id == user_id, guild.members)
+      role = get(guild.roles, name=role_name)
+      await member.add_roles(role)
 
 
 def setup(bot):

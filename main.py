@@ -6,6 +6,9 @@ import token_loader
 import asyncio
 from threading import Thread
 
+
+intents = discord.Intents().all()
+
 inside_track_bot = commands.Bot(command_prefix='IT!')
 #inside_track_bot.load_extension("inside_track_bot")
 #inside_track_bot.load_extension("economy")
@@ -14,7 +17,7 @@ inside_track_bot = commands.Bot(command_prefix='IT!')
 ase_bot = commands.Bot(command_prefix='ASE!')
 #ase_bot.load_extension("news_bot")
 
-glaucon_bot = commands.Bot(command_prefix='!')
+glaucon_bot = commands.Bot(command_prefix='!', intents=intents)
 glaucon_bot.load_extension("glaucon_bot")
 
 #start the flask server
