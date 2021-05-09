@@ -5,15 +5,14 @@ import token_loader
 from collections import namedtuple
 import database
 
-Answer = namedtuple('Answer', 'emoji text')
 Question = namedtuple('Question', 'id text answers')
 
 class Test():
   def __init__(self):
     self.questions = [
-      Question('1', 'What is your name?', [ Answer('🐍', 'Snake'), Answer('🐔', 'Chicken') ]),
-      Question('2', 'Where were you born?', [ Answer('🐍', 'Snake'), Answer('🐔', 'Chicken') ]),
-      Question('3', 'What is your favorite color??', [ Answer('🐍', 'Snake'), Answer('🐔', 'Chicken') ])
+      Question('1', "Welcome to Flaustria! To post here, you'll need to become a Flaustrian citizen. (click ▶ to continue)\n", [ '▶' ]),
+      Question('2', "Sign this thing saying that you'll post about Flaustrian news, entertainment, and Astronaut: The Best and leave behind your baggage from the old crappy world.\nYou're welcome to make up stuff about Flaustria, and it might become canon. (click ✅ to sign loyalty oath)\n", [ '✅' ]),
+      Question('3', "In Flaustria, all citizens are expected to pay devotion to The Five Gods. So you'll need to join one of the five ministries, overseen by one of the High Priests. Which would you like to join?\n -The Ministry of Defense Against Serpents, run by Starnat, High Priest of The Mongoose (click 🐍)\n -The Ministry of Limited-Time Offers, run by Inside-Track, High Priest of The Market (click 💰)\n -The Ministry of Righteous Shaming, run by Correblanch, High Priest of The Sun (click ☀)\n -The Ministry of Forbidden Knowledge, run by Rulu, High Priest of The Book (click 📕)\n -The Ministry of Love and Death, run by Morningdew, High Priest of The Moon (click ☠)\n\n", [ '🐍', '💰', '☀', '📕', '☠' ])
     ]
 
 class TestRecord():
@@ -82,10 +81,8 @@ class PersonalityTestCog(commands.Cog):
       qi = self.tr.get_question_index(payload.user_id)
       if response_qi != qi or message.author.id != self.bot_id:
         return
-      
-      await channel.send(f'answer: {payload.emoji}')
-      answer = payload.emoji.name
-      self.tr.set_question_answer(payload.user_id, qi, answer)
+
+      self.tr.set_question_answer(payload.user_id, qi, payload.emoji.name)
       await self.ask_question_or_end_test(message.channel, payload.user_id)
 
     async def ask_question_or_end_test(self, channel, user_id):
@@ -98,14 +95,10 @@ class PersonalityTestCog(commands.Cog):
     async def ask_question(self, channel, user_id):
       qi = self.tr.get_question_index(user_id)
       question = self.test.questions[qi]
-      msg_text = f"{question.id}. {question.text}"
-      for answer in question.answers:
-        msg_text += f"\n{answer.emoji} - {answer.text}"
-
-      msg = await channel.send(msg_text)
+      msg = await channel.send(f"{question.id}. {question.text}")
 
       for answer in question.answers:
-        await msg.add_reaction(emoji=answer.emoji)
+        await msg.add_reaction(emoji=answer)
     
     async def end_test(self, channel):
       await channel.send('The test is over, you have a personality!')
