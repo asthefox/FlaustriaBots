@@ -101,7 +101,8 @@ class PersonalityTestCog(commands.Cog):
         await msg.add_reaction(emoji=answer)
     
     async def end_test(self, channel):
-      await channel.send('The test is over, you have a personality!')
+      msg = "Congratulations! You are now a Flaustrian citizen and can enjoy all Flaustria has to offer. Let me recommend some channels:\n -Discuss Flaustrian news and entertainment!\n -Better yourself morally by betting on daily Cowyboy duels!\n -Petition to join the exclusive alpha of Astronaut: The Best!"
+      await channel.send(msg)
     
 
 
