@@ -76,7 +76,15 @@ class PersonalityTestCog(commands.Cog):
     @commands.command(name="test")
     async def test(self, ctx):
       dm = await ctx.author.create_dm()
-      await self.ask_question_or_end_test(dm, ctx.author.id)
+      rr = self.tr.get_role_record(ctx.author.id)
+      if not rr:
+        await self.ask_question_or_end_test(dm, ctx.author.id)
+      else:
+        await self.report_test_already_taken(ctx, rr)
+
+    async def report_test_already_taken(self, ctx, rr):
+      ministry = self.get_ministry(rr)
+      await ctx.send(f"You have already taken the personality test. You are a citizen of Flaustria and a member of the {ministry}.")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -113,30 +121,29 @@ class PersonalityTestCog(commands.Cog):
       test_record = self.tr.get_test_record(user_id)
       last_answer = test_record[len(self.test.questions) - 1]
       roles = { 
-        '🐍' : 'Mongoose', 
-        '💰' : 'Market',
-        '☀' : 'Sun',
-        '📕' : 'Book',
-        '☠' : 'Moon' 
+        '🐍' : 'MongooseMinistry', 
+        '💰' : 'MarketMinistry',
+        '☀' : 'SunMinistry',
+        '📕' : 'BookMinistry',
+        '☠' : 'MoonMinistry' 
       }
-      role_name_short = roles[last_answer]
-      role_name = f"{role_name_short}Ministry"
+      role_name = roles[last_answer]
       self.tr.set_role_record(user_id, role_name)
       await self.add_role_to_user(channel, user_id, role_name)
-      ministry_name = self.get_ministry(role_name_short)
+      ministry_name = self.get_ministry(role_name)
 
       msg = f"Congratulations! You are now a Flaustrian citizen and you can now enjoy all Flaustria has to offer. Let me recommend some channels:\n -Discuss Flaustrian news and entertainment!\n -Better yourself morally by betting on daily Cowyboy duels!\n -Petition to join the exclusive alpha of Astronaut: The Best!\n -Join your coworkers at the {ministry_name}"
       await channel.send(msg)
 
-    def get_ministry(self, role_name_short):
+    def get_ministry(self, role_name):
       ministries = { 
-        'Mongoose' : 'The Ministry of Defense Against Serpents', 
-        'Market' : 'The Ministry of Limited-Time Offers',
-        'Sun' : 'The Ministry of Righteous Shaming',
-        'Book' : 'The Ministry of Forbidden Knowledge',
-        'Moon' : 'The Ministry of Love and Death' 
+        'MongooseMinistry' : 'The Ministry of Defense Against Serpents', 
+        'MarketMinistry' : 'The Ministry of Limited-Time Offers',
+        'SunMinistry' : 'The Ministry of Righteous Shaming',
+        'BookMinistry' : 'The Ministry of Forbidden Knowledge',
+        'MoonMinistry' : 'The Ministry of Love and Death' 
       }
-      return ministries[role_name_short]
+      return ministries[role_name]
 
 
     async def add_role_to_user(self, channel, user_id, role_name):
