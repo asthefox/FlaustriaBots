@@ -144,6 +144,8 @@ class PersonalityTestCog(commands.Cog):
       role_name = roles[last_answer]
       self.tr.set_role_record(user_id, role_name)
       await self.add_role_to_user(channel, user_id, role_name)
+      await self.add_role_to_user(channel, user_id, 'FlaustrianCitizen')
+      await self.remove_role_from_user(channel, user_id, 'NewUser')
       ministry_name = self.get_ministry(role_name)
 
       msg = f"Congratulations! You are now a Flaustrian citizen and you can now enjoy all Flaustria has to offer. Let me recommend some channels:\n -Discuss Flaustrian news and entertainment!\n -Better yourself morally by betting on daily Cowyboy duels!\n -Petition to join the exclusive alpha of Astronaut: The Best!\n -Join your coworkers at the {ministry_name}"
@@ -171,6 +173,13 @@ class PersonalityTestCog(commands.Cog):
       member = find(lambda m: m.id == user_id, self.get_guild().members)
       await self.add_role_to_member(member, role_name)
 
+    async def remove_role_from_user(self, channel, user_id, role_name):
+      member = find(lambda m: m.id == user_id, self.get_guild().members)
+      await self.remove_role_from_member(member, role_name)
+
+    async def remove_role_from_member(self, member, role_name):
+      role = get(self.get_guild().roles, name=role_name)
+      await member.remove_roles(role)
       
 
 
