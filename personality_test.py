@@ -73,6 +73,15 @@ class PersonalityTestCog(commands.Cog):
         else:
             print(f"Can't connect to guild:{self.guild_token}")
 
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+      print(f"{member} joined!")
+      await self.begin_test(member)
+
+    async def begin_test(self, member):
+      dm = await member.create_dm()
+      await self.ask_question_or_end_test(dm, member.id)
+
     @commands.command(name="test")
     async def test(self, ctx):
       dm = await ctx.author.create_dm()
@@ -81,10 +90,6 @@ class PersonalityTestCog(commands.Cog):
         await self.ask_question_or_end_test(dm, ctx.author.id)
       else:
         await self.report_test_already_taken(ctx, rr)
-
-    async def report_test_already_taken(self, ctx, rr):
-      ministry = self.get_ministry(rr)
-      await ctx.send(f"You have already taken the personality test. You are a citizen of Flaustria and a member of the {ministry}.")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
