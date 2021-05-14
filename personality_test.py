@@ -75,8 +75,17 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-      print(f"{member} joined!")
-      await self.begin_test(member)
+      await self.add_role_to_member(member, 'NewUser')
+      #print(f"{member} joined!")
+      #await self.begin_test(member)
+
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+      #print(f"{after} updated!")
+      was_new_user = 'NewUser' in [role.name for role in before.roles]
+      is_new_user = 'NewUser' in [role.name for role in after.roles]
+      if (not was_new_user) and is_new_user:
+        await self.begin_test(after)
 
     async def begin_test(self, member):
       dm = await member.create_dm()
@@ -151,11 +160,18 @@ class PersonalityTestCog(commands.Cog):
       return ministries[role_name]
 
 
-    async def add_role_to_user(self, channel, user_id, role_name):
-      guild = find(lambda g: g.name == self.guild_token, self.bot.guilds)
-      member = find(lambda m: m.id == user_id, guild.members)
-      role = get(guild.roles, name=role_name)
+    def get_guild(self):
+      return find(lambda g: g.name == self.guild_token, self.bot.guilds)
+
+    async def add_role_to_member(self, member, role_name):
+      role = get(self.get_guild().roles, name=role_name)
       await member.add_roles(role)
+
+    async def add_role_to_user(self, channel, user_id, role_name):
+      member = find(lambda m: m.id == user_id, self.get_guild().members)
+      await self.add_role_to_member(member, role_name)
+
+      
 
 
 def setup(bot):
