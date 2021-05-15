@@ -25,7 +25,6 @@ class TestRecord():
       return self.get_question_index_from_test_record(test_record)
 
   def get_test_record(self, user_id):
-    database.refresh_token()
     record_path = f"discord/personality_tests/{user_id}/answers"
     result = database.get(record_path)
     if not result:  
@@ -34,11 +33,9 @@ class TestRecord():
     return result if result else self.get_test_record(user_id)
 
   def set_role_record(self, user_id, role):
-    database.refresh_token()
     database.set(f"discord/personality_tests/{user_id}/role", role)
 
   def get_role_record(self, user_id):
-    database.refresh_token()
     return database.get(f"discord/personality_tests/{user_id}/role")
   
   def get_question_index_from_test_record(self, test_record):
@@ -50,7 +47,6 @@ class TestRecord():
     return index
 
   def set_question_answer(self, user_id, index, answer):
-    database.refresh_token()
     database.set(f"discord/personality_tests/{user_id}/answers/{index}", answer)
 
 
@@ -76,12 +72,9 @@ class PersonalityTestCog(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
       await self.add_role_to_member(member, 'NewUser')
-      #print(f"{member} joined!")
-      #await self.begin_test(member)
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-      #print(f"{after} updated!")
       was_new_user = 'NewUser' in [role.name for role in before.roles]
       is_new_user = 'NewUser' in [role.name for role in after.roles]
       if (not was_new_user) and is_new_user:
@@ -90,15 +83,6 @@ class PersonalityTestCog(commands.Cog):
     async def begin_test(self, member):
       dm = await member.create_dm()
       await self.ask_question_or_end_test(dm, member.id)
-
-    @commands.command(name="test")
-    async def test(self, ctx):
-      dm = await ctx.author.create_dm()
-      rr = self.tr.get_role_record(ctx.author.id)
-      if not rr:
-        await self.ask_question_or_end_test(dm, ctx.author.id)
-      else:
-        await self.report_test_already_taken(ctx, rr)
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
