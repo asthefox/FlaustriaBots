@@ -133,7 +133,17 @@ class PersonalityTestCog(commands.Cog):
       ministry_name = self.get_ministry(role_name)
 
       msg = f"Congratulations! You are now a Flaustrian citizen and you can now enjoy all Flaustria has to offer. Let me recommend some channels:\n -Discuss Flaustrian news and entertainment!\n -Better yourself morally by betting on daily Cowyboy duels!\n -Petition to join the exclusive alpha of Astronaut: The Best!\n -Join your coworkers at the {ministry_name}"
-      await channel.send(msg)
+      
+      embed = self.get_link_to_atb_discord()
+      await channel.send(msg, embed=embed)
+
+    def get_link_to_atb_discord(self):
+      #note this links back to the test server discord, it will have to be changed when we start running the bot on the AtB discord instead
+
+      embed = discord.Embed()
+      link = "https://discord.com/channels/801958965327691816/801958965327691819"
+      embed.description = f"[Click to return to AtB Discord]({link})."
+      return embed
 
     def get_ministry(self, role_name):
       ministries = { 
