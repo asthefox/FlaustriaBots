@@ -73,7 +73,6 @@ class PersonalityTestCog(commands.Cog):
       print("get_guild - running...")
       for guild in self.bot.guilds:
         print(f"guild: {guild}")
-        
       return discord.utils.get(self.bot.guilds, name=self.guild_name)
 
     @commands.Cog.listener()
@@ -108,7 +107,6 @@ class PersonalityTestCog(commands.Cog):
       await self.ask_question_or_end_test(message.channel, payload.user_id)
 
     async def ask_question_or_end_test(self, channel, user_id):
-      print('running ask_question_or_end_test')
       qi = self.tr.get_question_index(user_id)
       if qi >= len(self.test.questions):
           await self.end_test(channel, user_id)
@@ -116,7 +114,6 @@ class PersonalityTestCog(commands.Cog):
         await self.ask_question(channel, user_id)
 
     async def ask_question(self, channel, user_id):
-      print('running ask_question')
       qi = self.tr.get_question_index(user_id)
       question = self.test.questions[qi]
       msg = await channel.send(f"{question.id}. {question.text}")
@@ -176,13 +173,7 @@ class PersonalityTestCog(commands.Cog):
       await member.add_roles(role)
 
     async def add_role_to_user(self, channel, user_id, role_name):
-      print(f"add_role_to_user - running...")
-      guild = self.get_guild()
-      print(f"add_role_to_user - got guild...")
-      for member in guild.members:
-        print(f"member: {member}")
       member = find(lambda m: m.id == user_id, self.get_guild().members)
-      print(f"add_role_to_user - found member in guild")
       await self.add_role_to_member(member, role_name)
 
     async def remove_role_from_user(self, channel, user_id, role_name):
