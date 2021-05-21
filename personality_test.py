@@ -56,16 +56,15 @@ class PersonalityTestCog(commands.Cog):
         self.guild_name= token_loader.FLAUSTRIA_GUILD
         self.test = Test()
         self.tr = TestRecord(self.test)
-        self.bot_id = bot.user.id
         print('personality test loaded')
 
     @commands.Cog.listener()
     async def on_ready(self):
         guild = self.get_guild()
+        self.bot_id = self.bot.user.id
 
         if guild:
             print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
-            print(f"self.guild.name: {self.guild.name}")
         else:
             print(f"Can't connect to guild:{self.guild_name}")
 

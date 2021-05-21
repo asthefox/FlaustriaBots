@@ -21,7 +21,7 @@ glaucon_bot = commands.Bot(command_prefix='!', intents=intents)
 glaucon_bot.load_extension("cog_loader")
 
 inquisitor_bot = commands.Bot(command_prefix='!', intents=intents)
-inquisitor_bot.load_extension("cog_loader")
+inquisitor_bot.load_extension("personality_test")
 
 #start the flask server
 keep_alive()
