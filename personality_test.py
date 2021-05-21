@@ -143,7 +143,7 @@ class PersonalityTestCog(commands.Cog):
     def get_link_to_atb_discord(self):
       embed = discord.Embed()
       link = "https://discord.com/channels/801299215983837246/801299217083269151"
-      embed.description = f"[Click to return to AtB Discord]({link})."
+      embed.description = f"[Click to return to the Flaustrian Command Center]({link})."
       return embed
 
     def get_ministry(self, role_name):
