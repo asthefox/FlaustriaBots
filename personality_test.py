@@ -53,7 +53,7 @@ class TestRecord():
 class PersonalityTestCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.guild_token = token_loader.GUILD
+        self.guild_name= token_loader.FLAUSTRIA_GUILD
         self.test = Test()
         self.tr = TestRecord(self.test)
         self.bot_id = bot.user.id
@@ -61,13 +61,20 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        guild = find(lambda g: g.name == self.guild_token, self.bot.guilds)
+        guild = self.get_guild()
 
         if guild:
             print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
             print(f"self.guild.name: {self.guild.name}")
         else:
-            print(f"Can't connect to guild:{self.guild_token}")
+            print(f"Can't connect to guild:{self.guild_name}")
+
+    def get_guild(self):
+      print("get_guild - running...")
+      for guild in self.bot.guilds:
+        print(f"guild: {guild}")
+        
+      return discord.utils.get(self.bot.guilds, name=self.guild_name)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -101,6 +108,7 @@ class PersonalityTestCog(commands.Cog):
       await self.ask_question_or_end_test(message.channel, payload.user_id)
 
     async def ask_question_or_end_test(self, channel, user_id):
+      print('running ask_question_or_end_test')
       qi = self.tr.get_question_index(user_id)
       if qi >= len(self.test.questions):
           await self.end_test(channel, user_id)
@@ -108,6 +116,7 @@ class PersonalityTestCog(commands.Cog):
         await self.ask_question(channel, user_id)
 
     async def ask_question(self, channel, user_id):
+      print('running ask_question')
       qi = self.tr.get_question_index(user_id)
       question = self.test.questions[qi]
       msg = await channel.send(f"{question.id}. {question.text}")
@@ -116,6 +125,7 @@ class PersonalityTestCog(commands.Cog):
         await msg.add_reaction(emoji=answer)
     
     async def end_test(self, channel, user_id):
+      print('running end_test')
       test_record = self.tr.get_test_record(user_id)
       last_answer = test_record[len(self.test.questions) - 1]
       roles = { 
@@ -127,8 +137,12 @@ class PersonalityTestCog(commands.Cog):
       }
       role_name = roles[last_answer]
       self.tr.set_role_record(user_id, role_name)
+
+      print('about to add roles...')
       await self.add_role_to_user(channel, user_id, role_name)
+      print('added ministry role')
       await self.add_role_to_user(channel, user_id, 'FlaustrianCitizen')
+      print('added citizen role')
       await self.remove_role_from_user(channel, user_id, 'NewUser')
       ministry_name = self.get_ministry(role_name)
 
@@ -155,16 +169,20 @@ class PersonalityTestCog(commands.Cog):
       }
       return ministries[role_name]
 
-
-    def get_guild(self):
-      return find(lambda g: g.name == self.guild_token, self.bot.guilds)
-
     async def add_role_to_member(self, member, role_name):
+      print(f"add_role_to_member - printing roles...")
       role = get(self.get_guild().roles, name=role_name)
+      print(f"about to add role: {role_name} to member")
       await member.add_roles(role)
 
     async def add_role_to_user(self, channel, user_id, role_name):
+      print(f"add_role_to_user - running...")
+      guild = self.get_guild()
+      print(f"add_role_to_user - got guild...")
+      for member in guild.members:
+        print(f"member: {member}")
       member = find(lambda m: m.id == user_id, self.get_guild().members)
+      print(f"add_role_to_user - found member in guild")
       await self.add_role_to_member(member, role_name)
 
     async def remove_role_from_user(self, channel, user_id, role_name):

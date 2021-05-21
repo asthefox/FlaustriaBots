@@ -1,24 +1,20 @@
 import discord
 from discord.ext import commands
 import token_loader
-import random
 
-class GlauconCog(commands.Cog):
+class CogLoader(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.guild_token = token_loader.GUILD
+        #self.guild_token = token_loader.GUILD
 
     @commands.Cog.listener()
     async def on_ready(self):
-        guild = discord.utils.find(lambda g: g.name == self.guild_token, self.bot.guilds)
-        if guild:
-            print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
-        else:
-            print(f"Can't connect to guild:{self.guild_token}")
-    
-    @commands.command(name="glaucon")
-    async def glaucon_test_message(self, ctx):
-      await ctx.send('The unexamined life is not worth living.')
+        #guild = discord.utils.find(lambda g: g.name == self.guild_token, self.bot.guilds)
+        for guild in self.bot.guilds:
+          if guild:
+              print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
+          else:
+              print(f"Can't connect to guild:{guild}")
 
     @commands.command(name="reload")
     async def reload_extension(self, ctx, arg):
@@ -37,4 +33,4 @@ class GlauconCog(commands.Cog):
     
 
 def setup(bot):
-    bot.add_cog(GlauconCog(bot))
+    bot.add_cog(CogLoader(bot))

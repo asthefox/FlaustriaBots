@@ -2,8 +2,10 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+INQUISITOR_TOKEN = os.getenv('INQUISITOR_TOKEN')
+GLAUCON_TOKEN = os.getenv('GLAUCON_TOKEN')
 ASE_TOKEN = os.getenv('ASE_TOKEN')
 INSIDE_TRACK_TOKEN = os.getenv('INSIDE_TRACK_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+DMERSHON_TEST_GUILD = os.getenv('DMERSHON_TEST_GUILD')
+FLAUSTRIA_GUILD = os.getenv('FLAUSTRIA_GUILD')
 FIREBASE = os.getenv('FIREBASE_TOKEN')
