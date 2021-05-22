@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import token_loader
+import random
+import database
 
 class KMines(commands.Cog):
     def __init__(self, bot):
@@ -15,11 +17,42 @@ class KMines(commands.Cog):
               print(f"Can't connect to guild:{guild}")
 
     @commands.command(name="mine")
-    async def mine(self, ctx, arg):
-      if not arg:
-        await ctx.send(f'Please enter a number to mine. (example - !mine 2527)')
-      await ctx.send(f'mining {arg}')
+    async def mine(self, ctx, number_to_mine=None):
+      if number_to_mine == None:
+        await ctx.send(f'Please enter a number to mine. [example - !mine 2527]')
+        return
+      await self.try_mine_number(ctx, number_to_mine)
     
+    async def try_mine_number(self, ctx, number_to_mine):
+      bitk_record = self.get_mined_bitk(number_to_mine)
+      if bitk_record:
+        if  bitk_record['is_bitk']:
+          await ctx.send(f'{number_to_mine} has already been mined')
+        else:
+          await ctx.send(f'{number_to_mine} is not a bit-k')
+        return
+
+      is_bitk = self.check_is_bitk()
+      self.set_mined_bitk(ctx, number_to_mine, is_bitk)
+
+      if is_bitk:
+        await ctx.send(f'{number_to_mine} is a bit-k')        
+        return
+
+      await ctx.send(f'{number_to_mine} is not a bit-k')
+
+    def check_is_bitk(self):
+      #return True
+      return random.randint(0, 1) == 0;
+
+    def set_mined_bitk(self, ctx, bitk_number, is_bitk):
+      value = { 'is_bitk':is_bitk }
+      if is_bitk:
+        value['owner'] = ctx.author.id
+      database.set(f"discord/mined_bitk/{bitk_number}", value)
+
+    def get_mined_bitk(self, bitk_number):
+      return database.get(f"discord/mined_bitk/{bitk_number}")
 
 def setup(bot):
     bot.add_cog(KMines(bot))
