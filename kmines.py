@@ -43,7 +43,7 @@ class KMines(commands.Cog):
       if is_bitk:
         await ctx.send(f'{number_to_mine} is a bit-k')
         bitk_value = self.get_bitk_value()
-        self.set_bitk_value(bitk_value * 1.1)
+        self.set_bitk_value(bitk_value + 1)
         economy = self.bot.get_cog('Economy')
         economy.deposit_money(ctx.guild, ctx.author, bitk_value)
         await ctx.send(f"{ctx.author.name } earned {bitk_value}k.")
@@ -52,7 +52,7 @@ class KMines(commands.Cog):
       await ctx.send(f'{number_to_mine} is not a bit-k')
 
     def check_is_bitk(self):
-      return random.randint(0, 1) == 0;
+      return random.randint(0, 4) == 0;
 
     def set_mined_bitk(self, ctx, bitk_number, is_bitk):
       database.set(f"discord/mined_bitk/{bitk_number}", is_bitk)
