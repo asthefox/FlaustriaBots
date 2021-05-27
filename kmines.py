@@ -16,6 +16,11 @@ class KMines(commands.Cog):
           else:
               print(f"Can't connect to guild:{guild}")
 
+    @commands.command(name="ticker")
+    async def ticker(self, ctx):
+      bitk_value = self.get_bitk_value()
+      await ctx.send(f'1 bit-k is now trading at {bitk_value}k.')
+
     @commands.command(name="mine")
     async def mine(self, ctx, number_to_mine=None):
       if number_to_mine == None:
@@ -37,11 +42,11 @@ class KMines(commands.Cog):
 
       if is_bitk:
         await ctx.send(f'{number_to_mine} is a bit-k')
-        money = 100
+        bitk_value = self.get_bitk_value()
+        self.set_bitk_value(bitk_value * 1.1)
         economy = self.bot.get_cog('Economy')
-        economy.deposit_money(ctx.guild, ctx.author, int(money))
-        await ctx.send(f"{ctx.author.name } earned {money}k.")
-        await economy.check_balance(ctx)       
+        economy.deposit_money(ctx.guild, ctx.author, bitk_value)
+        await ctx.send(f"{ctx.author.name } earned {bitk_value}k.")
         return
 
       await ctx.send(f'{number_to_mine} is not a bit-k')
@@ -54,6 +59,17 @@ class KMines(commands.Cog):
 
     def get_mined_bitk(self, bitk_number):
       return database.get(f"discord/mined_bitk/{bitk_number}")
+
+    def set_bitk_value(self, new_value):
+      database.set(f"discord/bitk_value", new_value)
+
+    def get_bitk_value(self):
+      result = database.get(f"discord/bitk_value")
+      if result == None:
+        self.set_bitk_value(100)
+        return self.get_bitk_value()
+      else:
+        return int(result)
 
 def setup(bot):
     bot.add_cog(KMines(bot))
