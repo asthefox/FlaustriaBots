@@ -16,6 +16,16 @@ class KMines(commands.Cog):
           else:
               print(f"Can't connect to guild:{guild}")
 
+    @commands.command(name="testdep")
+    async def testdep(self, ctx, money=None):
+      economy = self.bot.get_cog('Economy')
+      if money == None:
+        await ctx.send("enter a number to deposit")
+      else:
+        economy.deposit_money(ctx.guild, ctx.author, int(money))
+        await ctx.send(f"deposited {money}k.")
+        await economy.check_balance(ctx)
+
     @commands.command(name="mine")
     async def mine(self, ctx, number_to_mine=None):
       if number_to_mine == None:
