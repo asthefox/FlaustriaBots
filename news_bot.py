@@ -2,7 +2,7 @@ import discord
 from discord.ext import tasks, commands
 import asyncpg
 from datetime import datetime, time
-from importlib import reload  
+from importlib import reload
 
 import token_loader
 import flaustrian_headlines
@@ -12,7 +12,7 @@ class DailyNewsCog(commands.Cog):
 
   #### ---- PSEUDOCONSTANTS ---- ####
 
-  refresh_time='08:05' #time is in 24hr format
+  #refresh_time='08:05' #time is in 24hr format
   news_post_time='17:00'
   entertainment_post_time='20:30'
   test_post_time = '23:15'
@@ -31,12 +31,15 @@ class DailyNewsCog(commands.Cog):
 
     return channels[0]
 
-  def _get_headline_path(self, guild_id, category, lookup_date):
-    return "discord/news/" + str(guild_id) + "/" + category + "/" + lookup_date
+  def _date_db_format(day):
+    return day.strftime("%Y-%m-%d")
 
-  def _get_todays_headline_path(self, guild_id, category):
-    todays_date = datetime.now().strftime("%Y/%m/%d")
-    return self._get_headline_path(guild_id, category, todays_date)
+  def _get_article_path(self, category, lookup_date):
+    return "flaustria/news/" + str(guild_id) + "/" + category + "/" + lookup_date
+
+  def _get_todays_article_path(self, category):
+    todays_date = _date_db_format(datetime.today())
+    return self._get_article_path(category, todays_date)
 
   def _isTimeFormat(self, input):
     try:
@@ -47,18 +50,18 @@ class DailyNewsCog(commands.Cog):
 
   def _connect_channels(self):
     try:
-      if not self.guild: 
+      if not self.guild:
         raise AttributeError
     except AttributeError:
       self.guild = discord.utils.find(lambda g: g.name == self.guild_token, self.bot.guilds)
       if not self.guild:
         raise AttributeError
     try:
-      if not self.entertainment_channel: 
+      if not self.entertainment_channel:
         raise AttributeError
     except AttributeError:
       self.entertainment_channel = self._find_channel("flaustrian_entertainment")
-    try: 
+    try:
       if not self.news_channel:
         raise AttributeError
     except AttributeError:
@@ -85,29 +88,39 @@ class DailyNewsCog(commands.Cog):
           print(f"{self.bot.user} is connected to the following guild:\n{self.guild.name} (id: {self.guild.id})")
       else:
           print(f"Can't connect to guild:{self.guild_token}")
-      
+
 
 
   #### ---- SETTING / GETTING HEADLINES FROM DATABASE ---- ####
 
-  def _retrieve_daily_headline(self, category):
-    headline_path = self._get_todays_headline_path(self.guild.id, category)
-    headline_query = database.get(headline_path)
+  def _retrieve_daily_headline_post(self, category):
+    data_path = self._get_todays_headline_path(self.guild.id, category)
+    headline_query = database.get(data_path+"/headline")
 
     if headline_query == None:
-      self._generate_daily_headline(category)
-      headline_query = database.get(headline_path)
+      return "There is no news today."
 
     return headline_query
 
-  def _generate_daily_headline(self, category):
-    headline = flaustrian_headlines.get_headline(category, datetime.today())
-    headline_path = self._get_todays_headline_path(self.guild.id, category)
-    database.set(headline_path, headline)
-    
+  def _retrieve_daily_article_post(self, category):
+    data_path = self._get_todays_headline_path(self.guild.id, category)
+    article_query = database.get(data_path+"/article")
+    byline_query = database.get(data_path+"/byline")
+
+    if article_query == None or byline_query == None:
+      return "While it is unusual for there not to be any news, the All-Seeing Eye encourages our readers not to be alarmed."
+
+    return byline_query + "\n\n" + article_query
+
+
+  #def _generate_daily_headline(self, category):
+  #  headline = flaustrian_headlines.get_headline(category, datetime.today())
+  #  headline_path = self._get_todays_headline_path(self.guild.id, category)
+  #  database.set(headline_path, headline)
+
 
   #### ---- DEBUG COMMANDS ---- ####
-  
+
   """"
   @commands.command(name="news_hi")
   async def news_hi(self, ctx):
@@ -149,31 +162,37 @@ class DailyNewsCog(commands.Cog):
       await ctx.send("Sorry, only admins can change the news.")
 
 
-  @commands.command(name="news_debug_refresh_headlines")
-  async def debug_refresh_headlines(self, ctx):
-    if ctx.author.guild_permissions.administrator:
-      await self.refresh_headlines()
-      await ctx.send("Headlines refreshed.")
-    else:
-      await ctx.send("Sorry, only admins can change the news.")
+  #@commands.command(name="news_debug_refresh_headlines")
+  #async def debug_refresh_headlines(self, ctx):
+  #  if ctx.author.guild_permissions.administrator:
+  #    await self.refresh_headlines()
+  #    await ctx.send("Headlines refreshed.")
+  #  else:
+  #    await ctx.send("Sorry, only admins can change the news.")
 
-  @commands.command(name="news_debug_post_headlines")
+  @commands.command(name="news_debug_post_articles")
   async def debug_post_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
       #headline = self._retrieve_daily_headline("news")
       await self.post_headline("news")
+      await self.post_article("news")
       await self.post_headline("entertainment")
+      await self.post_article("entertainment")
     else:
       await ctx.send("Sorry, only admins can advance the news.")
 
 
-  @commands.command(name="news_debug_print_headlines")
+  @commands.command(name="news_debug_print_articles")
   async def debug_print_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
-      headline = self._retrieve_daily_headline("news")
+      headline = self._retrieve_daily_headline_post("news")
+      article = self._retrieve_daily_article_post("news")
       await ctx.send("NEWS: " + headline)
-      headline = self._retrieve_daily_headline("entertainment")
+      await ctx.send(article)
+      headline = self._retrieve_daily_headline_post("entertainment")
+      article = self._retrieve_daily_article_post("entertainment")
       await ctx.send("ENTERTAINMENT: " + headline)
+      await ctx.send(article)
     else:
       await ctx.send("Sorry, only admins can foresee the news.")
 
@@ -205,28 +224,30 @@ class DailyNewsCog(commands.Cog):
   @tasks.loop(minutes=1.0)
   async def time_update(self):
     now=datetime.strftime(datetime.now(),'%H:%M')
-    if now == self.refresh_time:
-      await self.refresh_headlines()
+    #if now == self.refresh_time:
+    #  await self.refresh_headlines()
     if now == self.news_post_time:
-      await self.post_headline("news")
+      await self.post_article("news")
     if now == self.entertainment_post_time:
-      await self.post_headline("entertainment")
+      await self.post_article("entertainment")
     if now == self.test_post_time:
       await self.test_post()
 
-  async def refresh_headlines(self):
-    database.refresh_token()
-    self._generate_daily_headline("news")
-    self._generate_daily_headline("entertainment")    
+  #async def refresh_headlines(self):
+    #database.refresh_token()
+    #self._generate_daily_headline("news")
+    #self._generate_daily_headline("entertainment")
 
   async def post_headline(self, category):
-    headline = self._retrieve_daily_headline(category)
+    headline = self._retrieve_daily_headline_post(category)
+    article = self._retrieve_daily_article_post(category)
     if category == "news":
       channel = self.news_channel
     elif category == "entertainment":
       channel = self.entertainment_channel
     await channel.send(headline)
-    
+    await channel.send(article)
+
   async def test_post(self):
     message_channel=self.news_channel
     await message_channel.send("This is a test of the Flaustrian Broadcasting System.")
