@@ -71,7 +71,7 @@ class DailyNewsCog(commands.Cog):
 
   def __init__(self, bot):
       self.bot = bot
-      self.guild_token = token_loader.GUILD
+      self.guild_token = token_loader.DMERSHON_TEST_GUILD #TODO: Change for deploy
       self.data = []
       self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
       self.time_update.start()
