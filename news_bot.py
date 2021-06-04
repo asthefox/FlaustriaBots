@@ -159,13 +159,16 @@ class DailyNewsCog(commands.Cog):
   async def debug_reauthenticate_db(self, ctx):
     database.refresh_token()
     await ctx.send("Database token refreshed.")
+"""
 
   @commands.command(name="news_current_time")
   async def debug_print_time(self, ctx):
-    now=datetime.strftime(datetime.now(),'%H:%M')
-    await ctx.send("The time is: " + now)
-"""
-
+    if ctx.author.guild_permissions.administrator:
+      now=datetime.strftime(datetime.now(),'%H:%M')
+      await ctx.send("The time is: " + now)
+    else:
+      await ctx.send("Sorry, only admins can tell the internal news timer.")
+    
   @commands.command(name="news_debug_reload_libraries")
   async def debug_reload_library(self, ctx):
     if ctx.author.guild_permissions.administrator:
@@ -221,9 +224,9 @@ class DailyNewsCog(commands.Cog):
     if ctx.author.guild_permissions.administrator:
       if not self._isTimeFormat(value_arg):
         await ctx.send("Sorry, could not convert " + value_arg + " to a valid time.")
-      elif event_arg == "refresh":
-        self.refresh_time = value_arg
-        await ctx.send("The daily headlines will now refresh every day at " + value_arg + ".")
+      #elif event_arg == "refresh":
+      #  self.refresh_time = value_arg
+      #  await ctx.send("The daily headlines will now refresh every day at " #+ value_arg + ".")
       elif event_arg == "news":
         self.news_post_time = value_arg
         await ctx.send("The news headline will now post every day at " + value_arg + ".")
