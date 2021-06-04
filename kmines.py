@@ -3,6 +3,7 @@ from discord.ext import commands
 import token_loader
 import random
 import database
+import re
 
 class KMines(commands.Cog):
     def __init__(self, bot):
@@ -26,6 +27,10 @@ class KMines(commands.Cog):
       if number_to_mine == None:
         await ctx.send(f'Please enter a number to mine. [example - !mine 2527]')
         return
+      elif not self.is_only_numbers(number_to_mine):
+        await ctx.send(f'{number_to_mine} is not a number. Please enter a number to mine. [example - !mine 2527]')
+        return
+
       await self.try_mine_number(ctx, number_to_mine)
     
     async def try_mine_number(self, ctx, number_to_mine):
@@ -70,6 +75,12 @@ class KMines(commands.Cog):
         return self.get_bitk_value()
       else:
         return int(result)
+    
+    def is_only_numbers(self, text):
+      #returns true if text is only numbers with no letters or other characters
+      pattern = re.compile(r"\D")
+      matches = pattern.findall(text)
+      return len(matches) < 1
 
 def setup(bot):
     bot.add_cog(KMines(bot))
