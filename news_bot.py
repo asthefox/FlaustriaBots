@@ -38,7 +38,7 @@ class DailyNewsCog(commands.Cog):
     return "flaustria/news/" + str(guild_id) + "/" + category + "/" + lookup_date
 
   def _get_todays_article_path(self, category):
-    todays_date = _date_db_format(datetime.today())
+    todays_date = self._date_db_format(datetime.today())
     return self._get_article_path(category, todays_date)
 
   def _isTimeFormat(self, input):
