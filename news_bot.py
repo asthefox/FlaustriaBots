@@ -94,7 +94,7 @@ class DailyNewsCog(commands.Cog):
   #### ---- SETTING / GETTING HEADLINES FROM DATABASE ---- ####
 
   def _retrieve_daily_headline_post(self, category):
-    data_path = self._get_todays_headline_path(self.guild.id, category)
+    data_path = self._get_todays_article_path(self.guild.id, category)
     headline_query = database.get(data_path+"/headline")
 
     if headline_query == None:
@@ -103,7 +103,7 @@ class DailyNewsCog(commands.Cog):
     return headline_query
 
   def _retrieve_daily_article_post(self, category):
-    data_path = self._get_todays_headline_path(self.guild.id, category)
+    data_path = self._get_todays_article_path(self.guild.id, category)
     article_query = database.get(data_path+"/article")
     byline_query = database.get(data_path+"/byline")
 
