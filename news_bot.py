@@ -96,11 +96,31 @@ class DailyNewsCog(commands.Cog):
   def _retrieve_daily_headline_post(self, category):
     data_path = self._get_todays_article_path(category)
     headline_query = database.get(data_path+"/headline")
-
+    headline_type = database.get(data_path+"/category")
     if headline_query == None:
       return "There is no news today."
 
-    return headline_query
+
+    hr = "~~\u200B                                  \u200B~~\n"
+    cat_words = {
+      "music_review" : "MUSIC REVIEW",
+      "movie_review" : "MOVIE REVIEW",
+      "recent_tv_headline" : "TV NEWS",
+      "movie_chart" : "MOVIE NEWS",
+      "music_chart" : "MUSIC NEWS",
+      "upcoming_tv_headline" : "TV PREVIEW",
+      "movie_synopsis" : "MOVIE RECAP",
+
+      "business_news" : "BREAKING BUSINESS UPDATE",
+      "sports_news" : "BREAKING SPORTS NEWS",
+      "gossip_news" : "THIS WEEK'S HOTTEST GOSSIP",
+      "crime_news" : "BREAKING CRIME BULLETIN",
+      "politics_news" : "BREAKING POLITICAL NEWS",
+      "fad_news" : "THIS WEEK'S CULTURE REPORT",
+      "listicle_news" : "THIS WEEK'S FUN FACTS"
+  	}
+    header = "\n" + hr + "**" + cat_words[headline_type] + ":**\n" + headline_query + "\n" + hr + "\n"
+    return header
 
   def _retrieve_daily_article_post(self, category):
     data_path = self._get_todays_article_path(category)
@@ -110,7 +130,7 @@ class DailyNewsCog(commands.Cog):
     if article_query == None or byline_query == None:
       return "While it is unusual for there not to be any news, the All-Seeing Eye encourages our readers not to be alarmed."
 
-    return byline_query + "\n\n" + article_query
+    return "_" + byline_query + "_" + "\n\n>>> " + article_query
 
 
   #def _generate_daily_headline(self, category):
