@@ -195,9 +195,9 @@ class DailyNewsCog(commands.Cog):
     if ctx.author.guild_permissions.administrator:
       #headline = self._retrieve_daily_headline("news")
       await self.post_headline("news")
-      await self.post_article("news")
+      #await self.post_article("news")
       await self.post_headline("entertainment")
-      await self.post_article("entertainment")
+      #await self.post_article("entertainment")
     else:
       await ctx.send("Sorry, only admins can advance the news.")
 
@@ -247,9 +247,9 @@ class DailyNewsCog(commands.Cog):
     #if now == self.refresh_time:
     #  await self.refresh_headlines()
     if now == self.news_post_time:
-      await self.post_article("news")
+      await self.post_headline("news")
     if now == self.entertainment_post_time:
-      await self.post_article("entertainment")
+      await self.post_headline("entertainment")
     if now == self.test_post_time:
       await self.test_post()
 
