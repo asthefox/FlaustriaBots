@@ -31,7 +31,7 @@ class DailyNewsCog(commands.Cog):
 
     return channels[0]
 
-  def _date_db_format(day):
+  def _date_db_format(self, day):
     return day.strftime("%Y-%m-%d")
 
   def _get_article_path(self, category, lookup_date):
