@@ -11,10 +11,13 @@ Question = namedtuple('Question', 'id text answers')
 class Test():
   def __init__(self):
     self.questions = [
-      Question('1', "Welcome to Flaustria! To post here, you'll need to become a Flaustrian citizen. (click ▶ to continue)\n", [ '▶' ]),
-      Question('2', "Sign this thing saying that you'll post about Flaustrian news, entertainment, and Astronaut: The Best and leave behind your baggage from the old crappy world.\nYou're welcome to make up stuff about Flaustria, and it might become canon. (click ✅ to sign loyalty oath)\n", [ '✅' ]),
-      Question('3', "In Flaustria, all citizens are expected to pay devotion to The Five Gods. So you'll need to join one of the five ministries, overseen by one of the High Priests. Which would you like to join?\n -The Ministry of Defense Against Serpents, run by Starnat, High Priest of The Mongoose (click 🐍)\n -The Ministry of Limited-Time Offers, run by Inside-Track, High Priest of The Market (click 💰)\n -The Ministry of Righteous Shaming, run by Correblanch, High Priest of The Sun (click ☀)\n -The Ministry of Forbidden Knowledge, run by Rulu, High Priest of The Book (click 📕)\n -The Ministry of Love and Death, run by Morningdew, High Priest of The Moon (click ☠)\n\n", [ '🐍', '💰', '☀', '📕', '☠' ])
+      Question('1', "Welcome to the **Flaustrian Command Center** server! If you want to participate in our community or access our famous **Alpha**, you'll need to become a Flaustrian citizen. All you have to do is complete a quick and tidy **loyalty oath**. \n(click ▶ to start the process)\n", [ '▶' ]),
+      Question('2', "Wondrous! The first step towards citizens is agreeing to abide by the rules of Flaustria, set forth by the Five Gods in time immemorial. Simply sign this oath:\n\n:one:. I will not perpetrate harassment, racism, sexism, abuse, intimidation, threats, discrimination, or toxic behavior of any kind. I understand that any violations will result in my immediate expulsion into the cold, harsh void of the Internet.\n\n:two:. I will leave behind my baggage from neighboring universes, and not introduce any religious, political, salacious, gory, or otherwise controversial topics that could upset the local ecosystem.\n\n:three:. I will observe the mores of polite Flaustrian society. I will keep my conversations PG-13, and always remember that I am conversing with actual humans with different backgrounds, values, cultures, and personalities.\n\n:four:. Though I will not fear to share my ~~failures~~successes with the Flaustrian media, nor will I place myself above the Five Gods by self-promoting to an irritating extent.\n\n:five:. I will not blaspheme against the Five High Priests, nor promote any heretical Vladagar heterodoxy.\n\n(click ✅ to sign oath)\n", [ '✅' ]),
+      Question('3', "Well done! I have no doubt you'll become a sterling member of our community.\n\nNow, our humble universe is still growing, and it's an effort we all share. You are invited to contribute to discussions about Flaustrian news and events by, er… making things up. I have heard that events and facts about Flaustria from this server might become \"canon,\" whatever that means.\n(click ▶ to continue)\n", [ '▶' ]),
+      Question('4', "In Flaustria, all citizens are expected to pay devotion to The Five Gods. As such, you'll need to join one of the five ministries, overseen by one of the High Priests. Which is your choice?\n -The Ministry of Defense Against Serpents, run by Starnat, High Priest of The Mongoose (click 🐍)\n -The Ministry of Limited-Time Offers, run by Inside-Track, High Priest of The Market (click 💰)\n -The Ministry of Righteous Shaming, run by Correblanch, High Priest of The Sun (click ☀)\n -The Ministry of Forbidden Knowledge, run by Rulu, High Priest of The Book (click 📕)\n -The Ministry of Love and Death, run by Morningdew, High Priest of The Moon (click ☠)", [ '🐍', '💰', '☀', '📕', '☠' ])
     ]
+
+    self.eagle_response = Question('1', "Ah, congratulations! You're somewhat of a VIP. Normally one would have to complete a test of valor before gaining the honor of accessing the **Astronaut: The Best alpha**, but I've been told you can skip all that.\n\nSo without further ado: <#807380325562449930>.\n\nOh, right! If you'd like to participate in the other activities our humble server has to offer, I can help you gain Flaustrian citizenship. Just click the arrow below to proceed. \n(click ▶ to start the process)\n", [ '▶' ]),
 
 class TestRecord():
   def __init__(self, test):
@@ -73,12 +76,12 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-      await self.add_role_to_member(member, 'NewUser')
+      await self.add_role_to_member(member, 'Tourist')
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-      was_new_user = 'NewUser' in [role.name for role in before.roles]
-      is_new_user = 'NewUser' in [role.name for role in after.roles]
+      was_new_user = 'Tourist' in [role.name for role in before.roles]
+      is_new_user = 'Tourist' in [role.name for role in after.roles]
       if (not was_new_user) and is_new_user:
         await self.begin_test(after)
 
@@ -121,20 +124,20 @@ class PersonalityTestCog(commands.Cog):
       test_record = self.tr.get_test_record(user_id)
       last_answer = test_record[len(self.test.questions) - 1]
       roles = { 
-        '🐍' : 'MongooseMinistry', 
-        '💰' : 'MarketMinistry',
-        '☀' : 'SunMinistry',
-        '📕' : 'BookMinistry',
-        '☠' : 'MoonMinistry' 
+        '🐍' : 'Mongoose Ministry', 
+        '💰' : 'Market Ministry',
+        '☀' : 'Sun Ministry',
+        '📕' : 'Book Ministry',
+        '☠' : 'Moon Ministry' 
       }
       role_name = roles[last_answer]
       self.tr.set_role_record(user_id, role_name)
       await self.add_role_to_user(channel, user_id, role_name)
-      await self.add_role_to_user(channel, user_id, 'FlaustrianCitizen')
-      await self.remove_role_from_user(channel, user_id, 'NewUser')
+      await self.add_role_to_user(channel, user_id, 'Flaustrian Citizen')
+      await self.remove_role_from_user(channel, user_id, 'Tourist')
       ministry_name = self.get_ministry(role_name)
 
-      msg = f"Congratulations! You are now a Flaustrian citizen and you can now enjoy all Flaustria has to offer. Let me recommend some channels:\n -Discuss Flaustrian news and entertainment!\n -Better yourself morally by betting on daily Cowyboy duels!\n -Petition to join the exclusive alpha of Astronaut: The Best!\n -Join your coworkers at the {ministry_name}"
+      msg = "Congratulations! You are now a Flaustrian citizen, and you can now enjoy all Flaustria has to offer.\n\nAllow me to humbly recommend some activities:\n -Discuss the latest <#832427377967628288> and <#832378973161521192>!\n -Better yourself morally by betting on daily <#850534625319321601>!\n -Petition to join the exclusive **alpha of Astronaut: The Best** with <#850528747853709334>!"
       
       embed = self.get_link_to_atb_discord()
       await channel.send(msg, embed=embed)
@@ -147,11 +150,11 @@ class PersonalityTestCog(commands.Cog):
 
     def get_ministry(self, role_name):
       ministries = { 
-        'MongooseMinistry' : 'The Ministry of Defense Against Serpents', 
-        'MarketMinistry' : 'The Ministry of Limited-Time Offers',
-        'SunMinistry' : 'The Ministry of Righteous Shaming',
-        'BookMinistry' : 'The Ministry of Forbidden Knowledge',
-        'MoonMinistry' : 'The Ministry of Love and Death' 
+        'Mongoose Ministry' : 'The Ministry of Defense Against Serpents', 
+        'Market Ministry' : 'The Ministry of Limited-Time Offers',
+        'Sun Ministry' : 'The Ministry of Righteous Shaming',
+        'Book Ministry' : 'The Ministry of Forbidden Knowledge',
+        'Moon Ministry' : 'The Ministry of Love and Death' 
       }
       return ministries[role_name]
 
