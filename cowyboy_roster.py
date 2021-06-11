@@ -22,7 +22,6 @@ def _get_first_name():
   return flaustrian_names.get_first_name(isFemale, isVladagar, isForeign)
 
 def generate_cowyboy(color, id):
-  id = 0
   prefix = _get_prefix(id)
   first_name = _get_first_name()
   power = random.randint(50, 200)
@@ -47,6 +46,8 @@ def generate_cowyboy_batch(start_id=0):
 
 def _write_cowyboy_data(cowyboy):
   root = "flaustria/cowyboys/roster/" + str(cowyboy["id"])
+  database.set(root, cowyboy)
+  """
   database.set(root + "/id", cowyboy["id"])
   database.set(root + "/prefix", cowyboy["prefix"])
   database.set(root + "/first_name", cowyboy["first_name"])
@@ -55,17 +56,25 @@ def _write_cowyboy_data(cowyboy):
   database.set(root + "/power", cowyboy["power"])
   database.set(root + "/wins", cowyboy["wins"])
   database.set(root + "/duels", cowyboy["duels"])
+  """
 
 def _read_cowyboy_data(id):
   root = "flaustria/cowyboys/roster/" + str(id)
+  cowyboy = database.get(root)
+  """
   cowyboy = {"id": id}
   cowyboy["prefix"] = database.get(root + "/prefix")
-  cowyboy["prefix"] = database.get(root + "/first_name", cowyboy["first_name"])
-  cowyboy["prefix"] = database.get(root + "/name", cowyboy["name"])
-  cowyboy["prefix"] = database.get(root + "/color", cowyboy["color"])
-  cowyboy["prefix"] = database.get(root + "/power", cowyboy["power"])
-  cowyboy["prefix"] = database.get(root + "/wins", cowyboy["wins"])
-  cowyboy["prefix"] = database.get(root + "/duels", cowyboy["duels"])
+  cowyboy["first_name"] = database.get(root + "/first_name")
+  cowyboy["name"] = database.get(root + "/name")
+  cowyboy["color"] = database.get(root + "/color")
+  cowyboy["power"] = database.get(root + "/power")
+  cowyboy["wins"] = database.get(root + "/wins")
+  cowyboy["duels"] = database.get(root + "/duels")
+  """
+  return cowyboy
+
+def _write_current_ids(id_list):
+  database.set("flaustria/cowyboys/current", id_list)
 
 def seed_initial_cowyboys():
   batch = generate_cowyboy_batch(0)

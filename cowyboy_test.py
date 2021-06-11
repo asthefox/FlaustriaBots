@@ -1,0 +1,3 @@
+import cowyboy_roster
+
+cowyboy_roster.seed_initial_cowyboys()
