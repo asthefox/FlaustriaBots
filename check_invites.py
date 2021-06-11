@@ -23,8 +23,15 @@ class CheckInvitesCog(commands.Cog):
       else:
           print(f"Can't connect to guild:{self.guild_name}")
 
-  @commands.command(name="invites")
-  async def invites(self, ctx):
+  @commands.command(name='invite')
+  async def invite(self, ctx):
+    await ctx.send('trying to create invite')
+    link = await ctx.channel.create_invite(max_age=300, max_uses=2)
+    await self.get_invites()
+    await ctx.send(f"Here is an instant invite to your server: {link}")
+
+  @commands.command(name='inv_check')
+  async def inv_check(self, ctx):
     await self.get_invites()
     invites_count = len(self.invites)
     await ctx.send(f"invites_count: {invites_count}")
@@ -36,21 +43,24 @@ class CheckInvitesCog(commands.Cog):
   @commands.Cog.listener()
   async def on_member_join(self, member):
     await self.add_role_to_member(member, 'NewUser')
-    await self.check_member_invites(member)
+    invite = await self.find_matching_invite(member)
+    if invite:
+      self.print_matching_invite(member, invite)
+
+  def print_matching_invite(self, member, invite):
+    print(f"Member {member.name} Joined")
+    print(f"Invite Code: {invite.code}")
+    print(f"Inviter: {invite.inviter}") 
     
-  async def check_member_invites(self, member):
+  async def find_matching_invite(self, member):
     invites_before_join = self.invites
     invites_after_join = await member.guild.invites()
     for ibj in invites_before_join:
       after_join_invite = self.find_invite_by_code(invites_after_join, ibj.code)
       if self.invites_match(ibj, after_join_invite):
-        self.print_matching_invite(member, ibj)      
         self.invites = invites_after_join
-
-  def print_matching_invite(self, member, invite):
-    print(f"Member {member.name} Joined")
-    print(f"Invite Code: {invite.code}")
-    print(f"Inviter: {invite.inviter}")
+        return ibj
+    return None
 
   def invites_match(self, before_join_invite, after_join_invite):
     return after_join_invite and before_join_invite.uses < after_join_invite.uses

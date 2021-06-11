@@ -8,6 +8,8 @@ import token_loader
 import flaustrian_headlines
 import database
 
+import tweepy
+
 class DailyNewsCog(commands.Cog):
 
   #### ---- PSEUDOCONSTANTS ---- ####
@@ -71,7 +73,7 @@ class DailyNewsCog(commands.Cog):
 
   def __init__(self, bot):
       self.bot = bot
-      self.guild_token = token_loader.DMERSHON_TEST_GUILD #TODO: Change for deploy
+      self.guild_token = token_loader.FLAUSTRIA_GUILD
       self.data = []
       self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
       self.time_update.start()
@@ -89,6 +91,33 @@ class DailyNewsCog(commands.Cog):
       else:
           print(f"Can't connect to guild:{self.guild_token}")
 
+
+  #### ---- TWITTER AND SUCH ---- ####
+
+  def twitter_crosspost(self, headline):
+    addendum = " Full article in our Discord: https://discord.gg/zbDusCRmHw"
+    limit = 220
+    headline_cropped = headline
+    if len(headline_cropped) > limit:
+      headline_cropped = headline_cropped[:limit-2] + ".."
+    
+    message = headline_cropped + addendum
+
+    try:
+      auth = tweepy.OAuthHandler(
+              token_loader.TWITTER_CONSUMER_KEY,
+              token_loader.TWITTER_CONSUMER_SECRET
+              )
+      auth.set_access_token(
+              token_loader.TWITTER_ACCESS_TOKEN,
+              token_loader.TWITTER_ACCESS_TOKEN_SECRET
+              )
+      api = tweepy.API(auth)
+
+      status = api.update_status(status=message)
+
+    except tweepy.TweepError:
+      print('Error! Failed to access API and post.')
 
 
   #### ---- SETTING / GETTING HEADLINES FROM DATABASE ---- ####
@@ -270,6 +299,7 @@ class DailyNewsCog(commands.Cog):
       channel = self.entertainment_channel
     await channel.send(headline)
     await channel.send(article)
+    self.twitter_crosspost(headline)
 
   async def test_post(self):
     message_channel=self.news_channel

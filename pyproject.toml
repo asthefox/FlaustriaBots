@@ -15,6 +15,7 @@ pycrypto = "^2.6.1"
 python_jwt = "^3.3.0"
 gcloud = "^0.18.3"
 asyncpg = "^0.22.0"
+tweepy = "^3.10.0"
 
 [tool.poetry.dev-dependencies]
 
