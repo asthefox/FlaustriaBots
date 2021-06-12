@@ -2,10 +2,9 @@
 import discord
 from discord.ext import commands
 import token_loader
-from collections import namedtuple
 import database
 from discord.utils import get, find
-
+import re
 
 class CheckInvitesCog(commands.Cog):
   def __init__(self, bot):
@@ -17,18 +16,35 @@ class CheckInvitesCog(commands.Cog):
   async def on_ready(self):
       guild = self.get_guild()
       self.bot_id = self.bot.user.id
-      
+
       if guild:
-          print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
+        await self.get_invites()
+        print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
       else:
-          print(f"Can't connect to guild:{self.guild_name}")
+        print(f"Can't connect to guild:{self.guild_name}")
 
   @commands.command(name='invite')
-  async def invite(self, ctx):
-    await ctx.send('trying to create invite')
-    link = await ctx.channel.create_invite(max_age=300, max_uses=2)
+  async def invite(self, ctx, number_of_invites=None):
+    if number_of_invites == None:
+        await ctx.send(f'Please enter the number of invites. [example - !invite 10]')
+        return
+    elif not self.is_only_numbers(number_of_invites):
+      await ctx.send(f'{number_of_invites} is not a number. Please enter a number of invites you want to generate. [example - !invite 10]')
+      return
+
+    for i in range(int(number_of_invites)):
+      new_invite = await ctx.channel.create_invite(max_age=0, max_uses=2)
+      new_invite_code = new_invite.code
+      database.set(f"discord/alpha_invites/{new_invite_code}", True)
+
     await self.get_invites()
-    await ctx.send(f"Here is an instant invite to your server: {link}")
+    await ctx.send(f"successfully created {number_of_invites} invites.")
+  
+  def is_only_numbers(self, text):
+      #returns true if text is only numbers with no letters or other characters
+      pattern = re.compile(r"\D")
+      matches = pattern.findall(text)
+      return len(matches) < 1
 
   @commands.command(name='inv_check')
   async def inv_check(self, ctx):
@@ -39,19 +55,33 @@ class CheckInvitesCog(commands.Cog):
   async def get_invites(self):
     guild = self.get_guild()
     self.invites = await guild.invites()
+    #print(f"self.invites: {self.invites}")
 
   @commands.Cog.listener()
   async def on_member_join(self, member):
+    is_golden_eagle = self.is_golden_eagle_invite(member)
+    if is_golden_eagle:
+      await self.add_role_to_member(member, 'Eagle-Type People')
     await self.add_role_to_member(member, 'NewUser')
+    
+  @commands.Cog.listener()
+  async def on_member_update(self, before, after):
+    was_new_user = 'NewUser' in [role.name for role in before.roles]
+    is_new_user = 'NewUser' in [role.name for role in after.roles]
+    if (not was_new_user) and is_new_user:
+      print("this is where the personality quiz would begin")   
+  
+  async def is_golden_eagle_invite(self, member):
     invite = await self.find_matching_invite(member)
     if invite:
-      self.print_matching_invite(member, invite)
+      invite_code = invite.code
+      alpha_available = database.get(f"discord/alpha_invites/{invite_code}")
+      print(f"Invite Code: {invite_code} Alpha Available: {alpha_available}")
+      if alpha_available:
+        database.set(f"discord/alpha_invites/{invite_code}", False)
+        return True
+    return False
 
-  def print_matching_invite(self, member, invite):
-    print(f"Member {member.name} Joined")
-    print(f"Invite Code: {invite.code}")
-    print(f"Inviter: {invite.inviter}") 
-    
   async def find_matching_invite(self, member):
     invites_before_join = self.invites
     invites_after_join = await member.guild.invites()
