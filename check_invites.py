@@ -59,7 +59,7 @@ class CheckInvitesCog(commands.Cog):
 
   @commands.Cog.listener()
   async def on_member_join(self, member):
-    is_golden_eagle = self.is_golden_eagle_invite(member)
+    is_golden_eagle = await self.is_golden_eagle_invite(member)
     if is_golden_eagle:
       await self.add_role_to_member(member, 'Eagle-Type People')
     await self.add_role_to_member(member, 'NewUser')
@@ -72,14 +72,19 @@ class CheckInvitesCog(commands.Cog):
       print("this is where the personality quiz would begin")   
   
   async def is_golden_eagle_invite(self, member):
+    print('is_golden_eagle_invite - running')
     invite = await self.find_matching_invite(member)
     if invite:
+      print('is_golden_eagle_invite - found matching invite')
       invite_code = invite.code
       alpha_available = database.get(f"discord/alpha_invites/{invite_code}")
       print(f"Invite Code: {invite_code} Alpha Available: {alpha_available}")
       if alpha_available:
+        print('is_golden_eagle_invite - alpha available')
         database.set(f"discord/alpha_invites/{invite_code}", False)
         return True
+    
+    print('is_golden_eagle_invite - no matching invite')
     return False
 
   async def find_matching_invite(self, member):
