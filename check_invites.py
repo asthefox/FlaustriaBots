@@ -32,8 +32,9 @@ class CheckInvitesCog(commands.Cog):
       await ctx.send(f'{number_of_invites} is not a number. Please enter a number of invites you want to generate. [example - !invite 10]')
       return
 
+    welcome_channel = self.get_channel('welcome')
     for i in range(int(number_of_invites)):
-      new_invite = await ctx.channel.create_invite(max_age=0, max_uses=2)
+      new_invite = await welcome_channel.create_invite(max_age=0, max_uses=2)
       new_invite_code = new_invite.code
       database.set(f"discord/alpha_invites/{new_invite_code}", True)
 
@@ -51,6 +52,10 @@ class CheckInvitesCog(commands.Cog):
     await self.get_invites()
     invites_count = len(self.invites)
     await ctx.send(f"invites_count: {invites_count}")
+
+  def get_channel(self, channel_name):
+    guild = self.get_guild()
+    return discord.utils.get(guild.text_channels, name=channel_name)
 
   async def get_invites(self):
     guild = self.get_guild()
