@@ -56,7 +56,6 @@ class TestRecord():
 class PersonalityTestCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.bot_id = self.bot.user.id
         self.guild_name = token_loader.FLAUSTRIA_GUILD
         self.test = Test()
         self.tr = TestRecord(self.test)
@@ -65,7 +64,6 @@ class PersonalityTestCog(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         guild = self.get_guild()
-        self.bot_id = self.bot.user.id
 
         if guild:
             print(f"{self.bot.user} is connected to the following guild:\n{guild.name} (id: {guild.id})")
@@ -81,7 +79,7 @@ class PersonalityTestCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-      if payload.user_id == self.bot_id:
+      if payload.user_id == self.bot.user.id:
         return
 
       channel = self.bot.get_channel(payload.channel_id)
@@ -89,7 +87,7 @@ class PersonalityTestCog(commands.Cog):
       msg_split = message.content.split('.')
       response_qi = int(msg_split[0]) - 1
       qi = self.tr.get_question_index(payload.user_id)
-      if response_qi != qi or message.author.id != self.bot_id:
+      if response_qi != qi or message.author.id != self.bot.user.id:
         return
 
       self.tr.set_question_answer(payload.user_id, qi, payload.emoji.name)
