@@ -19,9 +19,10 @@ ase_bot.load_extension("news_bot")
 
 glaucon_bot = commands.Bot(command_prefix='!', intents=intents)
 glaucon_bot.load_extension("cog_loader")
-glaucon_bot.load_extension("check_invites")
+#glaucon_bot.load_extension("check_invites")
 
 inquisitor_bot = commands.Bot(command_prefix='!', intents=intents)
+inquisitor_bot.load_extension("check_invites")
 inquisitor_bot.load_extension("personality_test")
 
 #start the flask server

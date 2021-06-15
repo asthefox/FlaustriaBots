@@ -56,7 +56,8 @@ class TestRecord():
 class PersonalityTestCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.guild_name= token_loader.FLAUSTRIA_GUILD
+        self.bot_id = self.bot.user.id
+        self.guild_name = token_loader.FLAUSTRIA_GUILD
         self.test = Test()
         self.tr = TestRecord(self.test)
         print('personality test loaded')
@@ -73,17 +74,6 @@ class PersonalityTestCog(commands.Cog):
 
     def get_guild(self):
       return discord.utils.get(self.bot.guilds, name=self.guild_name)
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-      await self.add_role_to_member(member, 'Tourist')
-
-    @commands.Cog.listener()
-    async def on_member_update(self, before, after):
-      was_new_user = 'Tourist' in [role.name for role in before.roles]
-      is_new_user = 'Tourist' in [role.name for role in after.roles]
-      if (not was_new_user) and is_new_user:
-        await self.begin_test(after)
 
     async def begin_test(self, member):
       dm = await member.create_dm()

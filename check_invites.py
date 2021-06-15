@@ -9,7 +9,7 @@ import re
 class CheckInvitesCog(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-    self.guild_name= 'dmershon test server'
+    self.guild_name = token_loader.FLAUSTRIA_GUILD
     print('check invites loading')
 
   @commands.Cog.listener()
@@ -62,14 +62,14 @@ class CheckInvitesCog(commands.Cog):
     is_golden_eagle = await self.is_golden_eagle_invite(member)
     if is_golden_eagle:
       await self.add_role_to_member(member, 'Eagle-Type People')
-    await self.add_role_to_member(member, 'NewUser')
+    await self.add_role_to_member(member, 'Tourist')
     
   @commands.Cog.listener()
   async def on_member_update(self, before, after):
-    was_new_user = 'NewUser' in [role.name for role in before.roles]
-    is_new_user = 'NewUser' in [role.name for role in after.roles]
+    was_new_user = 'Tourist' in [role.name for role in before.roles]
+    is_new_user = 'Tourist' in [role.name for role in after.roles]
     if (not was_new_user) and is_new_user:
-      print("this is where the personality quiz would begin")   
+      await self.bot.get_cog('PersonalityTestCog').begin_test(after)
   
   async def is_golden_eagle_invite(self, member):
     print('is_golden_eagle_invite - running')
