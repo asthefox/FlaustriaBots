@@ -83,19 +83,14 @@ class CheckInvitesCog(commands.Cog):
       await self.bot.get_cog('PersonalityTestCog').begin_test(after)
   
   async def is_golden_eagle_invite(self, member):
-    print('is_golden_eagle_invite - running')
     invite = await self.find_matching_invite(member)
     if invite:
-      print('is_golden_eagle_invite - found matching invite')
       invite_code = invite.code
       alpha_available = database.get(f"discord/alpha_invites/{invite_code}")
-      print(f"Invite Code: {invite_code} Alpha Available: {alpha_available}")
       if alpha_available:
-        print('is_golden_eagle_invite - alpha available')
         database.set(f"discord/alpha_invites/{invite_code}", False)
+        await invite.delete()
         return True
-    
-    print('is_golden_eagle_invite - no matching invite')
     return False
 
   async def find_matching_invite(self, member):
