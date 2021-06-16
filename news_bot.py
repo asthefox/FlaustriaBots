@@ -98,8 +98,8 @@ class DailyNewsCog(commands.Cog):
       self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
       self.time_update.start()
       #try:
-      #  self._connect_channels()
-      #  print("News bot loaded as extension and connected to guild.")
+      self._connect_channels()
+      print("News bot loaded as extension and connected to guild.")
       #except AttributeError:
       #  print("News bot waiting for setup to connect to guild.")
 
@@ -115,13 +115,6 @@ class DailyNewsCog(commands.Cog):
   #### ---- TWITTER AND SUCH ---- ####
 
   def twitter_crosspost(self, headline):
-    addendum = " Full article in our Discord: https://discord.gg/zbDusCRmHw"
-    limit = 220
-    headline_cropped = headline
-    if len(headline_cropped) > limit:
-      headline_cropped = headline_cropped[:limit-2] + ".."
-    
-    message = headline_cropped + addendum
 
     try:
       auth = tweepy.OAuthHandler(
@@ -134,7 +127,7 @@ class DailyNewsCog(commands.Cog):
               )
       api = tweepy.API(auth)
 
-      status = api.update_status(status=message)
+      status = api.update_status(status=headline)
 
     except tweepy.TweepError:
       print('Error! Failed to access API and post.')
@@ -142,14 +135,15 @@ class DailyNewsCog(commands.Cog):
 
   #### ---- SETTING / GETTING HEADLINES FROM DATABASE ---- ####
 
-  def _retrieve_daily_headline_post(self, category):
+  def _retrieve_daily_headline_info(self, category):
     data_path = self._get_todays_article_path(category)
     headline_query = database.get(data_path+"/headline")
     headline_type = database.get(data_path+"/category")
     if headline_query == None:
-      return "There is no news today."
+      return ("There is no news today.", None)
+    return (headline_query, headline_type)
 
-
+  def _format_headline_for_discord(self, headline, full_category):
     hr = "~~\u200B                                  \u200B~~\n"
     cat_words = {
       "music_review" : "MUSIC REVIEW",
@@ -168,8 +162,17 @@ class DailyNewsCog(commands.Cog):
       "fad_news" : "THIS WEEK'S CULTURE REPORT",
       "listicle_news" : "THIS WEEK'S FUN FACTS"
   	}
-    header = "\n" + hr + "**" + cat_words[headline_type] + ":**\n" + headline_query + "\n" + hr + "\n"
+    header = "\n" + hr + "**" + cat_words[full_category] + ":**\n" + headline + "\n" + hr + "\n"
     return header
+
+  def _format_headline_for_twitter(self, headline, full_category):
+    addendum = " Read and discuss the full article in our Discord: https://discord.gg/zbDusCRmHw"
+    limit = 280 - len(addendum)
+    headline_cropped = headline
+    if len(headline_cropped) > limit:
+      headline_cropped = headline_cropped[:limit-2] + ".."
+    
+    return headline_cropped + addendum
 
   def _retrieve_daily_article_post(self, category):
     data_path = self._get_todays_article_path(category)
@@ -257,11 +260,11 @@ class DailyNewsCog(commands.Cog):
   @commands.command(name="news_debug_print_articles")
   async def debug_print_headlines(self, ctx):
     if ctx.author.guild_permissions.administrator:
-      headline = self._retrieve_daily_headline_post("news")
+      headline, category = self._retrieve_daily_headline_info("news")
       article = self._retrieve_daily_article_post("news")
       await ctx.send("NEWS: " + headline)
       await ctx.send(article)
-      headline = self._retrieve_daily_headline_post("entertainment")
+      headline, category = self._retrieve_daily_headline_info("entertainment")
       article = self._retrieve_daily_article_post("entertainment")
       await ctx.send("ENTERTAINMENT: " + headline)
       await ctx.send(article)
@@ -311,15 +314,17 @@ class DailyNewsCog(commands.Cog):
     #self._generate_daily_headline("entertainment")
 
   async def post_headline(self, category):
-    headline = self._retrieve_daily_headline_post(category)
+    headline, full_category = self._retrieve_daily_headline_info(category)
     article = self._retrieve_daily_article_post(category)
     if category == "news":
       channel = self.news_channel
     elif category == "entertainment":
       channel = self.entertainment_channel
-    await channel.send(headline)
+    headline_post = self._format_headline_for_discord(headline, full_category)
+    tweet = self._format_headline_for_twitter(headline, full_category)
+    await channel.send(headline_post)
     await channel.send(article)
-    self.twitter_crosspost(headline)
+    self.twitter_crosspost(tweet)
 
   async def test_post(self):
     message_channel=self.news_channel
