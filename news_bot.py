@@ -305,8 +305,8 @@ class DailyNewsCog(commands.Cog):
       await self.post_headline("news")
     if now == self.entertainment_post_time:
       await self.post_headline("entertainment")
-    if now == self.test_post_time:
-      await self.test_post()
+    #if now == self.test_post_time:
+    #  await self.test_post()
 
   #async def refresh_headlines(self):
     #database.refresh_token()
