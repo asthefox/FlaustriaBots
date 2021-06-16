@@ -51,6 +51,25 @@ class DailyNewsCog(commands.Cog):
         return False
 
   def _connect_channels(self):
+    if not hasattr(self, "guild") or not self.guild:
+      self.guild = discord.utils.get(self.bot.guilds, name=self.guild_token)
+
+    if not self.guild:
+      raise Exception("Could not connect to guild with ID: " + self.guild_token)
+
+    if not hasattr(self, "entertainment_channel") or not self.entertainment_channel:
+      self.entertainment_channel = self._find_channel("flaustrian_entertainment")
+
+    if not self.entertainment_channel:
+      raise Exception("Could not find a channel with name flaustrian_entertainment")
+
+    if not hasattr(self, "news_channel") or not self.news_channel:
+      self.news_channel = self._find_channel("flaustrian_news")
+
+    if not self.news_channel:
+      raise Exception("Could not find a channel with name flaustrian_news")
+      
+    """"
     try:
       if not self.guild:
         raise AttributeError
@@ -68,6 +87,7 @@ class DailyNewsCog(commands.Cog):
         raise AttributeError
     except AttributeError:
       self.news_channel = self._find_channel("flaustrian_news")
+    """
 
   #### ---- SETUP METHODS ---- ####
 
@@ -77,11 +97,11 @@ class DailyNewsCog(commands.Cog):
       self.data = []
       self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
       self.time_update.start()
-      try:
-        self._connect_channels()
-        print("News bot loaded as extension and connected to guild.")
-      except AttributeError:
-        print("News bot waiting for setup to connect to guild.")
+      #try:
+      #  self._connect_channels()
+      #  print("News bot loaded as extension and connected to guild.")
+      #except AttributeError:
+      #  print("News bot waiting for setup to connect to guild.")
 
   @commands.Cog.listener()
   async def on_ready(self):

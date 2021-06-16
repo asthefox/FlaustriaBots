@@ -25,7 +25,9 @@ class CheckInvitesCog(commands.Cog):
 
   @commands.command(name='invite')
   async def invite(self, ctx, number_of_invites=None):
-    if number_of_invites == None:
+    if not ctx.author.guild_permissions.administrator:
+      await ctx.send("Sorry, only admins can create invites.")
+    elif number_of_invites == None:
         await ctx.send(f'Please enter the number of invites. [example - !invite 10]')
         return
     elif not self.is_only_numbers(number_of_invites):
@@ -49,9 +51,12 @@ class CheckInvitesCog(commands.Cog):
 
   @commands.command(name='inv_check')
   async def inv_check(self, ctx):
-    await self.get_invites()
-    invites_count = len(self.invites)
-    await ctx.send(f"invites_count: {invites_count}")
+    if not ctx.author.guild_permissions.administrator:
+      await ctx.send("Sorry, only admins can check invites.")
+    else:
+      await self.get_invites()
+      invites_count = len(self.invites)
+      await ctx.send(f"invites_count: {invites_count}")
 
   def get_channel(self, channel_name):
     guild = self.get_guild()

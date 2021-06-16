@@ -281,4 +281,5 @@ def test():
   #print(grammar_generate_recursive("[sports_headline]"))
 
 initialize()
-test()
+if __name__ == "__main__":
+  test()

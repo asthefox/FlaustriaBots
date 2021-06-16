@@ -15,7 +15,8 @@ inside_track_bot = commands.Bot(command_prefix='IT!')
 #inside_track_bot.load_extension("cowyboys")
 
 ase_bot = commands.Bot(command_prefix='ASE!')
-ase_bot.load_extension("news_bot")
+ase_bot.load_extension("cog_loader")
+#ase_bot.load_extension("news_bot")
 
 glaucon_bot = commands.Bot(command_prefix='!', intents=intents)
 glaucon_bot.load_extension("cog_loader")
