@@ -8,3 +8,5 @@ services:
     restart: always
     environment:
       - APP_NAME=FlaustriaBots
+      - PYTHONUNBUFFERED=1
+        
