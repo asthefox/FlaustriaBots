@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+
+  bots:
+    build: ./
+    container_name: bots
+    restart: always
+    environment:
+      - APP_NAME=FlaustriaBots
+    ports:
+      - "8080:8080"
