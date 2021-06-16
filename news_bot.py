@@ -98,8 +98,8 @@ class DailyNewsCog(commands.Cog):
       self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
       self.time_update.start()
       #try:
-      self._connect_channels()
-      print("News bot loaded as extension and connected to guild.")
+      #self._connect_channels()
+      #print("News bot loaded as extension and connected to guild.")
       #except AttributeError:
       #  print("News bot waiting for setup to connect to guild.")
 
