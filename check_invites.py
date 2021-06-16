@@ -27,9 +27,10 @@ class CheckInvitesCog(commands.Cog):
   async def invite(self, ctx, number_of_invites=None):
     if not ctx.author.guild_permissions.administrator:
       await ctx.send("Sorry, only admins can create invites.")
+      return
     elif number_of_invites == None:
-        await ctx.send(f'Please enter the number of invites. [example - !invite 10]')
-        return
+      await ctx.send(f'Please enter the number of invites. [example - !invite 10]')
+      return
     elif not self.is_only_numbers(number_of_invites):
       await ctx.send(f'{number_of_invites} is not a number. Please enter a number of invites you want to generate. [example - !invite 10]')
       return
