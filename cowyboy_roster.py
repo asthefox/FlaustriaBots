@@ -37,7 +37,7 @@ def generate_cowyboy(color, id):
     }
   return cowyboy
 
-def generate_cowyboy_batch(start_id=0):
+def generate_cowyboy_batch(start_id=1):
   batch = []
   for i in range(5):
     c = generate_cowyboy(colors[i], i + start_id)
