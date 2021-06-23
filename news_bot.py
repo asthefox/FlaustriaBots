@@ -55,6 +55,9 @@ class DailyNewsCog(commands.Cog):
       self.guild = discord.utils.get(self.bot.guilds, name=self.guild_token)
 
     if not self.guild:
+      self.guild = discord.utils.get(self.bot.guilds, name=token_loader.DMERSHON_TEST_GUILD)
+
+    if not self.guild:
       raise Exception("Could not connect to guild with ID: " + self.guild_token)
 
     if not hasattr(self, "entertainment_channel") or not self.entertainment_channel:
@@ -165,10 +168,14 @@ class DailyNewsCog(commands.Cog):
     header = "\n" + hr + "**" + cat_words[full_category] + ":**\n" + headline + "\n" + hr + "\n"
     return header
 
-  def _format_headline_for_twitter(self, headline, full_category):
+  def _format_headline_for_twitter(self, headline, article, full_category):
     addendum = " Read and discuss the full article in our Discord: https://discord.gg/zbDusCRmHw"
     limit = 280 - len(addendum)
     headline_cropped = headline
+
+    if "chart" in full_category or "listicle" in full_category:
+      headline_cropped += " " + article.split("\n")[0]
+
     if len(headline_cropped) > limit:
       headline_cropped = headline_cropped[:limit-2] + ".."
     
@@ -212,6 +219,20 @@ class DailyNewsCog(commands.Cog):
     database.refresh_token()
     await ctx.send("Database token refreshed.")
 """
+
+  @commands.command(name="news_debug_refresh_channels")
+  async def debug_refresh_channels(self, ctx):
+    if ctx.author.guild_permissions.administrator:
+      self._connect_channels()
+      if self.guild:
+        await ctx.send("Guild: " + str(self.guild.id))
+        await ctx.send(self.news_channel)
+        await ctx.send(self.entertainment_channel)
+      else:
+        await ctx.send("No guild.")
+    else:
+      await ctx.send("Sorry, only admins can refresh the news channel connections.")
+
 
   @commands.command(name="news_current_time")
   async def debug_print_time(self, ctx):
@@ -321,9 +342,10 @@ class DailyNewsCog(commands.Cog):
     elif category == "entertainment":
       channel = self.entertainment_channel
     headline_post = self._format_headline_for_discord(headline, full_category)
-    tweet = self._format_headline_for_twitter(headline, full_category)
-    await channel.send(headline_post)
-    await channel.send(article)
+    tweet = self._format_headline_for_twitter(headline, article, full_category)
+    post = headline_post + article
+    post = post[:1999]
+    await channel.send(post)
     self.twitter_crosspost(tweet)
 
   async def test_post(self):
