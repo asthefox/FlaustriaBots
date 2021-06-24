@@ -4,12 +4,12 @@ from discord.ext import commands
 import token_loader
 import database
 from discord.utils import get, find
-import re
+from utilities import is_only_numbers
 
 class CheckInvitesCog(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-    self.guild_name = token_loader.FLAUSTRIA_GUILD
+    self.guild_name = 'dmershon test server'#token_loader.FLAUSTRIA_GUILD
     print('check invites loading')
 
   @commands.Cog.listener()
@@ -31,7 +31,7 @@ class CheckInvitesCog(commands.Cog):
     elif number_of_invites == None:
       await ctx.send(f'Please enter the number of invites. [example - !invite 10]')
       return
-    elif not self.is_only_numbers(number_of_invites):
+    elif not is_only_numbers(number_of_invites):
       await ctx.send(f'{number_of_invites} is not a number. Please enter a number of invites you want to generate. [example - !invite 10]')
       return
 
@@ -43,12 +43,6 @@ class CheckInvitesCog(commands.Cog):
 
     await self.get_invites()
     await ctx.send(f"successfully created {number_of_invites} invites.")
-  
-  def is_only_numbers(self, text):
-      #returns true if text is only numbers with no letters or other characters
-      pattern = re.compile(r"\D")
-      matches = pattern.findall(text)
-      return len(matches) < 1
 
   @commands.command(name='inv_check')
   async def inv_check(self, ctx):
