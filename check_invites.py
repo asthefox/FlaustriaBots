@@ -9,7 +9,7 @@ from utilities import is_only_numbers
 class CheckInvitesCog(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-    self.guild_name = 'dmershon test server'#token_loader.FLAUSTRIA_GUILD
+    self.guild_name = token_loader.FLAUSTRIA_GUILD
     print('check invites loading')
 
   @commands.Cog.listener()
