@@ -1,9 +1,8 @@
 from firebase import Firebase
-import os
-from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 import token_loader
+import database
 from utilities import is_only_numbers
 
 DUEL_CHANNEL_NAME = "test_duels"
@@ -78,10 +77,16 @@ class Cowyboys(commands.Cog):
       await bet_channel.send(f"{bet_amount} is not a valid bet amount")
       return
 
+    self.add_bet_to_db(ctx.author.id, cowyboy, bet_amount)
     await bet_channel.send(f"Placing bet of {bet_amount}k on {cowyboy}")
 
-  def get_guild(self):
-      return 
+  def add_bet_to_db(self, user_id, cowyboy, bet_amount):
+    bet_info = {
+      "user_id" : user_id,
+      "cowyboy" : cowyboy,
+      "bet_amount" : bet_amount
+    }
+    database.push(f"discord/cowyboy_bets", bet_info)
 
 def setup(bot):
     bot.add_cog(Cowyboys(bot))

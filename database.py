@@ -16,6 +16,12 @@ def set(path, value):
     print("Firebase Wrapper Error: The Firebase has not been initialized.")
   db.child(path).set(value, user['idToken'])
 
+def push(path, value):
+  refresh_token()
+  if db == None:
+    print("Firebase Wrapper Error: The Firebase has not been initialized.")
+  db.child(path).push(value, user['idToken'])
+
 def update(path, value):
   refresh_token()
   if db == None:
