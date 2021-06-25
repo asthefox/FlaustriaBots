@@ -14,6 +14,10 @@ class AdminTools(commands.Cog):
 
   @commands.command(name="print_users")
   async def print_users(self, ctx):
+    if not ctx.author.guild_permissions.administrator:
+      await ctx.send("Sorry, only admins can create invites.")
+      return
+
     message = 'printing guild members...'
     guild = self.get_guild()
     for member in guild.members:
