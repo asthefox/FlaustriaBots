@@ -80,6 +80,8 @@ class Cowyboys(commands.Cog):
 
     await bet_channel.send(f"Placing bet of {bet_amount}k on {cowyboy}")
 
+  def get_guild(self):
+      return 
 
 def setup(bot):
     bot.add_cog(Cowyboys(bot))
