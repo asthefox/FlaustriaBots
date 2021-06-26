@@ -3,7 +3,7 @@ from discord.ext import tasks, commands
 import asyncpg
 from datetime import datetime, time
 from importlib import reload
-
+import random
 import token_loader
 import flaustrian_headlines
 import database
@@ -15,7 +15,7 @@ class DailyNewsCog(commands.Cog):
   #### ---- PSEUDOCONSTANTS ---- ####
 
   #refresh_time='08:05' #time is in 24hr format
-  news_post_time='17:00'
+  news_post_time='16:00'
   entertainment_post_time='20:30'
   test_post_time = '23:15'
 
@@ -71,7 +71,7 @@ class DailyNewsCog(commands.Cog):
 
     if not self.news_channel:
       raise Exception("Could not find a channel with name flaustrian_news")
-      
+
     """"
     try:
       if not self.guild:
@@ -132,8 +132,8 @@ class DailyNewsCog(commands.Cog):
 
       status = api.update_status(status=headline)
 
-    except tweepy.TweepError:
-      print('Error! Failed to access API and post.')
+    except tweepy.TweepError as err:
+      print('Error! Failed to access Twitter API and post.  Error message: ' + str(err))
 
 
   #### ---- SETTING / GETTING HEADLINES FROM DATABASE ---- ####
@@ -164,7 +164,7 @@ class DailyNewsCog(commands.Cog):
       "politics_news" : "BREAKING POLITICAL NEWS",
       "fad_news" : "THIS WEEK'S CULTURE REPORT",
       "listicle_news" : "THIS WEEK'S FUN FACTS"
-  	}
+    }
     header = "\n" + hr + "**" + cat_words[full_category] + ":**\n" + headline + "\n" + hr + "\n"
     return header
 
@@ -178,7 +178,7 @@ class DailyNewsCog(commands.Cog):
 
     if len(headline_cropped) > limit:
       headline_cropped = headline_cropped[:limit-2] + ".."
-    
+
     return headline_cropped + addendum
 
   def _retrieve_daily_article_post(self, category):
@@ -191,6 +191,42 @@ class DailyNewsCog(commands.Cog):
 
     return "_" + byline_query + "_" + "\n\n>>> " + article_query
 
+  async def _post_reaction(self, channel, full_category):
+    post = channel.last_message
+    if post == None:
+      return
+    emojis = {
+      "music_review" : "😃😄😍😜🍺🎸🎷🤔🐶🎨🎵💃",
+      "movie_review" : "😃😄😍🐶🍺🎥🤔🎨",
+      "recent_tv_headline" : "😃😍📺🤔🆒😲",
+      "movie_chart" : "😃😍🤯😎🎥🍾😺🤵🎉",
+      "music_chart" : "😃😍🤯😎😺🎸🎷🤘🎵🧑‍🎤💃🎉",
+      "upcoming_tv_headline" : "😃😍📺🆒😲🤞",
+      "movie_synopsis" : "😃😍🤔😲👀🆒",
+
+      "business_news" : "🤑🤔😵🤓🧠🧮💰🦄🐳",
+      "sports_news" : "😃😏😵💪🏃🏇🤸⛹️‍♀️🤾",
+      "gossip_news" : "😆😍😗🤔😲💖💏",
+      "crime_news" : "😉🤔😬😨👀⚠🤮☠👨‍⚖️🧛",
+      "politics_news" : "😉😍🤑🤫🤔🧐🧙🤡",
+      "fad_news" : "😆😃😄😜😎🤔🆒🆕",
+      "listicle_news" : "😁😆🤣🤔🤯🧙"
+    }
+
+    options = emojis[full_category]
+    if "cowyboy" in post.content or "Cowyboy" in post.content:
+      options.append("🤠🤠")
+    if "dog" in post.content or "Dog" in post.content:
+      options.append("🐶🐶")
+    if "wolf" in post.content or "Wolf" in post.content:
+      options.append("🐺🐺")
+
+    while len(options) > 3:
+      index = random.randint(0, len(options)-1)
+      options = options[:index] + options[index+1:]
+
+    for emo in options:
+      await post.add_reaction(emoji=emo)
 
   #def _generate_daily_headline(self, category):
   #  headline = flaustrian_headlines.get_headline(category, datetime.today())
@@ -241,7 +277,7 @@ class DailyNewsCog(commands.Cog):
       await ctx.send("The time is: " + now)
     else:
       await ctx.send("Sorry, only admins can tell the internal news timer.")
-    
+
   @commands.command(name="news_debug_reload_libraries")
   async def debug_reload_library(self, ctx):
     if ctx.author.guild_permissions.administrator:
@@ -336,6 +372,8 @@ class DailyNewsCog(commands.Cog):
 
   async def post_headline(self, category):
     headline, full_category = self._retrieve_daily_headline_info(category)
+    if headline == None or full_category == None:
+      return
     article = self._retrieve_daily_article_post(category)
     if category == "news":
       channel = self.news_channel
@@ -346,6 +384,7 @@ class DailyNewsCog(commands.Cog):
     post = headline_post + article
     post = post[:1999]
     await channel.send(post)
+    await self._post_reaction(channel, full_category)
     self.twitter_crosspost(tweet)
 
   async def test_post(self):
@@ -368,27 +407,27 @@ bot=commands.Bot(command_prefix='!')
 file_name='some_file.txt' #replace with the name of your file with extension
 
 if os.path.isfile(file_name):
-		with open(file_name, "r") as f:
-			message_list = f.read()
-			message_list = message_list.strip().split("\n")
+    with open(file_name, "r") as f:
+      message_list = f.read()
+      message_list = message_list.strip().split("\n")
 
 @bot.event
 async def on_ready():
-	print(bot.user.name)
-	print(bot.user.id)
+  print(bot.user.name)
+  print(bot.user.id)
 
 async def time_check():
-	await bot.wait_until_ready()
-	message_channel=bot.get_channel(message_channel_id)
-	while not bot.is_closed:
-		now=datetime.strftime(datetime.now(),'%H:%M')
-		if now == send_time:
-			message= random.choice(message_list)
-			await bot.send_message(message_channel,message)
-			time=90
-		else:
-			time=1
-		await asyncio.sleep(time)
+  await bot.wait_until_ready()
+  message_channel=bot.get_channel(message_channel_id)
+  while not bot.is_closed:
+    now=datetime.strftime(datetime.now(),'%H:%M')
+    if now == send_time:
+      message= random.choice(message_list)
+      await bot.send_message(message_channel,message)
+      time=90
+    else:
+      time=1
+    await asyncio.sleep(time)
 
 bot.loop.create_task(time_check())
 
