@@ -76,6 +76,13 @@ class Cowyboys(commands.Cog):
     if not is_only_numbers(bet_amount):
       await bet_channel.send(f"{bet_amount} is not a valid bet amount")
       return
+    
+    economy = self.bot.get_cog('Economy')
+    (has_money, balance) = economy.withdraw_money(ctx.guild, ctx.author, int(bet_amount))
+
+    if not has_money:
+      await bet_channel.send(f"Sorry, you dot not have {bet_amount}k in your bank account. Your current balance is {balance}k.")
+      return
 
     self.add_bet_to_db(ctx.author.id, cowyboy, bet_amount)
     await bet_channel.send(f"Placing bet of {bet_amount}k on {cowyboy}")
