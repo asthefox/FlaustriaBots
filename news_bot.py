@@ -168,18 +168,45 @@ class DailyNewsCog(commands.Cog):
     header = "\n" + hr + "**" + cat_words[full_category] + ":**\n" + headline + "\n" + hr + "\n"
     return header
 
+  def _should_twitter_crosspost(full_category):
+    return full_category in [
+    # Week 1
+    "crime_news",
+    "sports_news",
+    "upcoming_tv_headline",
+    # Week 2
+    "politics_news",
+    "gossip_news",
+    "recent_tv_headline"
+    ]
+
+  def _should_twitter_post_link(full_category):
+    return full_category in [
+    # Week 1
+    #"crime_news",
+    # Week 2
+    #"politics_news"
+    "recent_tv_headline"
+    ]
+
   def _format_headline_for_twitter(self, headline, article, full_category):
-    addendum = " Read and discuss the full article in our Discord: https://discord.gg/zbDusCRmHw"
-    limit = 280 - len(addendum)
+    #addendum = " Read and discuss the full article in our Discord: https://discord.gg/zbDusCRmHw"
+    limit = 280# - len(addendum)
     headline_cropped = headline
 
     if "chart" in full_category or "listicle" in full_category:
       headline_cropped += " " + article.split("\n")[0]
 
+    if full_category == "upcoming_tv_headline" or full_category == "business_news":
+      headline_cropped = article
+
     if len(headline_cropped) > limit:
       headline_cropped = headline_cropped[:limit-2] + ".."
 
-    return headline_cropped + addendum
+    return headline_cropped# + addendum
+
+  def _get_twitter_link_text(self):
+    return "Read and discuss all the latest Flaustrian News in our Discord: https://discord.gg/zbDusCRmHw"
 
   def _retrieve_daily_article_post(self, category):
     data_path = self._get_todays_article_path(category)
@@ -380,12 +407,16 @@ class DailyNewsCog(commands.Cog):
     elif category == "entertainment":
       channel = self.entertainment_channel
     headline_post = self._format_headline_for_discord(headline, full_category)
-    tweet = self._format_headline_for_twitter(headline, article, full_category)
     post = headline_post + article
     post = post[:1999]
     await channel.send(post)
     await self._post_reaction(channel, full_category)
-    self.twitter_crosspost(tweet)
+
+    if self._should_twitter_crosspost(full_category):
+      tweet = self._format_headline_for_twitter(headline, article, full_category)
+      self.twitter_crosspost(tweet)
+      if self._should_twitter_post_link(full_category):
+        self.twitter_crosspost(self._get_twitter_link_text())
 
   async def test_post(self):
     message_channel=self.news_channel
