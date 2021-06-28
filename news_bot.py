@@ -168,7 +168,7 @@ class DailyNewsCog(commands.Cog):
     header = "\n" + hr + "**" + cat_words[full_category] + ":**\n" + headline + "\n" + hr + "\n"
     return header
 
-  def _should_twitter_crosspost(full_category):
+  def _should_twitter_crosspost(self, full_category):
     return full_category in [
     # Week 1
     "crime_news",
@@ -180,7 +180,7 @@ class DailyNewsCog(commands.Cog):
     "recent_tv_headline"
     ]
 
-  def _should_twitter_post_link(full_category):
+  def _should_twitter_post_link(self, full_category):
     return full_category in [
     # Week 1
     #"crime_news",
