@@ -156,6 +156,7 @@ class DailyNewsCog(commands.Cog):
       "music_chart" : "MUSIC NEWS",
       "upcoming_tv_headline" : "TV PREVIEW",
       "movie_synopsis" : "MOVIE RECAP",
+      "charts": "THE CHARTS",
 
       "business_news" : "BREAKING BUSINESS UPDATE",
       "sports_news" : "BREAKING SPORTS NEWS",
@@ -376,6 +377,23 @@ class DailyNewsCog(commands.Cog):
         await ctx.send("Sorry, could not recognize news event " + event_arg + ". Must be news, entertainment, or refresh.")
     else:
       await ctx.send("Sorry, only admins can foresee the news.")
+
+  @commands.command(name="news_debug_test_twitter")
+  async def news_debug_test_twitter(self, ctx):
+    if ctx.author.guild_permissions.administrator:
+      headline, full_category = self._retrieve_daily_headline_info("news")
+      if self._should_twitter_crosspost(full_category):
+        await ctx.send("Today's news, in the " + full_category + " category, will post on Twitter.")
+        if self._should_twitter_post_link(full_category):
+          await ctx.send("It will also post a link to this Discord.")
+      else:
+        await ctx.send("Today's news, in the " + full_category + " category, would not normally post on Twitter.")
+      article = self._retrieve_daily_article_post("news")
+      tweet = self._format_headline_for_twitter(headline, article, full_category)
+      self.twitter_crosspost(tweet)
+      self.twitter_crosspost(self._get_twitter_link_text())
+    else:
+      await ctx.send("Sorry, only admins can test integrations.")
 
 
   #### ---- TIMED TASKS ---- ####
