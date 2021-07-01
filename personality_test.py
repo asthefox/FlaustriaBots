@@ -30,7 +30,7 @@ class TestRecord():
   def get_test_record(self, user_id):
     record_path = f"discord/personality_tests/{user_id}/answers"
     result = database.get(record_path)
-    if not result:  
+    if not result:
       print(f"adding new test record for user_id: {user_id}")
       database.set(record_path, ["" for question in self.test.questions])
     return result if result else self.get_test_record(user_id)
@@ -40,7 +40,7 @@ class TestRecord():
 
   def get_role_record(self, user_id):
     return database.get(f"discord/personality_tests/{user_id}/role")
-  
+
   def get_question_index_from_test_record(self, test_record):
     index = 0
     for answer in test_record:
@@ -84,10 +84,12 @@ class PersonalityTestCog(commands.Cog):
 
       channel = self.bot.get_channel(payload.channel_id)
       message = await channel.fetch_message(payload.message_id)
+      if message.author.id != self.bot.user.id:
+        return
       msg_split = message.content.split('.')
       response_qi = int(msg_split[0]) - 1
       qi = self.tr.get_question_index(payload.user_id)
-      if response_qi != qi or message.author.id != self.bot.user.id:
+      if response_qi != qi:
         return
 
       self.tr.set_question_answer(payload.user_id, qi, payload.emoji.name)
@@ -107,16 +109,16 @@ class PersonalityTestCog(commands.Cog):
 
       for answer in question.answers:
         await msg.add_reaction(emoji=answer)
-    
+
     async def end_test(self, channel, user_id):
       test_record = self.tr.get_test_record(user_id)
       last_answer = test_record[len(self.test.questions) - 1]
-      roles = { 
-        '🐍' : 'Mongoose Ministry', 
+      roles = {
+        '🐍' : 'Mongoose Ministry',
         '💰' : 'Market Ministry',
         '☀' : 'Sun Ministry',
         '📕' : 'Book Ministry',
-        '☠' : 'Moon Ministry' 
+        '☠' : 'Moon Ministry'
       }
       role_name = roles[last_answer]
       self.tr.set_role_record(user_id, role_name)
@@ -126,7 +128,7 @@ class PersonalityTestCog(commands.Cog):
       ministry_name = self.get_ministry(role_name)
 
       msg = "Congratulations! You are now a Flaustrian citizen, and you can now enjoy all Flaustria has to offer.\n\nAllow me to humbly recommend some activities:\n -Discuss the latest <#832427377967628288> and <#832378973161521192>!\n -Better yourself morally by betting on daily <#850534625319321601>!\n -Petition to join the exclusive **alpha of Astronaut: The Best** with <#850528747853709334>!"
-      
+
       embed = self.get_link_to_atb_discord()
       await channel.send(msg, embed=embed)
 
@@ -137,12 +139,12 @@ class PersonalityTestCog(commands.Cog):
       return embed
 
     def get_ministry(self, role_name):
-      ministries = { 
-        'Mongoose Ministry' : 'The Ministry of Defense Against Serpents', 
+      ministries = {
+        'Mongoose Ministry' : 'The Ministry of Defense Against Serpents',
         'Market Ministry' : 'The Ministry of Limited-Time Offers',
         'Sun Ministry' : 'The Ministry of Righteous Shaming',
         'Book Ministry' : 'The Ministry of Forbidden Knowledge',
-        'Moon Ministry' : 'The Ministry of Love and Death' 
+        'Moon Ministry' : 'The Ministry of Love and Death'
       }
       return ministries[role_name]
 
@@ -161,7 +163,7 @@ class PersonalityTestCog(commands.Cog):
     async def remove_role_from_member(self, member, role_name):
       role = get(self.get_guild().roles, name=role_name)
       await member.remove_roles(role)
-      
+
 
 
 def setup(bot):

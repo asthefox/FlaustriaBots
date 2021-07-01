@@ -228,14 +228,14 @@ class DailyNewsCog(commands.Cog):
       "movie_review" : "😃😄😍🐶🍺🎥🤔🎨",
       "recent_tv_headline" : "😃😍📺🤔🆒😲",
       "movie_chart" : "😃😍🤯😎🎥🍾😺🤵🎉",
-      "music_chart" : "😃😍🤯😎😺🎸🎷🤘🎵🧑‍🎤💃🎉",
+      "music_chart" : "😃😍🤯😎😺🎸🎷🤘🎵💃🎉",
       "upcoming_tv_headline" : "😃😍📺🆒😲🤞",
       "movie_synopsis" : "😃😍🤔😲👀🆒",
 
       "business_news" : "🤑🤔😵🤓🧠🧮💰🦄🐳",
-      "sports_news" : "😃😏😵💪🏃🏇🤸⛹️‍♀️🤾",
+      "sports_news" : "😃😏😵💪🏃🏇🤸🤾",
       "gossip_news" : "😆😍😗🤔😲💖💏",
-      "crime_news" : "😉🤔😬😨👀⚠🤮☠👨‍⚖️🧛",
+      "crime_news" : "😉🤔😬😨👀⚠🤮☠🧛",
       "politics_news" : "😉😍🤑🤫🤔🧐🧙🤡",
       "fad_news" : "😆😃😄😜😎🤔🆒🆕",
       "listicle_news" : "😁😆🤣🤔🤯🧙"
@@ -254,7 +254,10 @@ class DailyNewsCog(commands.Cog):
       options = options[:index] + options[index+1:]
 
     for emo in options:
-      await post.add_reaction(emoji=emo)
+      try:
+      	await post.add_reaction(emoji=emo)
+      except discord.errors.HTTPException as e:
+        print(f"Emoji {emo} caused exception: {e}")
 
   #def _generate_daily_headline(self, category):
   #  headline = flaustrian_headlines.get_headline(category, datetime.today())
