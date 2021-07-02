@@ -198,10 +198,20 @@ class Cowyboys(commands.Cog):
     await self._resolve_bets(ctx, results[0], winner_odds)
 
   async def _resolve_bets(self, ctx, winner, odds):
-
     # Here we will respond to each of the individual bet tickets
-    pass
+    winner_name = winner['name']
+    winner_id = winner['id']
+    await ctx.send(f"winner_name:{winner_name} winner_id:{winner_id}")
+    winner_bets = self._get_matching_bets(winner_id)
+    for wb in winner_bets:
+      bet_user = wb['user_id']
+      bet_cowyboy_id = wb['cowyboy_id']
+      bet_amount = wb['bet_amount']
+      await ctx.send(f"bet_user:{bet_user} bet_cowyboy_id:{bet_cowyboy_id} bet_amount:{bet_amount}")
 
+  def _get_matching_bets(self, cowyboy_id):
+    all_bets = database.get(f"discord/cowyboy_bets")
+    return [bet for bet in all_bets.values() if bet['cowyboy_id'] == cowyboy_id]
 
   @commands.command(name="bet")
   async def bet(self, ctx, cowyboy_number=None, bet_amount=None):
@@ -237,10 +247,10 @@ class Cowyboys(commands.Cog):
 
     cowyboy = self.cowyboys[cowyboy_index]
     cb_name = cowyboy['name']
-    self.add_bet_to_db(ctx.author.id, cowyboy['id'], bet_amount)
+    self._add_bet_to_db(ctx.author.id, cowyboy['id'], bet_amount)
     await bet_channel.send(f"Placing bet of {bet_amount}k on {cb_name}")
 
-  def add_bet_to_db(self, user_id, cowyboy_id, bet_amount):
+  def _add_bet_to_db(self, user_id, cowyboy_id, bet_amount):
     bet_info = {
       "user_id" : user_id,
       "cowyboy_id" : cowyboy_id,
