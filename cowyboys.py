@@ -85,74 +85,74 @@ class Cowyboys(commands.Cog):
   @commands.command(name="debug_open_bets")
   async def debug_open_bets(self, ctx):
 
-      #self._reset_odds()
-      #self._clear_bets()
-      await ctx.send("Opening bets...")
-      try:
-        await self._open_bets()
-      except Exception as e:
-        await ctx.send(f"Encountered error: {e}")
-      await ctx.send("Bets are now open!")
+    #self._reset_odds()
+    #self._clear_bets()
+    await ctx.send("Opening bets...")
+    try:
+      await self._open_bets()
+    except Exception as e:
+      await ctx.send(f"Encountered error: {e}")
+    await ctx.send("Bets are now open!")
 
   async def _open_bets(self):
 
-      ## -- Open Channel -- ##
-      guild = self._find_guild()
-      bet_channel = self._find_channel(BET_CHANNEL_NAME, guild)
-      if bet_channel == None:
-        return
+    ## -- Open Channel -- ##
+    guild = self._find_guild()
+    bet_channel = self._find_channel(BET_CHANNEL_NAME, guild)
+    if bet_channel == None:
+      return
 
-      # Uses Flaustrian Citizen role if available
-      role = guild.get_role(845096006261407765)
-      if role == None:
-        role = guild.default_role
-      await bet_channel.set_permissions(role, send_messages=True)
+    # Uses Flaustrian Citizen role if available
+    role = guild.get_role(845096006261407765)
+    if role == None:
+      role = guild.default_role
+    await bet_channel.set_permissions(role, send_messages=True)
 
-      ## -- Print Odds -- ##
-      cowyboys = duels.get_active_cowyboys()
-      odds = duels.determine_payoffs(cowyboys)
+    ## -- Print Odds -- ##
+    self.cowyboys = duels.get_active_cowyboys()
+    await self.print_odds(self.cowyboys, bet_channel)
 
-      opening_post = f"{utilities.hr()}**COWYBOY BETS NOW OPEN FOR {datetime.date.today().strftime('%B %d').upper()}**!\n"
-      self.odds_post = ""
-      for i in range(len(cowyboys)):
-        cowyboy_line = (f"{i+1}.{cowyboys[i]['name']} ({cowyboys[i]['color']}) - {odds[i]:g}:1\n")
-        opening_post += cowyboy_line
-        self.odds_post += cowyboy_line
+  async def print_odds(self, cowyboys, bet_channel):
+    odds = duels.determine_payoffs(cowyboys)
+    opening_post = f"{utilities.hr()}**COWYBOY BETS NOW OPEN FOR {datetime.date.today().strftime('%B %d').upper()}**!\n"
+    self.odds_post = ""
+    for i in range(len(cowyboys)):
+      cowyboy_line = (f"{i+1}.{cowyboys[i]['name']} ({cowyboys[i]['color']}) - {odds[i]:g}:1\n")
+      opening_post += cowyboy_line
+      self.odds_post += cowyboy_line
 
-      opening_post += f"{utilities.hr()}\nPlace your bets in this channel using the command **!bet <cowyboy name or color> <amount>**"
-
-      await bet_channel.send(opening_post)
-
-
+    opening_post += f"{utilities.hr()}\nPlace your bets in this channel using the command **!bet <cowyboy number> <amount>**"
+    await bet_channel.send(opening_post)
+  
   @commands.command(name="debug_close_bets")
   async def debug_close_bets(self, ctx):
-      await ctx.send("Closing bets")
-      try:
-        await self._close_bets()
-      except Exception as e:
-        await ctx.send(f"Encountered error: {e}")
-      await ctx.send("Bets are now closed.")
+    await ctx.send("Closing bets")
+    try:
+      await self._close_bets()
+    except Exception as e:
+      await ctx.send(f"Encountered error: {e}")
+    await ctx.send("Bets are now closed.")
 
   async def _close_bets(self):
-      guild = self._find_guild()
-      bet_channel = self._find_channel(BET_CHANNEL_NAME, guild)
-      if bet_channel == None:
-        return
+    guild = self._find_guild()
+    bet_channel = self._find_channel(BET_CHANNEL_NAME, guild)
+    if bet_channel == None:
+      return
 
-      # Uses Flaustrian Citizen role if available
-      role = guild.get_role(845096006261407765)
-      if role == None:
-        role = guild.default_role
-      await bet_channel.set_permissions(role, send_messages=False)
+    # Uses Flaustrian Citizen role if available
+    role = guild.get_role(845096006261407765)
+    if role == None:
+      role = guild.default_role
+    await bet_channel.set_permissions(role, send_messages=False)
 
-      await bet_channel.send(f"Bets are now closed for {datetime.date.today().strftime('%B %d')}. Please gather around #{DUEL_CHANNEL_NAME}, for the opening convocation will begin shortly.")
+    await bet_channel.send(f"Bets are now closed for {datetime.date.today().strftime('%B %d')}. Please gather around #{DUEL_CHANNEL_NAME}, for the opening convocation will begin shortly.")
 
 
   @commands.command(name="debug_run_duel")
   async def debug_run_duel(self, ctx):
     await ctx.send("Running duel...")
     try:
-      await self._run_duel(ctx)
+      await self._run_duel(ctx, instant=True)
     except Exception as e:
       await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
     await ctx.send("Bets are now closed.")
@@ -204,19 +204,28 @@ class Cowyboys(commands.Cog):
 
 
   @commands.command(name="bet")
-  async def bet(self, ctx, cowyboy=None, bet_amount=None):
+  async def bet(self, ctx, cowyboy_number=None, bet_amount=None):
     #!bet <cowyboy (by name or color or number)> <money>
 
     bet_channel = self._find_channel(BET_CHANNEL_NAME, ctx.guild)
     if bet_channel == None:
       return
 
-    if not cowyboy or not bet_amount:
+    if not cowyboy_number or not bet_amount:
       await bet_channel.send('please enter the name of the cowyboy you want to bet on, then the amount of k you want to bet (example - !bet horselegs 230)')
       return
 
     if not utilities.is_only_numbers(bet_amount):
       await bet_channel.send(f"{bet_amount} is not a valid bet amount")
+      return
+    
+    if not utilities.is_only_numbers(cowyboy_number):
+      await bet_channel.send(f"{cowyboy_number} not a positive number")
+      return
+
+    cowyboy_index = int(cowyboy_number) - 1
+    if not cowyboy_index in range(len(self.cowyboys)):
+      await bet_channel.send(f"{cowyboy_number} not a number of one of the cowyboys you can bet on")
       return
 
     economy = self.bot.get_cog('Economy')
@@ -226,13 +235,15 @@ class Cowyboys(commands.Cog):
       await bet_channel.send(f"Sorry, you dot not have {bet_amount}k in your bank account. Your current balance is {balance}k.")
       return
 
-    self.add_bet_to_db(ctx.author.id, cowyboy, bet_amount)
-    await bet_channel.send(f"Placing bet of {bet_amount}k on {cowyboy}")
+    cowyboy = self.cowyboys[cowyboy_index]
+    cb_name = cowyboy['name']
+    self.add_bet_to_db(ctx.author.id, cowyboy['id'], bet_amount)
+    await bet_channel.send(f"Placing bet of {bet_amount}k on {cb_name}")
 
-  def add_bet_to_db(self, user_id, cowyboy, bet_amount):
+  def add_bet_to_db(self, user_id, cowyboy_id, bet_amount):
     bet_info = {
       "user_id" : user_id,
-      "cowyboy" : cowyboy,
+      "cowyboy_id" : cowyboy_id,
       "bet_amount" : bet_amount
     }
     database.push(f"discord/cowyboy_bets", bet_info)
