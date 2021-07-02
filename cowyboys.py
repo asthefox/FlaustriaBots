@@ -107,11 +107,12 @@ class Cowyboys(commands.Cog):
       await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
     await ctx.send("Bets are now closed.")
 
-  async def _run_duel(self, ctx):
+  async def _run_duel(self, ctx, instant=False):
 
     # Close bets
     await self._close_bets(ctx)
-    await asyncio.sleep(10)
+    if not instant:
+      await asyncio.sleep(10)
 
     # Determine duel outcome
     duel_channel = await self._find_channel(DUEL_CHANNEL_NAME, ctx)
@@ -121,9 +122,10 @@ class Cowyboys(commands.Cog):
     output = drama.get_contest_output(results)
 
     # Post duel
-    for line in output:
-      await duel_channel.send(line)
-      await asyncio.sleep(1)
+    if not instant:
+      for line in output:
+        await duel_channel.send(line)
+        await asyncio.sleep(1)
 
     # Post outcome
     discussion_channel = await self._find_channel(DISCUSSION_CHANNEL_NAME, ctx)

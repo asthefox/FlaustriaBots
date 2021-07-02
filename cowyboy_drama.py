@@ -43,7 +43,7 @@ def get_filler_output(remaining_contestants):
     filler_choices = filler_lines
   else:
     filler_choices = list(filter(lambda line: "{c2}" not in line, filler_lines))
-  
+
   line = random.choice(filler_choices)
   line = line.replace("{c1}", format_name(c1))
   line = line.replace("{c1_color}", c1["color"])
@@ -81,7 +81,7 @@ def get_contest_output(ordered_contestants):
     eliminated = remaining_contestants[-1]
     remaining_contestants.remove(eliminated)
     outputs.append(get_elimination_output(eliminated, remaining_contestants))
-    
+
   # Output winner
   outputs.append(get_finale(remaining_contestants[0]))
   return outputs
