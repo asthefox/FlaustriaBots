@@ -5,3 +5,6 @@ def is_only_numbers(text):
   pattern = re.compile(r"\D")
   matches = pattern.findall(text)
   return len(matches) < 1
+
+def hr():
+	return "~~\u200B                                  \u200B~~\n"

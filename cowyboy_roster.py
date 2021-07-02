@@ -44,7 +44,12 @@ def generate_cowyboy_batch(start_id=1):
     batch.append(c)
   return batch
 
-def _write_cowyboy_data(cowyboy):
+def get_next_id():
+  roster_root = "flaustria/cowyboys/roster/"
+  full_roster = database.get(roster_root)
+  return len(full_roster)
+
+def write_cowyboy_data(cowyboy):
   root = "flaustria/cowyboys/roster/" + str(cowyboy["id"])
   database.set(root, cowyboy)
   """
@@ -73,14 +78,14 @@ def _read_cowyboy_data(id):
   """
   return cowyboy
 
-def _write_current_ids(id_list):
+def write_current_ids(id_list):
   database.set("flaustria/cowyboys/current", id_list)
 
 def seed_initial_cowyboys():
   batch = generate_cowyboy_batch(0)
   for cowyboy in batch:
-    _write_cowyboy_data(cowyboy)
+    write_cowyboy_data(cowyboy)
   ids = list(map(lambda c: c["id"], batch))
-  _write_current_ids(ids)
+  write_current_ids(ids)
 
 _initialize()

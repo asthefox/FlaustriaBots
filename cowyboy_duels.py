@@ -2,6 +2,7 @@ import random
 import database
 from math import floor
 from numpy.random import choice as nchoice
+import cowyboy_roster as roster
 
 def get_active_cowyboys():
   ids = database.get("flaustria/cowyboys/current")
@@ -25,13 +26,13 @@ def determine_placement(cowyboys):
   return list(map(lambda i: cowyboys[i], ordered_indexes))
 
 def determine_payoffs(cowyboys):
-  
+
   VIG = 0.1
-  
+
   # Determine odds
   total_power = sum(int(cowyboy["power"]) for cowyboy in cowyboys)
   odds = list(map(lambda cowyboy: float(cowyboy["power"] / total_power), cowyboys))
-  
+
   # Debug print
   #print("Odds of success:")
   #for i in range(len(cowyboys)):
@@ -42,3 +43,28 @@ def determine_payoffs(cowyboys):
   payoffs = list(map(lambda odd: round((1 - VIG) * 4 / odd) / 4, odds))
 
   return payoffs
+
+def update_cowyboys_after_duel(results):
+
+  winner = results[0]
+  loser = results[-1]
+
+  # Write changed data to cowyboys
+  winner["wins"] += 1
+  winner["power"] += 10
+  for cowyboy in results:
+    cowyboy["duels"] += 1
+    roster.write_cowyboy_data(cowyboy)
+
+  # Make new cowyboy
+  new_cowyboy_id = roster.get_next_id()
+  new_cowyboy_color = loser["color"]
+  new_cowyboy = roster.generate_cowyboy(new_cowyboy_color, new_cowyboy_id)
+  roster.write_cowyboy_data(new_cowyboy)
+
+  # Update current cowyboy IDs
+  updated_current_ids = list(map(lambda c: c["id"], results))
+  updated_current_ids.remove(loser["id"])
+  updated_current_ids.append(new_cowyboy_id)
+  roster.write_current_ids(updated_current_ids)
+

@@ -7,7 +7,7 @@ import random
 import token_loader
 import flaustrian_headlines
 import database
-
+import utilities
 import tweepy
 
 class DailyNewsCog(commands.Cog):
@@ -147,7 +147,7 @@ class DailyNewsCog(commands.Cog):
     return (headline_query, headline_type)
 
   def _format_headline_for_discord(self, headline, full_category):
-    hr = "~~\u200B                                  \u200B~~\n"
+    hr = utilities.hr()
     cat_words = {
       "music_review" : "MUSIC REVIEW",
       "movie_review" : "MOVIE REVIEW",

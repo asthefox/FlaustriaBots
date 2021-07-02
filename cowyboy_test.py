@@ -5,7 +5,7 @@ import cowyboy_drama as drama
 def reseed():
   cowyboy_roster.seed_initial_cowyboys()
 
-def test_odds():
+def test_full_duel():
   cowyboys = duels.get_active_cowyboys()
   odds = duels.determine_payoffs(cowyboys)
 
@@ -28,4 +28,4 @@ def test_odds():
   winner_odds = odds[winner_odds_index]
   print(f"{drama.format_name(results[0])} pays {winner_odds} to 1")
 
-test_odds()
+test_full_duel()
