@@ -1,6 +1,6 @@
 from firebase import Firebase
 import discord
-from discord.ext import commands
+from discord.ext import tasks, commands
 import token_loader
 import database
 import utilities
@@ -8,8 +8,11 @@ import traceback
 import cowyboy_duels as duels
 import cowyboy_drama as drama
 import datetime
-import asyncio
+import asyncio, asyncpg
+from importlib import reload
 
+DUEL_TIME='19:00'
+BET_OPEN_TIME = '18:00'
 DUEL_CHANNEL_NAME = "test_duels"
 BET_CHANNEL_NAME = "test_bets"
 DISCUSSION_CHANNEL_NAME = "test_cowyboy_discussion"
@@ -20,6 +23,18 @@ class Cowyboys(commands.Cog):
   def __init__(self, bot):
       self.bot = bot
       self.odds_post = ""
+      self.time_update.add_exception_type(asyncpg.PostgresConnectionError)
+      self.time_update.start()
+
+  @tasks.loop(minutes=1.0)
+  async def time_update(self):
+    now=datetime.datetime.now().strftime('%H:%M')
+    #if now == self.refresh_time:
+    #  await self.refresh_headlines()
+    if now == DUEL_TIME:
+      await self._run_duel()
+    if now == BET_OPEN_TIME:
+      await self._open_bets()
 
   @commands.Cog.listener()
   async def on_ready(self):
@@ -29,17 +44,43 @@ class Cowyboys(commands.Cog):
 
       self._init_database()
 
-  async def _find_channel(self, name, ctx):
-    channels = list(filter(lambda chan: name in chan.name.lower(), ctx.guild.channels))
+  def _find_guild(self):
+    guild = discord.utils.get(self.bot.guilds, name=token_loader.FLAUSTRIA_GUILD)
+    if guild == None:
+      guild = discord.utils.get(self.bot.guilds, name=token_loader.DMERSHON_TEST_GUILD)
+    if guild == None:
+      raise Exception("Could not connect to guilds with ID: " + token_loader.FLAUSTRIA_GUILD + " or " + token_loader.DMERSHON_TEST_GUILD)
+
+    return guild
+
+  def _find_channel(self, name, guild):
+    channels = list(filter(lambda chan: name in chan.name.lower(), guild.channels))
 
     if len(channels) == 0:
-      await ctx.send("Could not open bets; no channel \"" + name + "\"found.")
+      #await ctx.send("Could not open bets; no channel \"" + name + "\"found.")
       return None
-    if len(channels) > 1:
-      await ctx.send("Could not open bets; multiple channels \"" + name + "\"found.")
-      return None
+    #if len(channels) > 1:
+      #await ctx.send("Could not open bets; multiple channels \"" + name + "\"found.")
+      #return None
 
     return channels[0]
+
+  @commands.command(name="debug_reload_cowyboy_libraries")
+  async def debug_reload_library(self, ctx):
+    if ctx.author.guild_permissions.administrator:
+      global database
+      global duels
+      global drama
+      global token_loader
+
+      database = reload(database)
+      drama = reload(drama)
+      duels = reload(duels)
+      token_loader = reload(token_loader)
+      await ctx.send("Cowyboy libraries reloaded: database, cowyboy_drama, cowyboy_duels, token_loader.")
+
+    else:
+      await ctx.send("Sorry, only admins can change the news.")
 
   @commands.command(name="debug_open_bets")
   async def debug_open_bets(self, ctx):
@@ -48,20 +89,24 @@ class Cowyboys(commands.Cog):
       #self._clear_bets()
       await ctx.send("Opening bets...")
       try:
-        await self._open_bets(ctx)
+        await self._open_bets()
       except Exception as e:
         await ctx.send(f"Encountered error: {e}")
       await ctx.send("Bets are now open!")
 
-  async def _open_bets(self, ctx):
+  async def _open_bets(self):
 
       ## -- Open Channel -- ##
-
-      bet_channel = await self._find_channel(BET_CHANNEL_NAME, ctx)
+      guild = self._find_guild()
+      bet_channel = self._find_channel(BET_CHANNEL_NAME, guild)
       if bet_channel == None:
         return
 
-      await bet_channel.set_permissions(ctx.guild.default_role, send_messages=True)
+      # Uses Flaustrian Citizen role if available
+      role = guild.get_role(845096006261407765)
+      if role == None:
+        role = guild.default_role
+      await bet_channel.set_permissions(role, send_messages=True)
 
       ## -- Print Odds -- ##
       cowyboys = duels.get_active_cowyboys()
@@ -83,17 +128,22 @@ class Cowyboys(commands.Cog):
   async def debug_close_bets(self, ctx):
       await ctx.send("Closing bets")
       try:
-        await self._close_bets(ctx)
+        await self._close_bets()
       except Exception as e:
         await ctx.send(f"Encountered error: {e}")
       await ctx.send("Bets are now closed.")
 
-  async def _close_bets(self, ctx):
-      bet_channel = await self._find_channel(BET_CHANNEL_NAME, ctx)
+  async def _close_bets(self):
+      guild = self._find_guild()
+      bet_channel = self._find_channel(BET_CHANNEL_NAME, guild)
       if bet_channel == None:
         return
 
-      await bet_channel.set_permissions(ctx.guild.default_role, send_messages=False)
+      # Uses Flaustrian Citizen role if available
+      role = guild.get_role(845096006261407765)
+      if role == None:
+        role = guild.default_role
+      await bet_channel.set_permissions(role, send_messages=False)
 
       await bet_channel.send(f"Bets are now closed for {datetime.date.today().strftime('%B %d')}. Please gather around #{DUEL_CHANNEL_NAME}, for the opening convocation will begin shortly.")
 
@@ -107,15 +157,17 @@ class Cowyboys(commands.Cog):
       await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
     await ctx.send("Bets are now closed.")
 
-  async def _run_duel(self, ctx, instant=False):
+  async def _run_duel(self, ctx, instant=False, delay=10):
 
     # Close bets
-    await self._close_bets(ctx)
+    await self._close_bets()
+
     if not instant:
-      await asyncio.sleep(10)
+      await asyncio.sleep(delay)
 
     # Determine duel outcome
-    duel_channel = await self._find_channel(DUEL_CHANNEL_NAME, ctx)
+    guild = self._find_guild()
+    duel_channel = self._find_channel(DUEL_CHANNEL_NAME, guild)
     cowyboys = duels.get_active_cowyboys()
     odds = duels.determine_payoffs(cowyboys)
     results = duels.determine_placement(cowyboys)
@@ -125,10 +177,10 @@ class Cowyboys(commands.Cog):
     if not instant:
       for line in output:
         await duel_channel.send(line)
-        await asyncio.sleep(1)
+        await asyncio.sleep(delay)
 
     # Post outcome
-    discussion_channel = await self._find_channel(DISCUSSION_CHANNEL_NAME, ctx)
+    discussion_channel = self._find_channel(DISCUSSION_CHANNEL_NAME, guild)
     outcome_string = (f"COWYBOY DUEL RESULTS FOR {datetime.date.today().strftime('%B %d')}:\n")
     for i in range(len(cowyboys)):
       outcome_string += (f"{i+1}. {drama.format_name(results[i])}\n")
@@ -143,7 +195,7 @@ class Cowyboys(commands.Cog):
     duels.update_cowyboys_after_duel(results)
 
     # Resolve bets
-    self._resolve_bets(ctx, results[0], winner_odds)
+    await self._resolve_bets(ctx, results[0], winner_odds)
 
   async def _resolve_bets(self, ctx, winner, odds):
 
@@ -155,7 +207,7 @@ class Cowyboys(commands.Cog):
   async def bet(self, ctx, cowyboy=None, bet_amount=None):
     #!bet <cowyboy (by name or color or number)> <money>
 
-    bet_channel = await self._find_channel(BET_CHANNEL_NAME, ctx)
+    bet_channel = self._find_channel(BET_CHANNEL_NAME, ctx.guild)
     if bet_channel == None:
       return
 
