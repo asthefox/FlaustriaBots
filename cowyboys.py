@@ -70,7 +70,7 @@ class Cowyboys(commands.Cog):
       opening_post = f"{utilities.hr()}**COWYBOY BETS NOW OPEN FOR {datetime.date.today().strftime('%B %d').upper()}**!\n"
       self.odds_post = ""
       for i in range(len(cowyboys)):
-        cowyboy_line = (f"{cowyboys[i]['name']} ({cowyboys[i]['color']}) - {odds[i]:g}:1\n")
+        cowyboy_line = (f"{i+1}.{cowyboys[i]['name']} ({cowyboys[i]['color']}) - {odds[i]:g}:1\n")
         opening_post += cowyboy_line
         self.odds_post += cowyboy_line
 
@@ -141,9 +141,9 @@ class Cowyboys(commands.Cog):
     duels.update_cowyboys_after_duel(results)
 
     # Resolve bets
-    self._resolve_bets(ctx)
+    self._resolve_bets(ctx, results[0], winner_odds)
 
-  async def _resolve_bets(self, ctx):
+  async def _resolve_bets(self, ctx, winner, odds):
 
     # Here we will respond to each of the individual bet tickets
     pass
