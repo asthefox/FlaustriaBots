@@ -60,6 +60,7 @@ def get_elimination_output(eliminated, other_contestants):
   line = line.replace("{e_color}", eliminated["color"])
   line = line.replace("{c1}", format_name(killerman))
   line = line.replace("{c1_color}", killerman["color"])
+  line += f"\n{format_name(eliminated)} has been eliminated."
   return line
 
 def get_contest_output(ordered_contestants):

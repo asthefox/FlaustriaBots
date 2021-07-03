@@ -1,2 +1,32 @@
-{c1} did some stuff
-{c2} and {c1} did some stuff
+{c1} burts into a saloon, and proclaims that they will buy everyone a drink. The crowd cheers, but {c2} insists on paying for their own drink.  There is a tense standoff, but then they agree to split the drink's cost 50/50.
+{c1} saunters along with a bowlegged gait. They perform a stunt where they increase the bowleggedness to impressively athletic proportions, to the delight of the crowd.
+{c1} pauses to enjoy some delicious tobacco.  They first tie a tobacco bib around their neck, then proceed to use the proper tobacco fork.  The crowd politely applauds this display of etiquette.
+{c1} roasts a tin of beans over the old campfire.  The crowd gasps as they reach for their salad fork instead of their beans fork, but the {c1_color} cowyboy chuckles sheepishly and changes to the proper utensil.
+{c1} makes a sport of throwing their gun up into the air.  Higher and higher it goes, and {c1} catches it every time, to the gasps of the audience.  They stop after the fifth throw, to show proper reverence to The Five.
+{c1} rides a horse to and fro, doing popular tricks such as a jump-them-up and a step-along.
+{c1} sips from a barrel labeled "X", then from one labeled "XX", then "3X + 5".  After tasting each carefully, they guess that X is equal to 18.  The sphinx nods in satisfaction and returns to tending bar.
+A shadowy figure approaches {c1} in an alleyway, creeping closer and closer as the {c1_color} is distracted spinning a lasso.  The figure springs into the light, and the audience exhales in relief to see that it is merely the Silly Goat, mascot of Porpoise Bay.  {c1} chuckles and shakes their head as the Silly Goat does a stupid dance.
+{c1} dodge rolls for no real reason.
+{c1} stops to pet a horse.  The horse is appreciative.  Is the {c1_color} cowyboy being nice, or do they have an angle?
+A barrel shakes ominously.  Once, twice, three times.  {c1} cautiously moves to investigate, and dramatically pulls the barrel open to reveal none other than The Silly Goat, mascot of Porpoise Bay.  The Silly Goat does a stupid dance.
+{c1} spits into an approved spit receptacle.  The audience claps politely.
+{c1} bets {c2} that 5k that they're too chicken to immolate themselves on the campfire.  {c1} bellows "I'll take that bet!" then pays {c2} 5k and leaves.
+{c1} removes their hat.  The audience gasps.  {c1} puts their hat back on, and the audience laughs in relief.
+{c1} gnaws on a heel of bread, while a small mammal approaches.  {c1}, seeing that it is a venerable mongoose, shares bread with the animal as is proper.  The audience cheers.
+{c1} twirls amiably, to the delight of the audience.
+{c1} is on the roof of one building, but wants to be on the roof of another building.  Luckily there is a weird rope thing in between them, allowing {c1} to swing across in a death-defying stunt.  The audience cheers wildly.
+{c1} challenges {c2} to a high-stakes chess match, and the {c2_color} cowyboy accepts.  After a long and thrilling contest, the game ends in a stalemate.
+{c1} challenges {c2} to a high-stakes chess match, and the {c2_color} cowyboy accepts.  After a long and thrilling contest, the game ends in a draw by repetition.
+{c1} challenges {c2} to a high-stakes sled race, and the {c2_color} cowyboy accepts.  After several minutes of a very close race, they declare a tie because the ground is flat and the sleds have not moved.
+At the saloon, {c1} slides the piano player a shiny coin and asks him to play a song about them.  The piano player obliges, and plays a droll rag about {c1} that contains the exact date and time of their death.  Fortunately, it is not for a while.
+{e} stands in the dusty road.  The children of the audience shout and point, warning that a tumpleweed is fast approaching!  {e} heeds their cries, and dramatically dives out of the way, the tumpleweed rolling harmlessly by.  The childreen cheer, and {e} tips their hat in gratitude.
+{c1} sings a song about trails.
+{c1} eats a can of porridge.  The audience reacts neutrally.
+{c1} turns to the crowd, and asks them to shout a hearty cowyboy "Yee-Yaw!"  The audience obliges, and {c1} shows approbation.
+{c1} and {c2} come face-to-face on the town's main street.  Both cowyboys glare at each other, begin spinning their ropes, and fire the lassoes!  {c1} has roped {c2}; however, {c2} has also roped {c1}!  Both pull on the ropes, and they draw closer and closer.  Then, finally, they kiss.
+{c1} throws a bucket of water at the audience in the "Splash Zone."  They applaud politely.
+At the saloon, the barman slides a drink to {c1}, who successfully catches it using a lasso.  The crowd applauds.
+{c1} moseys down the only street, but does not see anyone else around.
+At the saloon, {c1} introspectively eats a peanut.
+{c1} jumps between some platforms.  The crowd claps.
+A tumpleweed rolls by.  No one is harmed.
