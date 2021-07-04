@@ -9,6 +9,7 @@ import cowyboy_duels as duels
 import cowyboy_drama as drama
 import datetime
 import asyncio, asyncpg
+from discord.utils import find
 from importlib import reload
 
 DUEL_TIME='19:00'
@@ -201,13 +202,19 @@ class Cowyboys(commands.Cog):
     # Here we will respond to each of the individual bet tickets
     winner_name = winner['name']
     winner_id = winner['id']
-    await ctx.send(f"winner_name:{winner_name} winner_id:{winner_id}")
+    await ctx.send(f"winner_name:{winner_name} winner_id:{winner_id} odds:{odds}")
     winner_bets = self._get_matching_bets(winner_id)
     for wb in winner_bets:
-      bet_user = wb['user_id']
-      bet_cowyboy_id = wb['cowyboy_id']
+      bet_user_id = wb['user_id']
       bet_amount = wb['bet_amount']
-      await ctx.send(f"bet_user:{bet_user} bet_cowyboy_id:{bet_cowyboy_id} bet_amount:{bet_amount}")
+      winnings = int(float(bet_amount) * float(odds))
+      self._deposit_winnings(winnings, bet_user_id)
+      await ctx.send(f"paid out bet to user:{bet_user_id} bet_amount:{bet_amount} winnings:{winnings}")
+
+  def _deposit_winnings(self, winnings, user_id):
+    member = find(lambda m: m.id == user_id, self._find_guild().members)
+    economy = self.bot.get_cog('Economy')
+    economy.deposit_money(self._find_guild(), member, winnings)
 
   def _get_matching_bets(self, cowyboy_id):
     all_bets = database.get(f"discord/cowyboy_bets")
