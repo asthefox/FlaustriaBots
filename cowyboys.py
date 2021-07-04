@@ -96,6 +96,8 @@ class Cowyboys(commands.Cog):
     await ctx.send("Bets are now open!")
 
   async def _open_bets(self):
+    ## -- Cleary any old bets -- ##
+    self._clear_bets_from_db()
 
     ## -- Open Channel -- ##
     guild = self._find_guild()
@@ -209,6 +211,7 @@ class Cowyboys(commands.Cog):
       bet_amount = wb['bet_amount']
       winnings = int(float(bet_amount) * float(odds))
       await self._deposit_winnings(winnings, bet_user_id, winner_name)
+    self._clear_bets_from_db()
 
   async def _deposit_winnings(self, winnings, bet_user_id, winner_name):
     member = find(lambda m: m.id == bet_user_id, self._find_guild().members)
@@ -220,6 +223,9 @@ class Cowyboys(commands.Cog):
   def _get_matching_bets(self, cowyboy_id):
     all_bets = database.get(f"discord/cowyboy_bets")
     return [bet for bet in all_bets.values() if bet['cowyboy_id'] == cowyboy_id]
+  
+  def _clear_bets_from_db(self):
+    database.set(f"discord/cowyboy_bets", None)
 
   @commands.command(name="bet")
   async def bet(self, ctx, cowyboy_number=None, bet_amount=None):
