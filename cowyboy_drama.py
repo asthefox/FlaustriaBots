@@ -1,5 +1,6 @@
 # Handles cowyboy duel text generation.
 import random
+import flaustrian_headlines
 
 def _init():
   global elim_lines
@@ -18,22 +19,40 @@ def format_name(cowyboy):
 	return "**" + cowyboy["name"] + "**"
 
 def get_intro(ordered_contestants):
-  return """
-  Please gather for the opening convocation:
-  Before the five, the land was lawless.
-  Man turned to saloons for solace.
-  Behold the cowyboys before you.
-  Observe their hubris, I implore you.
-  Their buckles wide and guns ablaze,
-  Take heed of their wicked ways.
-  By Mongoose, Market, Moon, Book, Sun:
-  The Cowyboy Show has begun.
+  celebrity = flaustrian_headlines.grammar_generate_recursive("[celebrity]")
+  output = f"Gather one and all, the Cowyboy Duels are about to begin!\n\nToday the opening convocation will be performed by {celebrity}."
 
-  Now, let the duel begin!
+  output += """
+    *"Before the five, the land was lawless.
+    Man turned to saloons for solace.
+    Behold the cowyboys before you.
+    Observe their hubris, I implore you.
+    Their buckles wide and guns ablaze,
+    Take heed of their wicked ways.
+    By Mongoose, Market, Moon, Book, Sun:
+    The Cowyboy Show has begun."*
   """
+  output += "\nThe crowd applauds in an onrush of politeness and anticipation.  The duel is beginning!\n"
+  return output
+
+def get_first_step(ordered_contestants):
+  output = "The five cowyboys line up backs-to-backs in the dusty street outside the ol' saloon.\n"
+  output += "Today, they are: "
+  for c in ordered_contestants:
+    suffix = ", "
+    if c == ordered_contestants[-1]:
+      suffix = ".\n"
+    if c == ordered_contestants[-2]:
+      suffix += ", and "
+    output += format_name(c) + suffix
+
+  output += "The saloon bell tolls high noon.  The cowyboys take ten paces, then disperse around the stage.\nWho will outlast their foes in today's Duel?\n"
+  return output
 
 def get_finale(winner):
-	return "The winner is: " + winner["name"]
+  # TODO
+	return f"Only one cowyboy remains!\nToday's winner is: {format_name(winner)}.\nThey take a bow as the crowd applauds their display of moral fortitude.  Who among them has won along with {winner['name']} today?"
+
 
 def get_filler_output(remaining_contestants):
   c1 = random.choice(remaining_contestants)
@@ -69,6 +88,7 @@ def get_contest_output(ordered_contestants):
 
   # Opening convocation
   outputs.append(get_intro(remaining_contestants))
+  outputs.append(get_first_step(remaining_contestants))
 
   # Each round/elimination
   while len(remaining_contestants) > 1:

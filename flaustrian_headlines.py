@@ -3,6 +3,7 @@ import re
 import datetime
 import flaustrian_names
 import string
+import database
 
 keywords = {}
 special_headlines = {}
@@ -42,7 +43,7 @@ def load_special_headlines(filename):
       if len(data) != 3:
         continue
       date_str, category, headline = data
-      
+
       category = category.strip()
       headline = headline.strip()
 
@@ -64,7 +65,7 @@ def validate():
     for special_req in special_reqs:
       valid = False
       for prefix in ["name", "number", "cowyboy", "cap", "plural"]:
-        if special_req[1:].startswith(prefix): 
+        if special_req[1:].startswith(prefix):
           valid = True
       if not valid:
         print("Headline Validation Error: Special command " + special_req + " not found.")
@@ -105,7 +106,7 @@ def grammar_generate_recursive(str):
     return _cleanup(str)
 
 def _cleanup(str):
-  
+
   # Replace "a vowelword" with "an vowelword"
   bad_as = re.findall(" [aA] [aeiouAEIOU]", str)
   for bad_a in bad_as:
@@ -140,18 +141,26 @@ def _special_keyword(key_string):
   parts = key_string[1:-1].lower().strip().split("_")
 
   if parts[0] == "cap":
-    key_str = "[" + key_string[5:-1] + "]"
-    for key in keywords:
-      while key in key_str:
-        key_str = key_str.replace(key, random.choice(keywords[key]), 1)
+    key_str = "[" + key_string[5:-1].lower() + "]"
+    replacing = True
+    while replacing:
+      replacing = False
+      for key in keywords:
+        if key in key_str:
+          key_str = key_str.replace(key, random.choice(keywords[key]), 1)
+          replacing = True
 
     return _safe_capitalize(key_str)
 
   if parts[0] == "plural":
     key_str = key_string[8:-1]
-    for key in keywords:
-      while key in key_str:
-        key_str = key_str.replace(key, random.choice(keywords[key]), 1)
+    replacing = True
+    while replacing:
+      replacing = False
+      for key in keywords:
+        if key in key_str:
+          key_str = key_str.replace(key, random.choice(keywords[key]), 1)
+          replacing = True
 
     if key_str.endswith("s"):
       return key_str
@@ -159,9 +168,13 @@ def _special_keyword(key_string):
 
   if parts[0] == "capplural":
     key_str = "[" + key_string[11:-1] + "]"
-    for key in keywords:
-      while key in key_str:
-        key_str = key_str.replace(key, random.choice(keywords[key]), 1)
+    replacing = True
+    while replacing:
+      replacing = False
+      for key in keywords:
+        if key in key_str:
+          key_str = key_str.replace(key, random.choice(keywords[key]), 1)
+          replacing = True
 
     key_str = _safe_capitalize(key_str)
     if key_str.endswith("s"):
@@ -169,7 +182,11 @@ def _special_keyword(key_string):
     return key_str + "s"
 
   if parts[0] == "cowyboy":
-    return "Horse Legs Wongowitz"
+    options = database.get("flaustria/cowyboys/current")
+    cowy_id = random.choice(options)
+    name = database.get("flaustria/cowyboys/roster/" + str(cowy_id) + "/name")
+    return name
+
   if parts[0] == "name":
     is_female = ("f" in parts )
     specify_gender = "m" in parts or "f" in parts
@@ -186,7 +203,7 @@ def _special_keyword(key_string):
       return name.split(" ")[0]
     if is_last:
       return "".join(name.split(" ")[1:])
-    
+
     return name
 
   if parts[0] == "number":
@@ -223,11 +240,11 @@ def get_daily_entertainment_headline():
   if weekday == 4:
     return "Upcoming TV Event"
   if weekday == 5:
-    return "Movie News"  
+    return "Movie News"
   return "Music Chart"
 
 def get_headline(category, headline_date):
-  
+
   date_str = headline_date.strftime("%Y-%m-%d")
   headline_profile = (date_str, category)
   if headline_profile in special_headlines:
@@ -271,7 +288,7 @@ def test():
   #validate()
   #print("FLAUSTRIAN POP CHARTS, FEBRUARY 2 1965:\n")
   print()
-  print(grammar_generate_recursive("[tv_news]"))  
+  print(grammar_generate_recursive("[tv_news]"))
   print()
   #for i in range(1, 5):
   #  print(grammar_generate_recursive("[tv_news]\n"))

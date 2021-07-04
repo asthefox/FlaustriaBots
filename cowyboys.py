@@ -126,7 +126,7 @@ class Cowyboys(commands.Cog):
 
     opening_post += f"{utilities.hr()}\nPlace your bets in this channel using the command **!bet <cowyboy number> <amount>**"
     await bet_channel.send(opening_post)
-  
+
   @commands.command(name="debug_close_bets")
   async def debug_close_bets(self, ctx):
     await ctx.send("Closing bets")
@@ -160,7 +160,7 @@ class Cowyboys(commands.Cog):
       await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
     await ctx.send("Bets are now closed.")
 
-  async def _run_duel(self, ctx, instant=False, delay=10):
+  async def _run_duel(self, ctx, instant=False, delay=15):
 
     # Close bets
     await self._close_bets()
@@ -223,7 +223,7 @@ class Cowyboys(commands.Cog):
   def _get_matching_bets(self, cowyboy_id):
     all_bets = database.get(f"discord/cowyboy_bets")
     return [bet for bet in all_bets.values() if bet['cowyboy_id'] == cowyboy_id]
-  
+
   def _clear_bets_from_db(self):
     database.set(f"discord/cowyboy_bets", None)
 
@@ -242,7 +242,7 @@ class Cowyboys(commands.Cog):
     if not utilities.is_only_numbers(bet_amount):
       await bet_channel.send(f"{bet_amount} is not a valid bet amount")
       return
-    
+
     if not utilities.is_only_numbers(cowyboy_number):
       await bet_channel.send(f"{cowyboy_number} not a positive number")
       return
