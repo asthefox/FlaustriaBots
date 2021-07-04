@@ -81,19 +81,22 @@ class Cowyboys(commands.Cog):
       await ctx.send("Cowyboy libraries reloaded: database, cowyboy_drama, cowyboy_duels, token_loader.")
 
     else:
-      await ctx.send("Sorry, only admins can change the news.")
+      await ctx.send("Sorry, only admins can reload cowyboy libraries.")
 
   @commands.command(name="debug_open_bets")
   async def debug_open_bets(self, ctx):
 
-    #self._reset_odds()
-    #self._clear_bets()
-    await ctx.send("Opening bets...")
-    try:
-      await self._open_bets()
-    except Exception as e:
-      await ctx.send(f"Encountered error: {e}")
-    await ctx.send("Bets are now open!")
+    if ctx.author.guild_permissions.administrator:
+      #self._reset_odds()
+      #self._clear_bets()
+      await ctx.send("Opening bets...")
+      try:
+        await self._open_bets()
+      except Exception as e:
+        await ctx.send(f"Encountered error: {e}")
+      await ctx.send("Bets are now open!")
+    else:
+      await ctx.send("Sorry, only admins can open bets.")
 
   async def _open_bets(self):
     ## -- Cleary any old bets -- ##
@@ -129,12 +132,16 @@ class Cowyboys(commands.Cog):
 
   @commands.command(name="debug_close_bets")
   async def debug_close_bets(self, ctx):
-    await ctx.send("Closing bets")
-    try:
-      await self._close_bets()
-    except Exception as e:
-      await ctx.send(f"Encountered error: {e}")
-    await ctx.send("Bets are now closed.")
+    if ctx.author.guild_permissions.administrator:
+      await ctx.send("Closing bets")
+      try:
+        await self._close_bets()
+      except Exception as e:
+        await ctx.send(f"Encountered error: {e}")
+      await ctx.send("Bets are now closed.")
+    else:
+      await ctx.send("Sorry, only admins can close bets.")
+
 
   async def _close_bets(self):
     guild = self._find_guild()
@@ -153,12 +160,15 @@ class Cowyboys(commands.Cog):
 
   @commands.command(name="debug_run_duel")
   async def debug_run_duel(self, ctx):
-    await ctx.send("Running duel...")
-    try:
-      await self._run_duel(ctx, instant=True)
-    except Exception as e:
-      await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
-    await ctx.send("Bets are now closed.")
+    if ctx.author.guild_permissions.administrator:
+      await ctx.send("Running duel...")
+      try:
+        await self._run_duel(ctx, instant=True)
+      except Exception as e:
+        await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
+      await ctx.send("The duel is complete.")
+    else:
+      await ctx.send("Sorry, only admins can close bets.")
 
   async def _run_duel(self, ctx, instant=False, delay=15):
 
@@ -227,6 +237,20 @@ class Cowyboys(commands.Cog):
   def _clear_bets_from_db(self):
     database.set(f"discord/cowyboy_bets", None)
 
+  @commands.command(name="odds")
+  async def reprint_odds(self, ctx):
+    bet_channel = self._find_channel(BET_CHANNEL_NAME, ctx.guild)
+    if bet_channel == None:
+      return
+
+    if ctx.channel != bet_channel:
+      return
+
+    if not hasattr(self, "odds_post") or self.odds_post == None:
+      return
+
+    await bet_channel.send(self.odds_post)
+
   @commands.command(name="bet")
   async def bet(self, ctx, cowyboy_number=None, bet_amount=None):
     #!bet <cowyboy (by name or color or number)> <money>
@@ -235,8 +259,11 @@ class Cowyboys(commands.Cog):
     if bet_channel == None:
       return
 
+    if ctx.channel != bet_channel:
+      return
+
     if not cowyboy_number or not bet_amount:
-      await bet_channel.send('please enter the name of the cowyboy you want to bet on, then the amount of k you want to bet (example - !bet horselegs 230)')
+      await bet_channel.send('Please enter the number of the cowyboy you want to bet on, then the amount of k you want to bet (example - !bet 3 230)')
       return
 
     if not utilities.is_only_numbers(bet_amount):
