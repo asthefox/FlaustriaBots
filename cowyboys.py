@@ -208,13 +208,14 @@ class Cowyboys(commands.Cog):
       bet_user_id = wb['user_id']
       bet_amount = wb['bet_amount']
       winnings = int(float(bet_amount) * float(odds))
-      self._deposit_winnings(winnings, bet_user_id)
-      await ctx.send(f"paid out bet to user:{bet_user_id} bet_amount:{bet_amount} winnings:{winnings}")
+      await self._deposit_winnings(winnings, bet_user_id, winner_name)
 
-  def _deposit_winnings(self, winnings, user_id):
-    member = find(lambda m: m.id == user_id, self._find_guild().members)
+  async def _deposit_winnings(self, winnings, bet_user_id, winner_name):
+    member = find(lambda m: m.id == bet_user_id, self._find_guild().members)
     economy = self.bot.get_cog('Economy')
     economy.deposit_money(self._find_guild(), member, winnings)
+    dm = await member.create_dm()
+    await dm.send(f"Congratulations! You have won {winnings}k by betting on {winner_name}.")
 
   def _get_matching_bets(self, cowyboy_id):
     all_bets = database.get(f"discord/cowyboy_bets")
