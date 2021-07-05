@@ -123,11 +123,11 @@ class Cowyboys(commands.Cog):
     opening_post = f"{utilities.hr()}**COWYBOY BETS NOW OPEN FOR {datetime.date.today().strftime('%B %d').upper()}**!\n"
     self.odds_post = ""
     for i in range(len(cowyboys)):
-      cowyboy_line = (f"{i+1}.{cowyboys[i]['name']} ({cowyboys[i]['color']}) - {odds[i]:g}:1\n")
+      cowyboy_line = (f"{i+1}. {cowyboys[i]['name']} ({cowyboys[i]['color']}) - {odds[i]:g}:1\n")
       opening_post += cowyboy_line
       self.odds_post += cowyboy_line
 
-    opening_post += f"{utilities.hr()}\nPlace your bets in this channel using the command **!bet <cowyboy number> <amount>**"
+    opening_post += f"{utilities.hr()}\nPlace your bets in this channel using the command **!bet <amount> on <cowyboy number>**"
     await bet_channel.send(opening_post)
 
   @commands.command(name="debug_close_bets")
@@ -202,10 +202,10 @@ class Cowyboys(commands.Cog):
     outcome_string += (f"\n{drama.format_name(results[0])} pays {winner_odds} to 1.\n")
     outcome_string += f"{drama.format_name(results[-1])} has been eliminated, and will retire from competition."
 
-    await discussion_channel.send(outcome_string)
-
     # Update cowyboys
-    duels.update_cowyboys_after_duel(results)
+    new_cowyboy = duels.update_cowyboys_after_duel(results)
+    outcome_string += "\nThey will be replaced by " + drama.format_name(new_cowyboy) + "."
+    await discussion_channel.send(outcome_string)
 
     # Resolve bets
     await self._resolve_bets(ctx, results[0], winner_odds)
@@ -221,6 +221,9 @@ class Cowyboys(commands.Cog):
       bet_amount = wb['bet_amount']
       winnings = int(float(bet_amount) * float(odds))
       await self._deposit_winnings(winnings, bet_user_id, winner_name)
+
+    await self._send_pity_refunds()
+
     self._clear_bets_from_db()
 
   async def _deposit_winnings(self, winnings, bet_user_id, winner_name):
@@ -233,6 +236,19 @@ class Cowyboys(commands.Cog):
   def _get_matching_bets(self, cowyboy_id):
     all_bets = database.get(f"discord/cowyboy_bets")
     return [bet for bet in all_bets.values() if bet['cowyboy_id'] == cowyboy_id]
+
+  async def _send_pity_refunds(self):
+    pity_value = 50
+    economy = self.bot.get_cog('Economy')
+    guild = self._find_guild()
+    all_bets = database.get(f"discord/cowyboy_bets")
+    all_bettors = list(set([bet['user_id'] for bet in all_bets.values()]))
+    for bettor_id in all_bettors:
+      member = find(lambda m: m.id == bettor_id, self._find_guild().members)
+      if economy.get_balance(guild, member) <= 0:
+        economy.deposit_money(self._find_guild(), member, pity_value)
+        dm = await member.create_dm()
+        await dm.send(f"The Market has taken pity on you after you piously bet all your money.  You have been wired {pity_value}k.")
 
   def _clear_bets_from_db(self):
     database.set(f"discord/cowyboy_bets", None)
@@ -252,7 +268,7 @@ class Cowyboys(commands.Cog):
     await bet_channel.send(self.odds_post)
 
   @commands.command(name="bet")
-  async def bet(self, ctx, cowyboy_number=None, bet_amount=None):
+  async def bet(self, ctx, bet_amount, on_word, cowyboy_number=None):
     #!bet <cowyboy (by name or color or number)> <money>
 
     bet_channel = self._find_channel(BET_CHANNEL_NAME, ctx.guild)
@@ -263,8 +279,10 @@ class Cowyboys(commands.Cog):
       return
 
     if not cowyboy_number or not bet_amount:
-      await bet_channel.send('Please enter the number of the cowyboy you want to bet on, then the amount of k you want to bet (example - !bet 3 230)')
+      await bet_channel.send('Please enter the number of the cowyboy you want to bet on, then the amount of k you want to bet (example - !bet 230 on 3)')
       return
+
+    bet_amount = bet_amount.strip("k")
 
     if not utilities.is_only_numbers(bet_amount):
       await bet_channel.send(f"{bet_amount} is not a valid bet amount")

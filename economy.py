@@ -56,7 +56,10 @@ class Economy(commands.Cog):
     #self.db.child(balance_path).update({"balance": balance}, self.user['idToken'])
 
     return (True, balance)
-    
+
+
+  def get_balance(self, guild, member):
+    return self._balance(guild, member)
 
   def deposit_money(self, guild, member, money):
     balance = self._balance(guild, member)

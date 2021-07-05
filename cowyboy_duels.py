@@ -68,3 +68,4 @@ def update_cowyboys_after_duel(results):
   updated_current_ids.append(new_cowyboy_id)
   roster.write_current_ids(updated_current_ids)
 
+  return new_cowyboy
