@@ -131,6 +131,25 @@ class PersonalityTestCog(commands.Cog):
 
       embed = self.get_link_to_atb_discord()
       await channel.send(msg, embed=embed)
+      await self._post_welcome(user_id, ministry_name, last_answer)
+
+    async def _post_welcome(self, user_id, ministry_name, emoji):
+      guild = self.get_guild()
+      member = guild.get_member(user_id)
+      if member == None:
+        return
+
+      channel = guild.get_channel(852691504639639552) # introductions channel
+      if channel == None:
+        channel = guild.get_channel(861742013790552105) # test welcome channel
+
+      if channel == None:
+        return
+
+      text = f"Congratulations and welcome! {member.name} has become a Flaustrian citizen, and has joined {ministry_name}."
+      message = await channel.send(text)
+      await message.add_reaction(emoji=emoji)
+      await message.add_reaction("👋")
 
     def get_link_to_atb_discord(self):
       embed = discord.Embed()
