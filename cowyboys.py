@@ -14,9 +14,9 @@ from importlib import reload
 
 DUEL_TIME='19:00'
 BET_OPEN_TIME = '18:00'
-DUEL_CHANNEL_NAME = "test_duels"
-BET_CHANNEL_NAME = "test_bets"
-DISCUSSION_CHANNEL_NAME = "test_cowyboy_discussion"
+DUEL_CHANNEL_NAME = "cowyboy-duels"
+BET_CHANNEL_NAME = "cowyboy-bets"
+DISCUSSION_CHANNEL_NAME = "cowyboy-discussion"
 
 #TODO: Replace guild.default_role with the Flaustrian Citizen role
 

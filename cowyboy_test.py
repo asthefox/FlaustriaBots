@@ -28,4 +28,4 @@ def test_full_duel():
   winner_odds = odds[winner_odds_index]
   print(f"{drama.format_name(results[0])} pays {winner_odds} to 1")
 
-test_full_duel()
+reseed()
