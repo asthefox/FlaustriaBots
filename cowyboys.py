@@ -18,8 +18,6 @@ DUEL_CHANNEL_NAME = "cowyboy-duels"
 BET_CHANNEL_NAME = "cowyboy-bets"
 DISCUSSION_CHANNEL_NAME = "cowyboy-discussion"
 
-#TODO: Replace guild.default_role with the Flaustrian Citizen role
-
 class Cowyboys(commands.Cog):
   def __init__(self, bot):
       self.bot = bot
@@ -43,7 +41,7 @@ class Cowyboys(commands.Cog):
       print('Logged in as ---->', self.bot.user)
       print('ID:', self.bot.user.id)
 
-      self._init_database()
+      #self._init_database()
 
   def _find_guild(self):
     guild = discord.utils.get(self.bot.guilds, name=token_loader.FLAUSTRIA_GUILD)
@@ -158,7 +156,7 @@ class Cowyboys(commands.Cog):
     await bet_channel.send(f"Bets are now closed for {datetime.date.today().strftime('%B %d')}. Please gather around #{DUEL_CHANNEL_NAME}, for the opening convocation will begin shortly.")
 
 
-  @commands.command(name="debug_run_duel")
+  @commands.command(name="debug_run_duel_instant")
   async def debug_run_duel(self, ctx):
     if ctx.author.guild_permissions.administrator:
       await ctx.send("Running duel...")
@@ -169,6 +167,19 @@ class Cowyboys(commands.Cog):
       await ctx.send("The duel is complete.")
     else:
       await ctx.send("Sorry, only admins can close bets.")
+
+  @commands.command(name="debug_run_duel")
+  async def debug_run_duel(self, ctx):
+    if ctx.author.guild_permissions.administrator:
+      await ctx.send("Running duel...")
+      try:
+        await self._run_duel(ctx, instant=False)
+      except Exception as e:
+        await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
+      await ctx.send("The duel is complete.")
+    else:
+      await ctx.send("Sorry, only admins can close bets.")
+
 
   async def _run_duel(self, ctx, instant=False, delay=15):
 

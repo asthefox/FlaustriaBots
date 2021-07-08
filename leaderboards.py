@@ -36,6 +36,7 @@ class Leaderboards(commands.Cog):
 
   async def update_leaderboards(self):
 
+    board_channel = None
     for guild in self.bot.guilds:
         if guild:
             guild_id = guild.id
@@ -53,8 +54,8 @@ class Leaderboards(commands.Cog):
         else:
             print(f"Leaderboards can't connect to guild:{guild}")
             return
-    if not board_channel:
-      print("Leaderboards bot not connected to any guilds.")
+    if board_channel == None:
+      print("Leaderboards bot not connected to any guild channels.")
       return
 
     # Build money leaderboard
@@ -83,18 +84,21 @@ class Leaderboards(commands.Cog):
     # Edit or post leaderboards
     messages = await board_channel.history().flatten()
 
-    if len(messages) < 1:
-      await board_channel.send(best_cowyboys)
-    else:
+    try:
       await messages[0].edit(content=best_cowyboys)
+    except:
+      await board_channel.send(best_cowyboys)
 
-    if len(messages) < 2:
-      await board_channel.send(money_leaders)
-    else:
+    try:
       await messages[1].edit(content=money_leaders)
-      
-    for message in messages[2:]:
-      await message.delete()
+    except:
+      await board_channel.send(money_leaders)
+
+    try:
+      for message in messages[2:]:
+        await message.delete()
+    except:
+      pass
 
 
 def setup(bot):
