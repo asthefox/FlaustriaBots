@@ -8,11 +8,12 @@ from threading import Thread
 
 intents = discord.Intents().all()
 
-inside_track_bot = commands.Bot(command_prefix='IT!')
+inside_track_bot = commands.Bot(command_prefix='!')
 inside_track_bot.load_extension("economy")
 inside_track_bot.load_extension("kmines")
 #inside_track_bot.load_extension("inside_track_bot")
-#inside_track_bot.load_extension("cowyboys")
+inside_track_bot.load_extension("cowyboys")
+inside_track_bot.load_extension("leaderboards")
 
 ase_bot = commands.Bot(command_prefix='ASE!')
 ase_bot.load_extension("news_bot")
@@ -21,7 +22,7 @@ ase_bot.load_extension("news_bot")
 #glaucon_bot = commands.Bot(command_prefix='!', intents=intents)
 #glaucon_bot.load_extension("cog_loader")
 
-inquisitor_bot = commands.Bot(command_prefix='!', intents=intents)
+inquisitor_bot = commands.Bot(command_prefix='IQ!', intents=intents)
 inquisitor_bot.load_extension("personality_test")
 inquisitor_bot.load_extension("check_invites")
 
