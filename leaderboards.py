@@ -51,6 +51,7 @@ class Leaderboards(commands.Cog):
               return
             else:
               board_channel = channels[0]
+              break
         else:
             print(f"Leaderboards can't connect to guild:{guild}")
             return
@@ -66,8 +67,15 @@ class Leaderboards(commands.Cog):
     account_keys.sort(reverse=True, key=lambda account: all_accounts[account]["balance"])
     top_accounts = account_keys[:10]
     for i in range(len(top_accounts)):
-      account = all_accounts[top_accounts[i]]
-      money_leaders += str(i+1) + ". **" + account["name"] + "**: " + str(account["balance"]) + ":KSign:\n\n"
+      member_id = top_accounts[i]
+      #print(f"ID: {member_id}")
+      account = all_accounts[member_id]
+      #print(f"Account: {account}")
+      name = account['name']
+      member = guild.get_member(int(member_id))
+      if member != None:
+        name = member.nick
+      money_leaders += f"{i+1}. **{name}**: {account['balance']}k\n\n"
     money_leaders += "\n\n\n"
 
     # Build cowyboy leaderboard

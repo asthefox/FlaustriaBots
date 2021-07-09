@@ -23,7 +23,7 @@ def get_intro(ordered_contestants):
   output = f"Gather one and all, the Cowyboy Duels are about to begin!\n\nToday the opening convocation will be performed by {celebrity}."
 
   output += """
-    *"Before the five, the land was lawless.
+    *"Before the Five, the land was lawless.
     Man turned to saloons for solace.
     Behold the cowyboys before you.
     Observe their hubris, I implore you.

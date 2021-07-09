@@ -405,6 +405,8 @@ class DailyNewsCog(commands.Cog):
   @tasks.loop(minutes=1.0)
   async def time_update(self):
     now=datetime.strftime(datetime.now(),'%H:%M')
+    if not hasattr(self, "guild") or not self.guild:
+      print("News bot skipping timed update; guild has not been set up")
     #if now == self.refresh_time:
     #  await self.refresh_headlines()
     if now == self.news_post_time:

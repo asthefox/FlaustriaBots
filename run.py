@@ -8,7 +8,7 @@ from threading import Thread
 
 intents = discord.Intents().all()
 
-inside_track_bot = commands.Bot(command_prefix='!')
+inside_track_bot = commands.Bot(command_prefix='!', intents=intents)
 inside_track_bot.load_extension("economy")
 inside_track_bot.load_extension("kmines")
 #inside_track_bot.load_extension("inside_track_bot")

@@ -157,7 +157,7 @@ class Cowyboys(commands.Cog):
 
 
   @commands.command(name="debug_run_duel_instant")
-  async def debug_run_duel(self, ctx):
+  async def debug_run_duel_instant(self, ctx):
     if ctx.author.guild_permissions.administrator:
       await ctx.send("Running duel...")
       try:
@@ -229,6 +229,8 @@ class Cowyboys(commands.Cog):
     winner_bets = self._get_matching_bets(winner_id)
     for wb in winner_bets:
       bet_user_id = wb['user_id']
+      #print(f"User with ID {bet_user_id} won.")
+      bet_user_id = int(bet_user_id)
       bet_amount = wb['bet_amount']
       winnings = int(float(bet_amount) * float(odds))
       await self._deposit_winnings(winnings, bet_user_id, winner_name)
@@ -238,11 +240,18 @@ class Cowyboys(commands.Cog):
     self._clear_bets_from_db()
 
   async def _deposit_winnings(self, winnings, bet_user_id, winner_name):
-    member = find(lambda m: m.id == bet_user_id, self._find_guild().members)
+    guild = self._find_guild()
+    #print(f"   Guild: {guild}, with {len(guild.members)} members")
+    #for member in guild.members:
+    #  print(f"      Member ID: {member.id}")
+    member = find(lambda m: m.id == bet_user_id, guild.members)
+    #print(f"   Member ID: {bet_user_id}.")
+    #print(f"   Member: {member}")
     economy = self.bot.get_cog('Economy')
-    economy.deposit_money(self._find_guild(), member, winnings)
+    economy.deposit_money(guild, member, winnings)
     dm = await member.create_dm()
     await dm.send(f"Congratulations! You have won {winnings}k by betting on {winner_name}.")
+    #print("   DM sent.")
 
   def _get_matching_bets(self, cowyboy_id):
     all_bets = database.get(f"discord/cowyboy_bets")
@@ -255,6 +264,7 @@ class Cowyboys(commands.Cog):
     all_bets = database.get(f"discord/cowyboy_bets")
     all_bettors = list(set([bet['user_id'] for bet in all_bets.values()]))
     for bettor_id in all_bettors:
+      bettor_id = int(bettor_id)
       member = find(lambda m: m.id == bettor_id, self._find_guild().members)
       if economy.get_balance(guild, member) <= 0:
         economy.deposit_money(self._find_guild(), member, pity_value)
@@ -322,7 +332,7 @@ class Cowyboys(commands.Cog):
 
   def _add_bet_to_db(self, user_id, cowyboy_id, bet_amount):
     bet_info = {
-      "user_id" : user_id,
+      "user_id" : str(user_id),
       "cowyboy_id" : cowyboy_id,
       "bet_amount" : bet_amount
     }
