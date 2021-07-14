@@ -17,6 +17,7 @@ BET_OPEN_TIME = '18:00'
 DUEL_CHANNEL_NAME = "cowyboy-duels"
 BET_CHANNEL_NAME = "cowyboy-bets"
 DISCUSSION_CHANNEL_NAME = "cowyboy-discussion"
+DAYS = [2, 5]
 
 class Cowyboys(commands.Cog):
   def __init__(self, bot):
@@ -27,7 +28,10 @@ class Cowyboys(commands.Cog):
 
   @tasks.loop(minutes=1.0)
   async def time_update(self):
+    day=datetime.datetime.today().weekday()
     now=datetime.datetime.now().strftime('%H:%M')
+    if not day in DAYS:
+      return
     #if now == self.refresh_time:
     #  await self.refresh_headlines()
     if now == DUEL_TIME:
