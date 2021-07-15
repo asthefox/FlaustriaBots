@@ -3,6 +3,7 @@ from discord.ext import tasks, commands
 import asyncpg
 from datetime import datetime, time
 from importlib import reload
+import traceback
 import random
 import token_loader
 import flaustrian_headlines
@@ -71,6 +72,12 @@ class DailyNewsCog(commands.Cog):
 
     if not self.news_channel:
       raise Exception("Could not find a channel with name flaustrian_news")
+
+    if not hasattr(self, "debug_channel") or not self.debug_channel:
+      self.debug_channel = self._find_channel("test-stuff")
+
+    if not self.debug_channel:
+      raise Exception("Could not find a channel with name test-stuff")
 
     """"
     try:
@@ -404,17 +411,25 @@ class DailyNewsCog(commands.Cog):
 
   @tasks.loop(minutes=1.0)
   async def time_update(self):
-    now=datetime.strftime(datetime.now(),'%H:%M')
-    if not hasattr(self, "guild") or not self.guild:
-      print("News bot skipping timed update; guild has not been set up")
-    #if now == self.refresh_time:
-    #  await self.refresh_headlines()
-    if now == self.news_post_time:
-      await self.post_headline("news")
-    if now == self.entertainment_post_time:
-      await self.post_headline("entertainment")
-    #if now == self.test_post_time:
-    #  await self.test_post()
+    try:
+      now=datetime.strftime(datetime.now(),'%H:%M')
+      if not hasattr(self, "guild") or not self.guild:
+        print("News bot skipping timed update; guild has not been set up")
+      #if now == self.refresh_time:
+      #  await self.refresh_headlines()
+      if now == self.news_post_time:
+        await self.post_headline("news")
+      if now == self.entertainment_post_time:
+        await self.post_headline("entertainment")
+      #if now == self.test_post_time:
+      #  await self.test_post()
+    except Exception as e:
+      error_message = f"Newsbot timed update encountered error: {e}\nTraceback: {traceback.format_exc()}"
+      if not hasattr(self, "debug_channel") or not self.debug_channel:
+        print("Newsbot debug channel not found, outputting error here...")
+        print(error_message)
+      else:
+        await self.debug_channel.send(error_message)
 
   #async def refresh_headlines(self):
     #database.refresh_token()

@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import token_loader
 import database
 import asyncpg
+import traceback
 from importlib import reload
 
 class Leaderboards(commands.Cog):
@@ -23,7 +24,21 @@ class Leaderboards(commands.Cog):
   # Update leaderboard every 10 minutes
   @tasks.loop(minutes=10.0)
   async def time_update(self):
-    await self.update_leaderboards()
+    try:
+      await self.update_leaderboards()
+    except Exception as e:
+      error_message = f"Leaderboards timed update encountered error: {e}\nTraceback: {traceback.format_exc()}"
+      channel_name = "test-stuff"
+      debug_channels = []
+      for guild in self.bot.guilds:
+        if guild:
+            debug_channels = list(filter(lambda chan: channel_name in chan.name.lower(), guild.channels))
+      if len(debug_channels) != 1:
+        print("Leaderboards debug channel not found, outputting error here...")
+        print(error_message)
+      else:
+        debug_channel = debug_channels[0]
+        await debug_channel.send(error_message)
 
   @commands.command(name="debug_update_leaderboards")
   async def debug_update_leaderboards(self, ctx):

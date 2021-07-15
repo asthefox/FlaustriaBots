@@ -17,6 +17,7 @@ BET_OPEN_TIME = '18:00'
 DUEL_CHANNEL_NAME = "cowyboy-duels"
 BET_CHANNEL_NAME = "cowyboy-bets"
 DISCUSSION_CHANNEL_NAME = "cowyboy-discussion"
+DEBUG_CHANNEL_NAME = "test-stuff"
 DAYS = [2, 5]
 
 class Cowyboys(commands.Cog):
@@ -28,16 +29,27 @@ class Cowyboys(commands.Cog):
 
   @tasks.loop(minutes=1.0)
   async def time_update(self):
-    day=datetime.datetime.today().weekday()
-    now=datetime.datetime.now().strftime('%H:%M')
-    if not day in DAYS:
-      return
-    #if now == self.refresh_time:
-    #  await self.refresh_headlines()
-    if now == DUEL_TIME:
-      await self._run_duel()
-    if now == BET_OPEN_TIME:
-      await self._open_bets()
+    try:
+      day=datetime.datetime.today().weekday()
+      now=datetime.datetime.now().strftime('%H:%M')
+      if not day in DAYS:
+        return
+      #if now == self.refresh_time:
+      #  await self.refresh_headlines()
+      if now == DUEL_TIME:
+        await self._run_duel()
+      if now == BET_OPEN_TIME:
+        await self._open_bets()
+    except Exception as e:
+      error_message = f"Cowyboys timed update encountered error: {e}\nTraceback: {traceback.format_exc()}"
+      guild = self._find_guild()
+      error_channel = self._find_channel(DEBUG_CHANNEL_NAME, guild)
+      if error_channel == None:
+        print("Cowyboys debug channel not found, outputting error here...")
+        print(error_message)
+      else:
+        await error_channel.send(error_message)
+
 
   @commands.Cog.listener()
   async def on_ready(self):
