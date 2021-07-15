@@ -18,7 +18,7 @@ DUEL_CHANNEL_NAME = "cowyboy-duels"
 BET_CHANNEL_NAME = "cowyboy-bets"
 DISCUSSION_CHANNEL_NAME = "cowyboy-discussion"
 DEBUG_CHANNEL_NAME = "test-stuff"
-DAYS = [2, 5]
+DAYS = [0, 1, 2, 3, 4, 5, 6]
 
 class Cowyboys(commands.Cog):
   def __init__(self, bot):
