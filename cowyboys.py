@@ -18,7 +18,7 @@ DUEL_CHANNEL_NAME = "cowyboy-duels"
 BET_CHANNEL_NAME = "cowyboy-bets"
 DISCUSSION_CHANNEL_NAME = "cowyboy-discussion"
 DEBUG_CHANNEL_NAME = "test-stuff"
-DAYS = [0, 1, 2, 3, 4, 5, 6]
+DAYS = [2, 5]#[0, 1, 2, 3, 4, 5, 6]
 
 class Cowyboys(commands.Cog):
   def __init__(self, bot):
@@ -177,7 +177,7 @@ class Cowyboys(commands.Cog):
     if ctx.author.guild_permissions.administrator:
       await ctx.send("Running duel...")
       try:
-        await self._run_duel(ctx, instant=True)
+        await self._run_duel(instant=True)
       except Exception as e:
         await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
       await ctx.send("The duel is complete.")
@@ -189,7 +189,7 @@ class Cowyboys(commands.Cog):
     if ctx.author.guild_permissions.administrator:
       await ctx.send("Running duel...")
       try:
-        await self._run_duel(ctx, instant=False)
+        await self._run_duel(instant=False)
       except Exception as e:
         await ctx.send(f"Encountered error: {e}\nTraceback: {traceback.format_exc()}")
       await ctx.send("The duel is complete.")
@@ -197,7 +197,7 @@ class Cowyboys(commands.Cog):
       await ctx.send("Sorry, only admins can close bets.")
 
 
-  async def _run_duel(self, ctx, instant=False, delay=15):
+  async def _run_duel(self, instant=False, delay=15):
 
     # Close bets
     await self._close_bets()
@@ -235,13 +235,13 @@ class Cowyboys(commands.Cog):
     await discussion_channel.send(outcome_string)
 
     # Resolve bets
-    await self._resolve_bets(ctx, results[0], winner_odds)
+    await self._resolve_bets(results[0], winner_odds)
 
-  async def _resolve_bets(self, ctx, winner, odds):
+  async def _resolve_bets(self, winner, odds):
     # Here we will respond to each of the individual bet tickets
     winner_name = winner['name']
     winner_id = winner['id']
-    await ctx.send(f"winner_name:{winner_name} winner_id:{winner_id} odds:{odds}")
+    #await ctx.send(f"winner_name:{winner_name} winner_id:{winner_id} odds:{odds}")
     winner_bets = self._get_matching_bets(winner_id)
     for wb in winner_bets:
       bet_user_id = wb['user_id']
