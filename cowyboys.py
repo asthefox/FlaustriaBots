@@ -13,12 +13,13 @@ from discord.utils import find
 from importlib import reload
 
 DUEL_TIME='19:00'
-BET_OPEN_TIME = '18:00'
+BET_OPEN_TIME = '20:00'
 DUEL_CHANNEL_NAME = "cowyboy-duels"
 BET_CHANNEL_NAME = "cowyboy-bets"
 DISCUSSION_CHANNEL_NAME = "cowyboy-discussion"
 DEBUG_CHANNEL_NAME = "test-stuff"
-DAYS = [2, 5]#[0, 1, 2, 3, 4, 5, 6]
+OPEN_DAYS = [1, 4]
+DUEL_DAYS = [2, 5]#[0, 1, 2, 3, 4, 5, 6]
 
 class Cowyboys(commands.Cog):
   def __init__(self, bot):
@@ -32,13 +33,9 @@ class Cowyboys(commands.Cog):
     try:
       day=datetime.datetime.today().weekday()
       now=datetime.datetime.now().strftime('%H:%M')
-      if not day in DAYS:
-        return
-      #if now == self.refresh_time:
-      #  await self.refresh_headlines()
-      if now == DUEL_TIME:
+      if day in DUEL_DAYS and now == DUEL_TIME:
         await self._run_duel()
-      if now == BET_OPEN_TIME:
+      if day in OPEN_DAYS and now == BET_OPEN_TIME:
         await self._open_bets()
     except Exception as e:
       error_message = f"Cowyboys timed update encountered error: {e}\nTraceback: {traceback.format_exc()}"
