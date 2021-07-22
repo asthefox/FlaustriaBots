@@ -240,13 +240,15 @@ class Cowyboys(commands.Cog):
     winner_id = winner['id']
     #await ctx.send(f"winner_name:{winner_name} winner_id:{winner_id} odds:{odds}")
     winner_bets = self._get_matching_bets(winner_id)
-    for wb in winner_bets:
-      bet_user_id = wb['user_id']
-      #print(f"User with ID {bet_user_id} won.")
-      bet_user_id = int(bet_user_id)
-      bet_amount = wb['bet_amount']
-      winnings = int(float(bet_amount) * float(odds))
-      await self._deposit_winnings(winnings, bet_user_id, winner_name)
+
+    if winner_bets != None:
+      for wb in winner_bets:
+        bet_user_id = wb['user_id']
+        #print(f"User with ID {bet_user_id} won.")
+        bet_user_id = int(bet_user_id)
+        bet_amount = wb['bet_amount']
+        winnings = int(float(bet_amount) * float(odds))
+        await self._deposit_winnings(winnings, bet_user_id, winner_name)
 
     await self._send_pity_refunds()
 
@@ -268,6 +270,8 @@ class Cowyboys(commands.Cog):
 
   def _get_matching_bets(self, cowyboy_id):
     all_bets = database.get(f"discord/cowyboy_bets")
+    if all_bets == None:
+      return None
     return [bet for bet in all_bets.values() if bet['cowyboy_id'] == cowyboy_id]
 
   async def _send_pity_refunds(self):
@@ -275,6 +279,10 @@ class Cowyboys(commands.Cog):
     economy = self.bot.get_cog('Economy')
     guild = self._find_guild()
     all_bets = database.get(f"discord/cowyboy_bets")
+
+    if all_bets == None:
+      return
+
     all_bettors = list(set([bet['user_id'] for bet in all_bets.values()]))
     for bettor_id in all_bettors:
       bettor_id = int(bettor_id)
