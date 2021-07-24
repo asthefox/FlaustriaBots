@@ -88,7 +88,7 @@ class Leaderboards(commands.Cog):
       #print(f"Account: {account}")
       name = account['name']
       member = guild.get_member(int(member_id))
-      if member != None:
+      if member != None and member.nick != None and member.nick != "":
         name = member.nick
       money_leaders += f"{i+1}. **{name}**: {account['balance']}k\n\n"
     money_leaders += "\n\n\n"

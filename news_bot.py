@@ -251,11 +251,11 @@ class DailyNewsCog(commands.Cog):
 
     options = emojis[full_category]
     if "cowyboy" in post.content or "Cowyboy" in post.content:
-      options.append("🤠🤠")
+      options += "🤠🤠"
     if "dog" in post.content or "Dog" in post.content:
-      options.append("🐶🐶")
+      options += "🐶🐶"
     if "wolf" in post.content or "Wolf" in post.content:
-      options.append("🐺🐺")
+      options += "🐺🐺"
 
     while len(options) > 3:
       index = random.randint(0, len(options)-1)
