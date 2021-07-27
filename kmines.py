@@ -31,7 +31,7 @@ class KMines(commands.Cog):
         await ctx.send(f'{number_to_mine} is not a number. Please enter a number to mine. (Example: !mine 2527)')
         return
       elif "6" in number_to_mine:
-        await ctx.send(f'{number_to_mine} is a forbidden number. Please enter a non-forbidden number to mine. (Example: !mine 2527])')
+        await ctx.send(f'||{number_to_mine}|| is a forbidden number. Please enter a non-forbidden number to mine. (Example: !mine 2527])')
         return
 
       await self.try_mine_number(ctx, number_to_mine)
