@@ -52,21 +52,40 @@ class KMines(commands.Cog):
         await ctx.send(f'**{number_to_mine} is a bit-k!**')
         bitk_value = self.get_bitk_value()
         self.set_bitk_value(bitk_value + 1)
+        self.reset_misses()
         economy = self.bot.get_cog('Economy')
         economy.deposit_money(ctx.guild, ctx.author, bitk_value)
         await ctx.send(f"{ctx.author.name } earned {bitk_value}k for discovering the bit-k {number_to_mine}.")
         return
 
+      self.report_miss()
       await ctx.send(f'{number_to_mine} is not a bit-k.')
 
     def check_is_bitk(self):
-      return random.randint(0, 10) == 0;
+      base_odds = 10
+      progressive_odds = self.get_misses() * 2
+      odds = base_odds + progressive_odds
+      return random.randint(0, 100) < odds;
 
     def set_mined_bitk(self, ctx, bitk_number, is_bitk):
       database.set(f"discord/mined_bitk/{bitk_number}", is_bitk)
 
     def get_mined_bitk(self, bitk_number):
       return database.get(f"discord/mined_bitk/{bitk_number}")
+
+    def get_misses(self):
+      result = database.get(f"discord/bitk_misses")
+      if result == None:
+        self.reset_misses()
+        return 0
+      return int(result)
+
+    def reset_misses(self):
+    	database.set(f"discord/bitk_misses", 0)
+
+    def report_miss(self):
+    	old = self.get_misses()
+    	database.set(f"discord/bitk_misses", old + 1)
 
     def set_bitk_value(self, new_value):
       database.set(f"discord/bitk_value", new_value)
