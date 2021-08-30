@@ -181,7 +181,7 @@ class DailyNewsCog(commands.Cog):
     # Week 1
     "crime_news",
     "sports_news",
-    "upcoming_tv_headline",
+    "movie_synopsis",
     # Week 2
     "politics_news",
     "gossip_news",
@@ -197,7 +197,7 @@ class DailyNewsCog(commands.Cog):
     "recent_tv_headline"
     ]
 
-  def _format_headline_for_twitter(self, headline, article, full_category):
+  def _format_headline_for_twitter(self, excerpt, headline, article, full_category):
     #addendum = " Read and discuss the full article in our Discord: https://discord.gg/zbDusCRmHw"
     limit = 280# - len(addendum)
     headline_cropped = headline
@@ -208,6 +208,9 @@ class DailyNewsCog(commands.Cog):
     if full_category == "upcoming_tv_headline" or full_category == "business_news":
       headline_cropped = article
 
+    if excerpt != None and excerpt != "":
+      headline_cropped = excerpt
+
     if len(headline_cropped) > limit:
       headline_cropped = headline_cropped[:limit-2] + ".."
 
@@ -215,6 +218,10 @@ class DailyNewsCog(commands.Cog):
 
   def _get_twitter_link_text(self):
     return "Read and discuss all the latest Flaustrian News in our Discord: https://discord.gg/zbDusCRmHw"
+
+  def _retrieve_post_excerpt(self, category):
+    data_path = self._get_todays_article_path(category)
+    return database.get(data_path+"/excerpt")
 
   def _retrieve_daily_article_post(self, category):
     data_path = self._get_todays_article_path(category)
@@ -452,7 +459,8 @@ class DailyNewsCog(commands.Cog):
     await self._post_reaction(channel, full_category)
 
     if self._should_twitter_crosspost(full_category):
-      tweet = self._format_headline_for_twitter(headline, article, full_category)
+    	excerpt = self._retrieve_excerpt(category)
+      tweet = self._format_headline_for_twitter(excerpt, headline, article, full_category)
       self.twitter_crosspost(tweet)
       if self._should_twitter_post_link(full_category):
         self.twitter_crosspost(self._get_twitter_link_text())
