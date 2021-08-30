@@ -459,7 +459,7 @@ class DailyNewsCog(commands.Cog):
     await self._post_reaction(channel, full_category)
 
     if self._should_twitter_crosspost(full_category):
-    	excerpt = self._retrieve_excerpt(category)
+      excerpt = self._retrieve_post_excerpt(category)
       tweet = self._format_headline_for_twitter(excerpt, headline, article, full_category)
       self.twitter_crosspost(tweet)
       if self._should_twitter_post_link(full_category):
