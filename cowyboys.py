@@ -264,8 +264,11 @@ class Cowyboys(commands.Cog):
     #print(f"   Member: {member}")
     economy = self.bot.get_cog('Economy')
     economy.deposit_money(guild, member, winnings)
-    dm = await member.create_dm()
-    await dm.send(f"Congratulations! You have won {winnings}k by betting on {winner_name}.")
+    try:
+      dm = await member.create_dm()
+      await dm.send(f"Congratulations! You have won {winnings}k by betting on {winner_name}.")
+    except:
+      pass
     #print("   DM sent.")
 
   def _get_matching_bets(self, cowyboy_id):
@@ -289,8 +292,11 @@ class Cowyboys(commands.Cog):
       member = find(lambda m: m.id == bettor_id, self._find_guild().members)
       if economy.get_balance(guild, member) <= 0:
         economy.deposit_money(self._find_guild(), member, pity_value)
-        dm = await member.create_dm()
-        await dm.send(f"The Market has taken pity on you after you piously bet all your money.  You have been wired {pity_value}k.")
+        try:
+          dm = await member.create_dm()
+          await dm.send(f"The Market has taken pity on you after you piously bet all your money.  You have been wired {pity_value}k.")
+        except:
+          pass
 
   def _clear_bets_from_db(self):
     database.set(f"discord/cowyboy_bets", None)
