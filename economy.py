@@ -19,6 +19,57 @@ class Economy(commands.Cog):
       bal = self._balance(ctx.guild, ctx.author)
       await ctx.send("Your balance is: " + str(bal) + "k")
 
+  @commands.command(name="award")
+  async def admin_give_money(self, ctx, member_name, amount):
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send("Sorry, only admins can give k awards.")
+        return
+    member = ctx.guild.get_member_named(member_name)
+    if member == None:
+      await ctx.send("A Flaustrian named " + member_name + " cannot be found.")
+      return
+    try:
+      amount = int(amount)
+    except:
+      await ctx.send("That is not a valid integer amount.")
+      return
+    
+    display_name = member.nick
+    if display_name == None:
+      display_name = member.name
+    balance = self._balance(ctx.guild, member)
+    balance += amount
+    balance_path = self._get_balance_path(ctx.guild.id, member.id)
+    database.update(balance_path, {"balance": balance})
+    await ctx.send(display_name + " has been awarded " + str(amount) + "k, and now has a balance of " + str(balance) + "k.")
+
+  @commands.command(name="charge")
+  async def admin_charge_money(self, ctx, member_name, amount):
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send("Sorry, only admins can give k awards.")
+        return
+    member = ctx.guild.get_member_named(member_name)
+    if member == None:
+      await ctx.send("A Flaustrian named " + member_name + " cannot be found.")
+      return
+    try:
+      amount = int(amount)
+    except:
+      await ctx.send("That is not a valid integer amount.")
+      return
+
+    display_name = member.nick
+    if display_name == None:
+      display_name = member.name
+    balance = self._balance(ctx.guild, member)
+    if balance < amount:
+      await ctx.send(display_name + " only has " + str(balance) + "k, and cannot be charged " + str(amount) + " k.")
+      return
+    balance -= amount
+    balance_path = self._get_balance_path(ctx.guild.id, member.id)
+    database.update(balance_path, {"balance": balance})
+    await ctx.send(display_name + " has been charged " + str(amount) + "k, and now has a balance of " + str(balance) + "k.")
+
   #@commands.Cog.listener()
   #async def on_message(self, message):
   #    print(message)
@@ -40,7 +91,7 @@ class Economy(commands.Cog):
       my_balance = {"name": member.name, "balance": 100}
       database.set(balance_path, my_balance)
       #self.db.child(balance_path).set(my_balance, self.user['idToken'])
-      return my_balance["balance"]
+      return int(my_balance["balance"])
 
     return int(balance_query["balance"])
 
