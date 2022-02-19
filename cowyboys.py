@@ -341,9 +341,15 @@ class Cowyboys(commands.Cog):
       return
 
     cowyboy_index = int(cowyboy_number) - 1
-    if not cowyboy_index in range(len(self.cowyboys)):
-      await bet_channel.send(f"{cowyboy_number} not a number of one of the cowyboys you can bet on")
+    try:
+      if not cowyboy_index in range(len(self.cowyboys)):
+        await bet_channel.send(f"{cowyboy_number} not a number of one of the cowyboys you can bet on")
+        return
+    except:
+      await bet_channel.send(f"Hold it up, pardoner!  Those there cowyboys have to be reinitialized due to a sytem reset, just like in the olden days.  I'll try to fix 'er up automatically, so you can try your bet again.")
+      self.cowyboys = duels.get_active_cowyboys()
       return
+
 
     economy = self.bot.get_cog('Economy')
     (has_money, balance) = economy.withdraw_money(ctx.guild, ctx.author, int(bet_amount))
