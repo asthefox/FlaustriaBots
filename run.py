@@ -25,6 +25,7 @@ ase_bot.load_extension("news_bot")
 inquisitor_bot = commands.Bot(command_prefix='IQ!', intents=intents)
 inquisitor_bot.load_extension("personality_test")
 inquisitor_bot.load_extension("check_invites")
+inquisitor_bot.load_extension("key_sender")
 
 #start several bots asynchronously so they can all run off this repl
 loop = asyncio.get_event_loop()
