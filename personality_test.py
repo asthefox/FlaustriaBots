@@ -127,7 +127,7 @@ class PersonalityTestCog(commands.Cog):
       await self.remove_role_from_user(channel, user_id, 'Tourist')
       ministry_name = self.get_ministry(role_name)
 
-      msg = "Congratulations! You are now a Flaustrian citizen, and you can now enjoy all Flaustria has to offer.\n\nAllow me to humbly recommend some activities:\n -Discuss the latest <#832427377967628288> and <#832378973161521192>!\n -Better yourself morally by betting on daily <#850534625319321601>!\n -Petition to join the exclusive **alpha of Astronaut: The Best** with <#850528747853709334>!"
+      msg = "Congratulations! You are now a Flaustrian citizen, and you can now enjoy all Flaustria has to offer.\n\nAllow me to humbly recommend some activities:\n -Discuss the latest <#832427377967628288> and <#832378973161521192>!\n -Better yourself through betting on biweekly morality plays at <#862533028803117087>!\n -Petition to join the exclusive **alpha of Astronaut: The Best** with <#850528747853709334>!"
 
       embed = self.get_link_to_atb_discord()
       await channel.send(msg, embed=embed)
