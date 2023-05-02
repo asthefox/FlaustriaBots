@@ -210,10 +210,14 @@ class Cowyboys(commands.Cog):
     results = duels.determine_placement(cowyboys)
     output = drama.get_contest_output(results)
 
+    # Create thread
+    results_thread = await create_thread(f"{datetime.date.today().strftime('%B %d')} Cowyboy Duel")
+
     # Post duel
     if not instant:
       for line in output:
-        await duel_channel.send(line)
+        await results_thread.send(line)
+        #await duel_channel.send(line)
         await asyncio.sleep(delay)
 
     # Post outcome
@@ -229,7 +233,8 @@ class Cowyboys(commands.Cog):
     # Update cowyboys
     new_cowyboy = duels.update_cowyboys_after_duel(results)
     outcome_string += "\nThey will be replaced by " + drama.format_name(new_cowyboy) + "."
-    await discussion_channel.send(outcome_string)
+    await results_thread.send(outcome_string)
+    #await discussion_channel.send(outcome_string)
 
     # Resolve bets
     await self._resolve_bets(results[0], winner_odds)

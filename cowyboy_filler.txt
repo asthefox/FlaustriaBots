@@ -19,7 +19,7 @@ A barrel shakes ominously.  Once, twice, three times.  {c1} cautiously moves to 
 {c1} challenges {c2} to a high-stakes chess match, and the {c2_color} cowyboy accepts.  After a long and thrilling contest, the game ends in a draw by repetition.
 {c1} challenges {c2} to a high-stakes sled race, and the {c2_color} cowyboy accepts.  After several minutes of a very close race, they declare a tie because the ground is flat and the sleds have not moved.
 At the saloon, {c1} slides the piano player a shiny coin and asks him to play a song about them.  The piano player obliges, and plays a droll rag about {c1} that contains the exact date and time of their death.  Fortunately, it is not for a while.
-{e} stands in the dusty road.  The children of the audience shout and point, warning that a tumpleweed is fast approaching!  {e} heeds their cries, and dramatically dives out of the way, the tumpleweed rolling harmlessly by.  The childreen cheer, and {e} tips their hat in gratitude.
+{c1} stands in the dusty road.  The children of the audience shout and point, warning that a tumpleweed is fast approaching!  {c1} heeds their cries, and dramatically dives out of the way, the tumpleweed rolling harmlessly by.  The children cheer, and {c1} tips their hat in gratitude.
 {c1} sings a song about trails.
 {c1} eats a can of porridge.  The audience reacts neutrally.
 {c1} turns to the crowd, and asks them to shout a hearty cowyboy "Yee-Yaw!"  The audience obliges, and {c1} shows approbation.
