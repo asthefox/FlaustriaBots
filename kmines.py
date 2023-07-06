@@ -98,5 +98,5 @@ class KMines(commands.Cog):
       else:
         return int(result)
 
-def setup(bot):
-    bot.add_cog(KMines(bot))
+async def setup(bot):
+    await bot.add_cog(KMines(bot))

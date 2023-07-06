@@ -210,11 +210,15 @@ class Cowyboys(commands.Cog):
     results = duels.determine_placement(cowyboys)
     output = drama.get_contest_output(results)
 
-    # Create thread
-    results_thread = await create_thread(f"{datetime.date.today().strftime('%B %d')} Cowyboy Duel")
+
+
 
     # Post duel
     if not instant:
+
+      # Create thread
+      results_thread = await duel_channel.create_thread(name=f"{datetime.date.today().strftime('%B %d')} Cowyboy Duel", type=discord.ChannelType.public_thread)
+
       for line in output:
         await results_thread.send(line)
         #await duel_channel.send(line)
@@ -222,7 +226,7 @@ class Cowyboys(commands.Cog):
 
     # Post outcome
     discussion_channel = self._find_channel(DISCUSSION_CHANNEL_NAME, guild)
-    outcome_string = (f"COWYBOY DUEL RESULTS FOR {datetime.date.today().strftime('%B %d')}:\n")
+    outcome_string = (f"\n\nCOWYBOY DUEL RESULTS FOR {datetime.date.today().strftime('%B %d')}:\n")
     for i in range(len(cowyboys)):
       outcome_string += (f"{i+1}. {drama.format_name(results[i])}\n")
     winner_odds_index = cowyboys.index(results[0])
@@ -233,8 +237,11 @@ class Cowyboys(commands.Cog):
     # Update cowyboys
     new_cowyboy = duels.update_cowyboys_after_duel(results)
     outcome_string += "\nThey will be replaced by " + drama.format_name(new_cowyboy) + "."
-    await results_thread.send(outcome_string)
-    #await discussion_channel.send(outcome_string)
+
+    if instant:
+      await discussion_channel.send(outcome_string)
+    else:
+      await results_thread.send(outcome_string)
 
     # Resolve bets
     await self._resolve_bets(results[0], winner_odds)
@@ -376,5 +383,5 @@ class Cowyboys(commands.Cog):
     }
     database.push(f"discord/cowyboy_bets", bet_info)
 
-def setup(bot):
-    bot.add_cog(Cowyboys(bot))
+async def setup(bot):
+    await bot.add_cog(Cowyboys(bot))

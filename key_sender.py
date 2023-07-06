@@ -123,8 +123,8 @@ class KeySender(commands.Cog):
     print("DB Initialized!")
   """
 
-def setup(bot):
-    bot.add_cog(KeySender(bot))
+async def setup(bot):
+    await bot.add_cog(KeySender(bot))
 
 
 

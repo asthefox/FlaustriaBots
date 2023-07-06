@@ -185,5 +185,5 @@ class PersonalityTestCog(commands.Cog):
 
 
 
-def setup(bot):
-    bot.add_cog(PersonalityTestCog(bot))
+async def setup(bot):
+    await bot.add_cog(PersonalityTestCog(bot))

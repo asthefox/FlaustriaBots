@@ -475,8 +475,8 @@ class DailyNewsCog(commands.Cog):
   def cog_unload(self):
     self.batch_update.cancel()
 
-def setup(bot):
-    bot.add_cog(DailyNewsCog(bot))
+async def setup(bot):
+    await bot.add_cog(DailyNewsCog(bot))
 
 """"
 bot=commands.Bot(command_prefix='!')

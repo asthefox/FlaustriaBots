@@ -33,7 +33,7 @@ class Economy(commands.Cog):
     except:
       await ctx.send("That is not a valid integer amount.")
       return
-    
+
     display_name = member.nick
     if display_name == None:
       display_name = member.name
@@ -119,5 +119,5 @@ class Economy(commands.Cog):
     database.update(balance_path, {"balance": balance})
     #self.db.child(balance_path).update({"balance": balance}, self.user['idToken'])
 
-def setup(bot):
-    bot.add_cog(Economy(bot))
+async def setup(bot):
+    await bot.add_cog(Economy(bot))

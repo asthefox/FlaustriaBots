@@ -18,19 +18,19 @@ class CogLoader(commands.Cog):
 
     @commands.command(name="reload")
     async def reload_extension(self, ctx, arg):
-      self.bot.reload_extension(arg)  
+      self.bot.reload_extension(arg)
       await ctx.send(f'reloading  {arg}')
 
     @commands.command(name="load")
     async def load_extension(self, ctx, arg):
-      self.bot.load_extension(arg)  
+      self.bot.load_extension(arg)
       await ctx.send(f'loading  {arg}')
 
     @commands.command(name="unload")
     async def unload_extension(self, ctx, arg):
-      self.bot.unload_extension(arg)  
+      self.bot.unload_extension(arg)
       await ctx.send(f'unloading  {arg}')
-    
 
-def setup(bot):
-    bot.add_cog(CogLoader(bot))
+
+async def setup(bot):
+    await bot.add_cog(CogLoader(bot))
